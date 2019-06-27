@@ -2,6 +2,7 @@ import * as React from "react";
 import { render } from "react-dom";
 
 import styled from "styled-components";
+
 import {
   AppContainer,
   LeftSidebar,
@@ -33,6 +34,7 @@ function ListItem() {
     </ListItemContainer>
   );
 }
+
 const ListFooter = styled.div`
   display: flex;
   align-items: center;
@@ -40,11 +42,13 @@ const ListFooter = styled.div`
   background: violet;
   min-height: 60px;
 `;
+
 const AddArgumentButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
 `;
+
 function App() {
   return (
     <AppContainer>
