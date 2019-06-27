@@ -14,6 +14,7 @@ const AppContainer = styled.div`
 const LeftSidebar = styled.div`
   height: 100vh;
   width: 10vw;
+
   background: brown;
   display: flex;
   justify-content: center;
