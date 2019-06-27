@@ -57,8 +57,9 @@ const ListFooter = styled.div`
   align-items: center;
   justify-content: center;
   /* background: violet; */
-  height: 100%;
+  /* height: 100%; */
   /* min-height: 60px; */
+  min-height: 8vh;
   width: 100%;
   bottom: 0;
 `;
@@ -76,23 +77,23 @@ const ProjectTitleContainer = styled.div`
   justify-content: center;
   font-weight: bold;
 `;
-const ExportButtonContainer = styled.div`
+const ExportButtonContainer = styled.button`
   flex: 0.8;
+  background: inherit;
+  color: white;
   display: flex;
   align-items: center;
   justify-content: center;
   border: solid ${colors.white} 1px;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  height: 5vh;
   border-radius: 50px;
   margin-right: 10px;
+  font-family: "Montserrat", sans-serif;
 `;
 
-const ListTitleAndItemsContainer = styled.div`
-  display: flex;
-  flex-direction: column;
+const ListItemsAndFooter = styled.div`
   width: 100%;
-  min-height: 60vh;
+  background: ${colors.gray};
 `;
 
 function App() {
@@ -113,23 +114,8 @@ function App() {
         <ProsAndConsAndRightSidebar>
           <ProsAndConsContainer>
             <ProsList>
-              <ListTitleAndItemsContainer>
-                <ListTitle>PROS</ListTitle>
-                <ListItems>
-                  <ListItem />
-                  <ListItem />
-                </ListItems>
-              </ListTitleAndItemsContainer>
-              <ListFooter>
-                <AddArgumentButton>
-                  <div>icon</div>
-                  <div>Add</div>
-                </AddArgumentButton>
-              </ListFooter>
-            </ProsList>
-            <ConsList>
-              <ListTitleAndItemsContainer>
-                <ListTitle>CONS</ListTitle>
+              <ListTitle>PROS</ListTitle>
+              <ListItemsAndFooter>
                 <ListItems>
                   <ListItem />
                   <ListItem />
@@ -140,7 +126,23 @@ function App() {
                     <div>Add</div>
                   </AddArgumentButton>
                 </ListFooter>
-              </ListTitleAndItemsContainer>
+              </ListItemsAndFooter>
+            </ProsList>
+
+            <ConsList>
+              <ListTitle>CONS</ListTitle>
+              <ListItemsAndFooter>
+                <ListItems>
+                  <ListItem />
+                  <ListItem />
+                </ListItems>
+                <ListFooter>
+                  <AddArgumentButton>
+                    <div>icon</div>
+                    <div>Add</div>
+                  </AddArgumentButton>
+                </ListFooter>
+              </ListItemsAndFooter>
             </ConsList>
           </ProsAndConsContainer>
           <RightSidebar>Sidebar</RightSidebar>

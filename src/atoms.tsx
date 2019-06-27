@@ -17,6 +17,7 @@ export const LeftSidebar = styled.div`
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+  box-shadow: #19222a 5px 5px 5px;
   /* position: fixed; */
 `;
 
@@ -117,7 +118,8 @@ export const ListTitle = styled.div`
 export const ListItems = styled.div`
   /* max-height: 50vh; */
   width: 100%;
-  border: solid 1px black;
+  /* border: solid 1px black; */
+  height: 60vh;
   /* background: black; */
   flex: 1;
   overflow: auto;
