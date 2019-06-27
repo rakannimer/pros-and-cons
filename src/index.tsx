@@ -1,102 +1,81 @@
 import * as React from "react";
 import { render } from "react-dom";
+
 import styled from "styled-components";
+import {
+  AppContainer,
+  LeftSidebar,
+  LeftSidebarHome,
+  PageHeader,
+  ProjectTitle,
+  ProsAndConsAndRightSidebar,
+  ProsAndConsContainer,
+  ProsList,
+  ConsList,
+  RightSidebar,
+  AppWithoutLeftSidebar,
+  ListTitle,
+  ListItems,
+  ListItemContainer,
+  ArgumentDescriptionContainer,
+  ArgumentWeightContainer,
+  ArgumentDeleteContainer
+} from "./atoms";
+
 import "./styles.css";
 
-const HEADER_HEIGHT = 60;
-
-const AppContainer = styled.div`
-  background-color: beige;
-  height: 100vh;
-  width: 100vw;
+function ListItem() {
+  return (
+    <ListItemContainer>
+      <ArgumentDescriptionContainer>item 1</ArgumentDescriptionContainer>
+      <ArgumentWeightContainer />
+      <ArgumentDeleteContainer />
+    </ListItemContainer>
+  );
+}
+const ListFooter = styled.div`
   display: flex;
-`;
-const LeftSidebar = styled.div`
-  height: 100vh;
-  width: 10vw;
-
-  background: brown;
-  display: flex;
+  align-items: center;
   justify-content: center;
-  flex-wrap: wrap;
-  /* position: fixed; */
+  background: violet;
+  min-height: 60px;
 `;
-
-const LeftSidebarHome = styled.div``;
-
-const PageHeader = styled.div`
-  width: 100%;
-  background: blue;
-  height: 10vh;
-`;
-
-const ListTitle = styled.div`
-  height: 10vh;
-  background: gold;
-`;
-
-const ProsAndConsAndRightSidebar = styled.div`
-  width: 100%;
-  height: 80vh;
-  background: green;
+const AddArgumentButton = styled.button`
   display: flex;
+  align-items: center;
+  justify-content: center;
 `;
-
-const ProsAndConsContainer = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  overflow: auto;
-`;
-
-const ProsList = styled.div`
-  width: 40%;
-  min-width: 300px;
-  text-align: center;
-  background: pink;
-  margin-bottom: 10px;
-`;
-
-const ConsList = styled.div`
-  width: 40%;
-  min-width: 300px;
-  text-align: center;
-  background: pink;
-  margin-bottom: 10px;
-`;
-
-const ListHeader = styled.div`
-  width: 30vw;
-`;
-
-const RightSidebar = styled.div`
-  background: skyblue;
-  width: 15%;
-`;
-
-const PageCenter = styled.div`
-  width: 90%;
-  background: pink;
-`;
-
 function App() {
   return (
     <AppContainer>
       <LeftSidebar>
         <LeftSidebarHome>H</LeftSidebarHome>
       </LeftSidebar>
-      <PageCenter>
-        <PageHeader />
-        <ListTitle />
+      <AppWithoutLeftSidebar>
+        <PageHeader>Pros & Cons</PageHeader>
+        <ProjectTitle />
         <ProsAndConsAndRightSidebar>
           <ProsAndConsContainer>
-            <ProsList>Pros</ProsList>
-            <ConsList>Cons</ConsList>
+            <ProsList>
+              <ListTitle>Pro ss</ListTitle>
+              <ListItems style={{ border: "solid 1px black" }}>
+                <ListItem />
+                <ListItem />
+              </ListItems>
+              <ListFooter>
+                <AddArgumentButton>
+                  <div>icon</div>
+                  <div>Add</div>
+                </AddArgumentButton>
+              </ListFooter>
+            </ProsList>
+            <ConsList>
+              <ListTitle>Cons</ListTitle>
+            </ConsList>
           </ProsAndConsContainer>
           <RightSidebar>Sidebar</RightSidebar>
         </ProsAndConsAndRightSidebar>
-      </PageCenter>
+      </AppWithoutLeftSidebar>
     </AppContainer>
   );
 }
