@@ -1,4 +1,198 @@
+:root {
+  --black: #1d272e;
+  --gray: #26313b;
+  --lightgray: #445159;
+  --blue: #074c6e;
+  --white: #f5f5f7;
+  --darkwhite: #d1d1d1;
+}
 body {
   margin: 0;
   padding: 0;
+}
+
+.list-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* background: violet; */
+  /* height: 100%; */
+  /* min-height: 60px; */
+  min-height: 8vh;
+  width: 100%;
+  bottom: 0;
+}
+
+.add-argument-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.title-container {
+  flex: 6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+.share-button-container {
+  flex: 0.8;
+  background: inherit;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: solid var(--white) 1px;
+  height: 5vh;
+  border-radius: 50px;
+  margin-right: 10px;
+  font-family: "Roboto", sans-serif;
+  /* font-weight: bold; */
+}
+
+.list-items-and-footer {
+  width: 100%;
+  background: var(--gray);
+}
+
+.app-container {
+  background-color: var(--black);
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  font-family: "Roboto", sans-serif;
+  /* font-family: "Montserrat", sans-serif; */
+}
+.left-sidebar {
+  height: 100vh;
+  width: 10vw;
+  background: var(--gray);
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  box-shadow: #19222a 5px 5px 5px;
+  /* position: fixed; */
+}
+
+.left-sidebar-home {
+  margin-top: 14vh;
+}
+
+.app-header {
+  width: 100%;
+  background: var(--gray);
+  height: 10vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-family: "Roboto", sans-serif;
+  font-weight: bold;
+}
+
+.title-and-share-container {
+  height: 10vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background: var(--blue);
+  color: var(--white);
+  /* background: gold; */
+}
+
+.pros-and-cons-and-right-sidebar {
+  width: 100%;
+  height: 80vh;
+  /* background: green; */
+  display: flex;
+}
+
+.pros-and-cons-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  overflow: auto;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 40%;
+  min-width: 300px;
+  text-align: center;
+  margin-bottom: 10px;
+  max-height: 60vh;
+}
+
+.right-sidebar {
+  background: var(--gray);
+  width: 15vw;
+}
+
+.app-without-left-sidebar {
+  width: 90%;
+  /* background: pink; */
+}
+
+.list-title {
+  width: 100%;
+  background: var(--black);
+  min-height: 10vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 1.5em;
+  color: var(--white);
+  font-family: "Montserrat", sans-serif;
+  font-weight: bold;
+}
+
+.list-items {
+  /* max-height: 50vh; */
+  width: 100%;
+  /* border: solid 1px black; */
+  height: 60vh;
+  /* background: black; */
+  flex: 1;
+  overflow: auto;
+}
+
+.list-item-container {
+  display: flex;
+  min-height: 60px;
+  border-bottom: solid 1px var(--lightgray);
+  color: var(--white);
+  padding: 10;
+}
+
+.argument-description-container {
+  flex: 3;
+  /* background: yellow; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 5px;
+  margin-top: 5px;
+}
+
+.argument-weight-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* background: papayawhip; */
+}
+
+.argument-delete-container {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* background: orangered; */
 }
