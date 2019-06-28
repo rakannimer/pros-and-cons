@@ -29,6 +29,11 @@
   border-radius: 5px;
   font-size: 0.65em;
 }
+.add-argument-button:hover {
+  cursor: pointer;
+  width: 20.1vw;
+  height: 5.1vh;
+}
 
 .add-argument-button .plus {
 }
@@ -114,6 +119,7 @@ body {
 
 .share-button .icon-plus {
   font-size: 0.9em;
+  margin-top: 0.1em;
 }
 
 .list-items-and-footer {
@@ -269,34 +275,61 @@ body {
   flex: 1;
   display: flex;
   align-items: center;
-  justify-content: center;
+  /* justify-content: center; */
+}
+
+.list-item-container .weight-and-hint {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  margin-top: 15px;
 }
 
 .argument-weight-container .icon-down-open {
   font-size: 0.5em;
+}
+.argument-weight-container .select-open-icon-container {
+  margin-left: -25px;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.weight-and-hint .hint {
+  font-size: 0.65em;
+  color: var(--lightgray);
+  flex: 0.55;
+  font-weight: bold;
 }
 
 .argument-weight-container:hover .icon-down-open {
   color: var(--blue);
 }
 
+.argument-weight-container:hover select {
+  color: var(--blue);
+  cursor: pointer;
+}
+
 .argument-delete-container .icon-cancel-circled-outline {
-  /* font-size: 100px; */
   color: var(--white);
-  /* background: black; */
-  font-size: 1.3em;
+  font-size: 1.9em;
 }
 .argument-delete-container:hover {
   cursor: pointer;
 }
 
+.argument-delete-container:focus .icon-cancel-circled-outline {
+  outline: none;
+  box-shadow: var(--blue) 2px 2px 2px 2px;
+  border-radius: 50%;
+}
+
 .argument-delete-container:focus {
   outline: none;
 }
-
 .argument-delete-container:hover .icon-cancel-circled-outline {
   color: var(--blue);
-  font-size: 1.3em;
+  font-size: 1.95em;
 }
 
 .argument-weight-container select:hover {
@@ -304,7 +337,10 @@ body {
   border: solid 1px var(--blue);
   color: var(--blue);
 }
-
+.argument-weight-container select:focus {
+  outline: none;
+  box-shadow: var(--blue) 5px 5px 5px;
+}
 .argument-delete-container {
   flex: 1;
   display: flex;
@@ -313,6 +349,10 @@ body {
   background: none;
   border: none;
   /* background: orangered; */
+}
+.argument-delete-container select:focus {
+  outline: none;
+  box-shadow: var(--blue) 5px 5px 5px;
 }
 
 .argument-weight-container select {

@@ -17,23 +17,33 @@ function ListItem() {
       >
         Lorem Ipsum Dorum jhjhjhsdsdsdsds
       </div>
-      <div className="argument-weight-container">
-        <select>
-          {range(1, 10).map(w => (
-            <option key={w}>{w}</option>
-          ))}
-        </select>
+      <div className="weight-and-hint">
+        <div className="argument-weight-container">
+          <select>
+            {range(1, 10).map(w => (
+              <option key={w}>{w}</option>
+            ))}
+          </select>
+          <div className="select-open-icon-container">
+            <div className="icon-down-open" />
+          </div>
+        </div>
         <div
+          className="hint"
           style={{
-            marginLeft: "-25px",
-            zIndex: 0,
-            pointerEvents: "none"
+            fontSize: "0.65em",
+            color: "var(--lightgray)",
+            flex: 0.55,
+            fontWeight: "bold"
           }}
         >
-          <div className="icon-down-open" />
+          Set importance
         </div>
       </div>
-      <button className="argument-delete-container">
+      <button
+        className="argument-delete-container"
+        onClick={() => console.log("Hi")}
+      >
         <div className="icon-cancel-circled-outline" />
       </button>
     </div>
@@ -102,8 +112,8 @@ function App() {
           <div className="right-sidebar">
             <div className="app-name">Pros & Cons</div>
             <div className="app-description">
-              Struggling with a decision, use this offline tool to help you
-              organize your thoughts around it
+              Struggling with a decision ? <br /> Use this offline tool to weigh
+              trade-offs.
             </div>
           </div>
         </div>
