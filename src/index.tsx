@@ -88,7 +88,8 @@ const ExportButtonContainer = styled.button`
   height: 5vh;
   border-radius: 50px;
   margin-right: 10px;
-  font-family: "Montserrat", sans-serif;
+  font-family: "Roboto", sans-serif;
+  /* font-weight: bold; */
 `;
 
 const ListItemsAndFooter = styled.div`
