@@ -22,10 +22,29 @@ function ListItem() {
             <option key={w}>{w}</option>
           ))}
         </select>
+        <div
+          style={{
+            position: "absolute",
+            marginLeft: "20px",
+            zIndex: 0,
+            pointerEvents: "none"
+          }}
+        >
+          ^v
+        </div>
       </div>
       <div className="argument-delete-container">
         <div>x</div>
       </div>
+    </div>
+  );
+}
+
+function AddArgumentButton() {
+  return (
+    <div className="add-argument-button">
+      <div>icon</div>
+      <div>Add</div>
     </div>
   );
 }
@@ -41,8 +60,11 @@ function App() {
         <div className="title-and-share-container">
           <div className="title-container">Lorem Ipsum</div>
           <div className="share-button-container">
-            Share
-            <div>+</div>
+            <button className="share-button">
+              <div>Export</div>
+              <div className="share-separator" />
+              <div className="share-button-plus-icon">+</div>
+            </button>
           </div>
         </div>
         <div className="pros-and-cons-and-right-sidebar">
@@ -55,10 +77,7 @@ function App() {
                   <ListItem />
                 </div>
                 <div className="list-footer">
-                  <div className="add-argument-button">
-                    <div>icon</div>
-                    <div>Add</div>
-                  </div>
+                  <AddArgumentButton />
                 </div>
               </div>
             </div>
@@ -71,10 +90,7 @@ function App() {
                   <ListItem />
                 </div>
                 <div className="list-footer">
-                  <div className="add-argument-button">
-                    <div>icon</div>
-                    <div>Add</div>
-                  </div>
+                  <AddArgumentButton />
                 </div>
               </div>
             </div>

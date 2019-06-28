@@ -1,6 +1,6 @@
 :root {
   --black: #1d272e;
-  --gray: #26313b;
+  --gray: #202a32;
   --lightgray: #445159;
   --blue: #074c6e;
   --white: #f5f5f7;
@@ -36,19 +36,59 @@ body {
   justify-content: center;
   font-weight: bold;
 }
+
 .share-button-container {
-  flex: 0.8;
-  background: inherit;
-  color: white;
+  flex: 1.1;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: solid var(--white) 1px;
-  height: 5vh;
-  border-radius: 50px;
-  margin-right: 10px;
-  font-family: "Roboto", sans-serif;
+  min-width: 100px;
   /* font-weight: bold; */
+}
+
+.share-button {
+  background: var(--blue);
+  color: var(--white);
+  display: flex;
+  justify-content: center;
+  border: solid var(--white) 1px;
+  border-radius: 19px;
+  font-family: "Roboto", sans-serif;
+  padding-top: 1.5vh;
+  padding-bottom: 1.5vh;
+  padding-left: 3vh;
+  padding-right: 3vh;
+  font-size: 0.75em;
+  letter-spacing: 0.2px;
+}
+
+.share-button:hover {
+  background: var(--white);
+  color: var(--blue);
+  border: solid 1px var(--lightgray);
+  cursor: pointer;
+}
+.share-button:active {
+  background: var(--white);
+  color: var(--blue);
+  font-size: 0.76em;
+  padding-top: 1.6vh;
+  padding-bottom: 1.6vh;
+  padding-left: 3.1vh;
+  padding-right: 3.1vh;
+}
+
+.share-button:focus {
+  outline-style: none;
+}
+
+.share-separator {
+  width: 5px;
+}
+
+.share-button-plus-icon {
+  /* font-weight: bold; */
+  font-size: 1.1em;
 }
 
 .list-items-and-footer {
@@ -195,4 +235,23 @@ body {
   align-items: center;
   justify-content: center;
   /* background: orangered; */
+}
+
+.argument-weight-container select {
+  background-color: var(--black);
+  color: var(--white);
+  border: none;
+  width: 70px;
+  text-align: center;
+  /* text-align-last: center; */
+  height: 25px;
+  -webkit-appearance: none;
+  border-radius: 15px;
+  border: solid 1px var(--lightgray);
+  text-indent: 40%;
+}
+
+.left-sidebar-home-button {
+  margin-top: 14vh;
+  color: var(--darkwhite);
 }
