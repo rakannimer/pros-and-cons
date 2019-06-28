@@ -274,7 +274,7 @@ body {
 .argument-weight-container {
   flex: 1;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   /* justify-content: center; */
 }
 
@@ -292,6 +292,7 @@ body {
   margin-left: -25px;
   z-index: 0;
   pointer-events: none;
+  height: 17px;
 }
 
 .weight-and-hint .hint {
@@ -299,6 +300,7 @@ body {
   color: var(--lightgray);
   flex: 0.55;
   font-weight: bold;
+  padding-top: 4px;
 }
 
 .argument-weight-container:hover .icon-down-open {
@@ -320,7 +322,6 @@ body {
 
 .argument-delete-container:focus .icon-cancel-circled-outline {
   outline: none;
-  box-shadow: var(--blue) 2px 2px 2px 2px;
   border-radius: 50%;
 }
 

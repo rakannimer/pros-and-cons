@@ -15,7 +15,7 @@ function ListItem() {
         }}
         contentEditable
       >
-        Lorem Ipsum Dorum jhjhjhsdsdsdsds
+        Lorem Ipsum Dorum
       </div>
       <div className="weight-and-hint">
         <div className="argument-weight-container">
@@ -28,17 +28,7 @@ function ListItem() {
             <div className="icon-down-open" />
           </div>
         </div>
-        <div
-          className="hint"
-          style={{
-            fontSize: "0.65em",
-            color: "var(--lightgray)",
-            flex: 0.55,
-            fontWeight: "bold"
-          }}
-        >
-          Set importance
-        </div>
+        <div className="hint">Set importance</div>
       </div>
       <button
         className="argument-delete-container"
