@@ -1,10 +1,41 @@
 :root {
+  --dark-black: #19222a;
   --black: #1d272e;
   --gray: #202a32;
-  --lightgray: #445159;
-  --blue: #074c6e;
+  --lightgray: #7d8591;
+  --blue: #0d4d6d;
+  --dark-blue: #074b6c;
   --white: #f5f5f7;
   --darkwhite: #d1d1d1;
+}
+
+.add-argument-button-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.add-argument-button {
+  background: var(--dark-blue);
+  border: none;
+  color: white;
+  font-family: "Montserrat", sans-serif;
+  font-weight: bolder;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20vw;
+  height: 5vh;
+  border-radius: 5px;
+  font-size: 0.65em;
+}
+
+.add-argument-button .plus {
+}
+.add-argument-button .space {
+  width: 5px;
+}
+.add-argument-button .text {
 }
 body {
   margin: 0;
@@ -21,12 +52,6 @@ body {
   min-height: 8vh;
   width: 100%;
   bottom: 0;
-}
-
-.add-argument-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .title-container {
@@ -50,6 +75,7 @@ body {
   background: var(--blue);
   color: var(--white);
   display: flex;
+  align-items: center;
   justify-content: center;
   border: solid var(--white) 1px;
   border-radius: 19px;
@@ -86,14 +112,14 @@ body {
   width: 5px;
 }
 
-.share-button-plus-icon {
-  /* font-weight: bold; */
-  font-size: 1.1em;
+.share-button .icon-plus {
+  font-size: 0.9em;
 }
 
 .list-items-and-footer {
   width: 100%;
   background: var(--gray);
+  box-shadow: var(--dark-black) 5px 5px 5px 5px;
 }
 
 .app-container {
@@ -111,7 +137,7 @@ body {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  box-shadow: #19222a 5px 5px 5px;
+  box-shadow: var(--dark-black) 5px 5px 5px;
   /* position: fixed; */
 }
 
@@ -172,6 +198,20 @@ body {
 .right-sidebar {
   background: var(--gray);
   width: 15vw;
+  padding-top: 10vh;
+  text-align: center;
+  color: var(--white);
+}
+
+.right-sidebar .app-name {
+  font-family: "Montserrat", sans-serif;
+  font-weight: bold;
+}
+.right-sidebar .app-description {
+  margin-top: 10vh;
+  font-family: "Roboto", sans-serif;
+  color: var(--lightgray);
+  /* font-weight: bold; */
 }
 
 .app-without-left-sidebar {
@@ -190,7 +230,6 @@ body {
   font-size: 1.5em;
   color: var(--white);
   font-family: "Montserrat", sans-serif;
-  font-weight: bold;
 }
 
 .list-items {
@@ -205,10 +244,10 @@ body {
 
 .list-item-container {
   display: flex;
-  min-height: 60px;
   border-bottom: solid 1px var(--lightgray);
   color: var(--white);
   padding: 10;
+  min-height: 10vh;
 }
 
 .argument-description-container {
@@ -219,6 +258,11 @@ body {
   justify-content: center;
   margin-left: 5px;
   margin-top: 5px;
+
+  font-family: Montserrat;
+  font-weight: 700;
+  margin-top: 5px;
+  font-size: small;
 }
 
 .argument-weight-container {
@@ -226,7 +270,39 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  /* background: papayawhip; */
+}
+
+.argument-weight-container .icon-down-open {
+  font-size: 0.5em;
+}
+
+.argument-weight-container:hover .icon-down-open {
+  color: var(--blue);
+}
+
+.argument-delete-container .icon-cancel-circled-outline {
+  /* font-size: 100px; */
+  color: var(--white);
+  /* background: black; */
+  font-size: 1.3em;
+}
+.argument-delete-container:hover {
+  cursor: pointer;
+}
+
+.argument-delete-container:focus {
+  outline: none;
+}
+
+.argument-delete-container:hover .icon-cancel-circled-outline {
+  color: var(--blue);
+  font-size: 1.3em;
+}
+
+.argument-weight-container select:hover {
+  cursor: pointer;
+  border: solid 1px var(--blue);
+  color: var(--blue);
 }
 
 .argument-delete-container {
@@ -234,6 +310,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  background: none;
+  border: none;
   /* background: orangered; */
 }
 

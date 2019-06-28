@@ -2,6 +2,7 @@ import * as React from "react";
 import { render } from "react-dom";
 
 import "./styles.css";
+import "./icons.css";
 import { range } from "./utils";
 
 function ListItem() {
@@ -24,27 +25,29 @@ function ListItem() {
         </select>
         <div
           style={{
-            position: "absolute",
-            marginLeft: "20px",
+            marginLeft: "-25px",
             zIndex: 0,
             pointerEvents: "none"
           }}
         >
-          ^v
+          <div className="icon-down-open" />
         </div>
       </div>
-      <div className="argument-delete-container">
-        <div>x</div>
-      </div>
+      <button className="argument-delete-container">
+        <div className="icon-cancel-circled-outline" />
+      </button>
     </div>
   );
 }
 
 function AddArgumentButton() {
   return (
-    <div className="add-argument-button">
-      <div>icon</div>
-      <div>Add</div>
+    <div className="add-argument-button-container">
+      <button className="add-argument-button">
+        <div className="icon-plus" />
+        <div className="space" />
+        <div className="text">Add</div>
+      </button>
     </div>
   );
 }
@@ -63,7 +66,7 @@ function App() {
             <button className="share-button">
               <div>Export</div>
               <div className="share-separator" />
-              <div className="share-button-plus-icon">+</div>
+              <div className="icon-plus" />
             </button>
           </div>
         </div>
@@ -73,8 +76,9 @@ function App() {
               <div className="list-title">PROS</div>
               <div className="list-items-and-footer">
                 <div className="list-items">
-                  <ListItem />
-                  <ListItem />
+                  {range(1, 4).map(i => (
+                    <ListItem key={i} />
+                  ))}
                 </div>
                 <div className="list-footer">
                   <AddArgumentButton />
@@ -95,7 +99,13 @@ function App() {
               </div>
             </div>
           </div>
-          <div className="right-sidebar">Sidebar</div>
+          <div className="right-sidebar">
+            <div className="app-name">Pros & Cons</div>
+            <div className="app-description">
+              Struggling with a decision, use this offline tool to help you
+              organize your thoughts around it
+            </div>
+          </div>
         </div>
       </div>
     </div>
