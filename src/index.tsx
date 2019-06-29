@@ -8,14 +8,16 @@ import { range } from "./utils";
 function ListItem() {
   return (
     <div className="list-item-container">
-      <div
-        className="argument-description-container"
-        onInput={ev => {
-          console.log("Value is ", ev.currentTarget.innerText);
-        }}
-        contentEditable
-      >
-        Lorem Ipsum Dorum
+      <div className="argument-description-container">
+        <div
+          className="description"
+          onInput={ev => {
+            console.log("Value is ", ev.currentTarget.innerText);
+          }}
+          contentEditable
+        >
+          Lorem Ipsum Dorum Lorem Ipsum Dorum Lorem Ipsum Dorum
+        </div>
       </div>
       <div className="weight-and-hint">
         <div className="argument-weight-container">
@@ -56,7 +58,9 @@ function App() {
   return (
     <div className="app-container">
       <div className="left-sidebar">
-        <div className="left-sidebar-home-button">H</div>
+        <div className="home-button">
+          <div className="icon-home" />
+        </div>
       </div>
       <div className="app-without-left-sidebar">
         <div className="app-header">PROS & CONS</div>
@@ -102,8 +106,8 @@ function App() {
           <div className="right-sidebar">
             <div className="app-name">Pros & Cons</div>
             <div className="app-description">
-              Struggling with a decision ? <br /> Use this offline tool to weigh
-              trade-offs.
+              Struggling with a decision ? <br />
+              <br /> Weigh the tradeoffs here.
             </div>
           </div>
         </div>

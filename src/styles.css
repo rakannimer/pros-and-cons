@@ -33,6 +33,8 @@
   cursor: pointer;
   width: 20.1vw;
   height: 5.1vh;
+  background: var(--white);
+  color: var(--blue);
 }
 
 .add-argument-button .plus {
@@ -198,7 +200,7 @@ body {
   min-width: 300px;
   text-align: center;
   margin-bottom: 10px;
-  max-height: 60vh;
+  max-height: 75vh;
 }
 
 .right-sidebar {
@@ -217,6 +219,8 @@ body {
   margin-top: 10vh;
   font-family: "Roboto", sans-serif;
   color: var(--lightgray);
+  padding-left: 10px;
+  padding-right: 10px;
   /* font-weight: bold; */
 }
 
@@ -228,7 +232,7 @@ body {
 .list-title {
   width: 100%;
   background: var(--black);
-  min-height: 10vh;
+  min-height: 7vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -271,6 +275,13 @@ body {
   font-size: small;
 }
 
+.argument-description-container .description {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 180px;
+  display: block;
+}
+
 .argument-weight-container {
   flex: 1;
   display: flex;
@@ -304,7 +315,7 @@ body {
 }
 
 .argument-weight-container:hover .icon-down-open {
-  color: var(--blue);
+  /* color: var(--blue); */
 }
 
 .argument-weight-container:hover select {
@@ -335,7 +346,7 @@ body {
 
 .argument-weight-container select:hover {
   cursor: pointer;
-  border: solid 1px var(--blue);
+  /* border: solid 1px var(--blue); */
   color: var(--blue);
 }
 .argument-weight-container select:focus {
@@ -370,7 +381,13 @@ body {
   text-indent: 40%;
 }
 
-.left-sidebar-home-button {
-  margin-top: 14vh;
+.left-sidebar .home-button {
+  margin-top: 13vh;
   color: var(--darkwhite);
+  font-size: 3vh;
+}
+
+.left-sidebar .home-button:hover {
+  color: var(--blue);
+  cursor: pointer;
 }
