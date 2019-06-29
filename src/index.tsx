@@ -54,14 +54,18 @@ function AddArgumentButton() {
   );
 }
 
+const LeftSidebar = () => (
+  <div className="left-sidebar">
+    <div className="home-button">
+      <div className="icon-home" />
+    </div>
+  </div>
+);
+
 function App() {
   return (
     <div className="app-container">
-      <div className="left-sidebar">
-        <div className="home-button">
-          <div className="icon-home" />
-        </div>
-      </div>
+      <LeftSidebar />
       <div className="app-without-left-sidebar">
         <div className="app-header">PROS & CONS</div>
         <div className="title-and-share-container">
@@ -77,7 +81,7 @@ function App() {
         <div className="pros-and-cons-and-right-sidebar">
           <div className="pros-and-cons-container">
             <div className="list">
-              <div className="list-title">PROS</div>
+              <div className="list-title text-glow">PROS</div>
               <div className="list-items-and-footer">
                 <div className="list-items">
                   {range(1, 4).map(i => (

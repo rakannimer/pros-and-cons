@@ -242,6 +242,25 @@ body {
   font-family: "Montserrat", sans-serif;
 }
 
+.text-glow {
+  -webkit-animation: glow 1s ease-in-out infinite alternate;
+  -moz-animation: glow 1s ease-in-out infinite alternate;
+  animation: glow 1s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from {
+    text-shadow: 0 0 10px var(--white), 0 0 20px var(--white),
+      0 0 30px var(--lightgray), 0 0 40px var(--lightgray),
+      0 0 50px var(--lightgray), 0 0 60px var(--lightgray),
+      0 0 70px var(--lightgray);
+  }
+  to {
+    text-shadow: 0 0 20px var(--white), 0 0 30px var(--blue),
+      0 0 40px var(--blue), 0 0 50px var(--blue), 0 0 60px var(--blue),
+      0 0 70px var(--blue), 0 0 80px var(--blue);
+  }
+}
 .list-items {
   /* max-height: 50vh; */
   width: 100%;
