@@ -243,9 +243,7 @@ body {
 }
 
 .text-glow {
-  -webkit-animation: glow 1s ease-in-out infinite alternate;
-  -moz-animation: glow 1s ease-in-out infinite alternate;
-  animation: glow 1s ease-in-out infinite alternate;
+  animation: glow 5s ease-in-out infinite alternate;
 }
 
 @keyframes glow {
@@ -256,9 +254,9 @@ body {
       0 0 70px var(--lightgray);
   }
   to {
-    text-shadow: 0 0 20px var(--white), 0 0 30px var(--blue),
-      0 0 40px var(--blue), 0 0 50px var(--blue), 0 0 60px var(--blue),
-      0 0 70px var(--blue), 0 0 80px var(--blue);
+    text-shadow: 0 0 20px var(--white), 0 0 30px var(--black),
+      0 0 40px var(--black), 0 0 50px var(--black), 0 0 60px var(--black),
+      0 0 70px var(--black), 0 0 80px var(--black);
   }
 }
 .list-items {
