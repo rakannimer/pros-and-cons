@@ -5,3 +5,10 @@ export const range = (start: number, end: number) => {
   }
   return result;
 };
+
+export const without = (arr: unknown[], index: number) => {
+  return [...arr.slice(0, index), ...arr.slice(index + 1, arr.length)];
+};
+
+let __id = 0;
+export const uid = () => `${__id++}`;

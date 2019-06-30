@@ -3,25 +3,43 @@ import { render } from "react-dom";
 
 import "./styles.css";
 import "./icons.css";
-import { range } from "./utils";
+import { range, uid } from "./utils";
+import { Action, Argument } from "./types";
+import { INITIAL_STATE } from "./initial-state";
+import { reducer } from "./reducer";
 
-function ListItem() {
+function ListItem({
+  argument,
+  dispatch
+}: {
+  argument: Argument;
+  dispatch: React.Dispatch<Action>;
+}) {
   return (
     <div className="list-item-container">
       <div className="argument-description-container">
         <div
           className="description"
           onInput={ev => {
-            console.log("Value is ", ev.currentTarget.innerText);
+            dispatch({
+              type: "edit-argument",
+              payload: {
+                argument: {
+                  ...argument,
+                  text: String(ev.currentTarget.textContent)
+                }
+              }
+            });
           }}
           contentEditable
+          suppressContentEditableWarning
         >
-          Lorem Ipsum Dorum Lorem Ipsum Dorum Lorem Ipsum Dorum
+          {argument.text}
         </div>
       </div>
       <div className="weight-and-hint">
         <div className="argument-weight-container">
-          <select>
+          <select defaultValue={`${argument.weight}`}>
             {range(1, 10).map(w => (
               <option key={w}>{w}</option>
             ))}
@@ -42,10 +60,10 @@ function ListItem() {
   );
 }
 
-function AddArgumentButton() {
+function AddArgumentButton({ onClick = () => {} }) {
   return (
     <div className="add-argument-button-container">
-      <button className="add-argument-button">
+      <button className="add-argument-button" onClick={onClick}>
         <div className="icon-plus" />
         <div className="space" />
         <div className="text">Add</div>
@@ -63,6 +81,15 @@ const LeftSidebar = () => (
 );
 
 function App() {
+  const [state, dispatch] = React.useReducer(reducer, INITIAL_STATE);
+  const pros = Object.keys(state.arguments)
+    .filter(argumentId => state.arguments[argumentId].type === "pro")
+    .map(argumentId => state.arguments[argumentId]);
+  const cons = Object.keys(state.arguments)
+    .filter(argumentId => state.arguments[argumentId].type === "con")
+    .map(argumentId => state.arguments[argumentId]);
+
+  React.useEffect(() => {}, []);
   return (
     <div className="app-container">
       <LeftSidebar />
@@ -84,12 +111,26 @@ function App() {
               <div className="list-title text-glow">PROS</div>
               <div className="list-items-and-footer">
                 <div className="list-items">
-                  {range(1, 4).map(i => (
-                    <ListItem key={i} />
+                  {pros.map(pro => (
+                    <ListItem argument={pro} key={pro.id} dispatch={dispatch} />
                   ))}
                 </div>
                 <div className="list-footer">
-                  <AddArgumentButton />
+                  <AddArgumentButton
+                    onClick={() => {
+                      dispatch({
+                        type: "add-argument",
+                        payload: {
+                          argument: {
+                            id: uid(),
+                            text: "",
+                            weight: 1,
+                            type: "pro"
+                          }
+                        }
+                      });
+                    }}
+                  />
                 </div>
               </div>
             </div>
@@ -98,11 +139,26 @@ function App() {
               <div className="list-title">CONS</div>
               <div className="list-items-and-footer">
                 <div className="list-items">
-                  <ListItem />
-                  <ListItem />
+                  {cons.map(con => (
+                    <ListItem argument={con} key={con.id} dispatch={dispatch} />
+                  ))}
                 </div>
                 <div className="list-footer">
-                  <AddArgumentButton />
+                  <AddArgumentButton
+                    onClick={() => {
+                      dispatch({
+                        type: "add-argument",
+                        payload: {
+                          argument: {
+                            id: uid(),
+                            text: "",
+                            weight: 1,
+                            type: "con"
+                          }
+                        }
+                      });
+                    }}
+                  />
                 </div>
               </div>
             </div>
