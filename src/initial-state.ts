@@ -25,5 +25,5 @@ export const INITIAL_STATE: State = {
     }
   ],
   title: "Decision",
-  winner: "pro"
+  winner: ""
 };

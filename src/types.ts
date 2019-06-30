@@ -13,7 +13,7 @@ export type State = {
   pros: Argument[];
   cons: Argument[];
   title: string;
-  winner: ArgumentType;
+  winner: "pros" | "cons" | "";
 };
 
 export type Action =
@@ -32,4 +32,10 @@ export type Action =
   | {
       type: "edit-argument";
       payload: { argument: Argument };
+    }
+  | {
+      type: "set-winner-id";
+      payload: {
+        winnerId: "pros" | "cons" | "";
+      };
     };

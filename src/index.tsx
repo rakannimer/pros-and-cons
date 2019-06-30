@@ -39,7 +39,20 @@ function ListItem({
       </div>
       <div className="weight-and-hint">
         <div className="argument-weight-container">
-          <select defaultValue={`${argument.weight}`}>
+          <select
+            defaultValue={`${argument.weight}`}
+            onChange={ev => {
+              dispatch({
+                type: "edit-argument",
+                payload: {
+                  argument: {
+                    ...argument,
+                    weight: Number(ev.currentTarget.value)
+                  }
+                }
+              });
+            }}
+          >
             {range(1, 10).map(w => (
               <option key={w}>{w}</option>
             ))}
@@ -52,7 +65,17 @@ function ListItem({
       </div>
       <button
         className="argument-delete-container"
-        onClick={() => console.log("Hi")}
+        onClick={() => {
+          dispatch({
+            type: "delete-argument",
+            payload: {
+              argument: {
+                id: argument.id,
+                type: argument.type
+              }
+            }
+          });
+        }}
       >
         <div className="icon-cancel-circled-outline" />
       </button>
@@ -85,7 +108,25 @@ function App() {
   const pros = state.pros;
   const cons = state.cons;
 
-  React.useEffect(() => {}, []);
+  React.useEffect(() => {
+    const prosScore = pros.reduce((acc, cur) => {
+      acc += cur.weight;
+      return acc;
+    }, 0);
+    const consScore = cons.reduce((acc, cur) => {
+      acc += cur.weight;
+      return acc;
+    }, 0);
+    const winnerId =
+      prosScore === consScore ? "" : prosScore > consScore ? "pros" : "cons";
+    dispatch({
+      type: "set-winner-id",
+      payload: {
+        winnerId
+      }
+    });
+    console.log(`Set winner id to ${winnerId}`);
+  }, [pros, cons]);
   return (
     <div className="app-container">
       <LeftSidebar />
@@ -104,7 +145,13 @@ function App() {
         <div className="pros-and-cons-and-right-sidebar">
           <div className="pros-and-cons-container">
             <div className="list">
-              <div className="list-title text-glow">PROS</div>
+              <div
+                className={`list-title ${
+                  state.winner === "pros" ? "text-glow" : ""
+                }`}
+              >
+                PROS
+              </div>
               <div className="list-items-and-footer">
                 <div className="list-items">
                   {pros.map(pro => (
@@ -132,7 +179,13 @@ function App() {
             </div>
 
             <div className="list">
-              <div className="list-title">CONS</div>
+              <div
+                className={`list-title ${
+                  state.winner === "cons" ? "text-glow" : ""
+                }`}
+              >
+                CONS
+              </div>
               <div className="list-items-and-footer">
                 <div className="list-items">
                   {cons.map(con => (

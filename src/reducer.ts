@@ -39,6 +39,13 @@ export function reducer(state: State, action: Action) {
       });
       return nextState;
     }
+    case "set-winner-id": {
+      const { winnerId } = action.payload;
+      const nextState = produce(state, s => {
+        s.winner = winnerId;
+      });
+      return nextState;
+    }
     default: {
       throw new Error(`Unspported action : ${JSON.stringify(action)}`);
     }
