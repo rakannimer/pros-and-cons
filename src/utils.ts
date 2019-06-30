@@ -6,7 +6,7 @@ export const range = (start: number, end: number) => {
   return result;
 };
 
-export const without = (arr: unknown[], index: number) => {
+export const without = <T>(arr: T[], index: number) => {
   return [...arr.slice(0, index), ...arr.slice(index + 1, arr.length)];
 };
 

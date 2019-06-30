@@ -20,7 +20,7 @@
   border: none;
   color: white;
   font-family: "Montserrat", sans-serif;
-  font-weight: bolder;
+  font-weight: bold;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -408,4 +408,24 @@ body {
 .left-sidebar .home-button:hover {
   color: var(--blue);
   cursor: pointer;
+}
+
+textarea {
+  resize: none;
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background: inherit;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  border: none;
+}
+
+.simplebar-scrollbar {
+  /* background: var(--blue); */
+}
+.simplebar-scrollbar:before {
+  background: var(--blue) !important;
 }

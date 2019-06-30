@@ -38,4 +38,5 @@ export type Action =
       payload: {
         winnerId: "pros" | "cons" | "";
       };
-    };
+    }
+  | { type: "set-title"; payload: { title: string } };

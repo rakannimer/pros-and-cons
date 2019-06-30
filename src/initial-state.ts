@@ -1,5 +1,5 @@
-import { State } from "./types";
-import { uid } from "./utils";
+import { State, ArgumentType } from "./types";
+import { uid, range } from "./utils";
 
 export const INITIAL_STATE: State = {
   pros: [
@@ -14,7 +14,13 @@ export const INITIAL_STATE: State = {
       type: "pro",
       id: uid(),
       weight: 2
-    }
+    },
+    ...range(1, 10).map(() => ({
+      id: uid(),
+      type: "pro" as ArgumentType,
+      weight: 1,
+      text: "Text"
+    }))
   ],
   cons: [
     {

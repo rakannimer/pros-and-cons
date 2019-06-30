@@ -1,7 +1,7 @@
 import produce from "immer";
 
 import { State, Action } from "./types";
-import { findIndex } from "./utils";
+import { findIndex, without } from "./utils";
 
 export function reducer(state: State, action: Action) {
   switch (action.type) {
@@ -34,15 +34,26 @@ export function reducer(state: State, action: Action) {
         action,
         state
       });
+
       const nextState = produce(state, s => {
+        // s[affectedListId] = without(s[affectedListId], index);
         s[affectedListId].splice(index, 1);
       });
+      console.log("delete-argument");
       return nextState;
+      // return nextState;
     }
     case "set-winner-id": {
       const { winnerId } = action.payload;
       const nextState = produce(state, s => {
         s.winner = winnerId;
+      });
+      return nextState;
+    }
+    case "set-title": {
+      const { title } = action.payload;
+      const nextState = produce(state, s => {
+        s.title = title;
       });
       return nextState;
     }
