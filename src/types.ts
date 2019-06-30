@@ -10,7 +10,8 @@ export type Argument = {
 };
 
 export type State = {
-  arguments: { [id: string]: Argument };
+  pros: Argument[];
+  cons: Argument[];
   title: string;
   winner: ArgumentType;
 };
@@ -25,7 +26,7 @@ export type Action =
   | {
       type: "delete-argument";
       payload: {
-        argument: Pick<Argument, "id">;
+        argument: Pick<Argument, "id" | "type">;
       };
     }
   | {

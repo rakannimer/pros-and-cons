@@ -82,12 +82,8 @@ const LeftSidebar = () => (
 
 function App() {
   const [state, dispatch] = React.useReducer(reducer, INITIAL_STATE);
-  const pros = Object.keys(state.arguments)
-    .filter(argumentId => state.arguments[argumentId].type === "pro")
-    .map(argumentId => state.arguments[argumentId]);
-  const cons = Object.keys(state.arguments)
-    .filter(argumentId => state.arguments[argumentId].type === "con")
-    .map(argumentId => state.arguments[argumentId]);
+  const pros = state.pros;
+  const cons = state.cons;
 
   React.useEffect(() => {}, []);
   return (
@@ -96,7 +92,7 @@ function App() {
       <div className="app-without-left-sidebar">
         <div className="app-header">PROS & CONS</div>
         <div className="title-and-share-container">
-          <div className="title-container">Lorem Ipsum</div>
+          <div className="title-container">{state.title}</div>
           <div className="share-button-container">
             <button className="share-button">
               <div>Export</div>

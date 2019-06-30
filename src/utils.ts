@@ -10,5 +10,19 @@ export const without = (arr: unknown[], index: number) => {
   return [...arr.slice(0, index), ...arr.slice(index + 1, arr.length)];
 };
 
+export const findIndex = <T = unknown>(
+  arr: T[],
+  filter: (v: T) => boolean,
+  logWhenThrowing: unknown
+) => {
+  const index = arr.findIndex(filter);
+  if (index === -1) {
+    throw new Error(
+      `Could not find element in array: ${JSON.stringify(logWhenThrowing)}`
+    );
+  }
+  return index;
+};
+
 let __id = 0;
 export const uid = () => `${__id++}`;
