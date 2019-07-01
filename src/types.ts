@@ -39,4 +39,21 @@ export type Action =
         winnerId: "pros" | "cons" | "";
       };
     }
+  | {
+      type: "reorder-list";
+      payload: {
+        listType: "pros" | "cons";
+        startIndex: number;
+        endIndex: number;
+      };
+    }
+  | {
+      type: "move-to-list";
+      payload: {
+        startListType: "pros" | "cons";
+        endListType: "pros" | "cons";
+        startIndex: number;
+        endIndex: number;
+      };
+    }
   | { type: "set-title"; payload: { title: string } };

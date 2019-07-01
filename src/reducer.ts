@@ -1,7 +1,7 @@
 import produce from "immer";
 
-import { State, Action } from "./types";
-import { findIndex, without } from "./utils";
+import { State, Action, ArgumentType } from "./types";
+import { findIndex } from "./utils";
 
 export function reducer(state: State, action: Action) {
   switch (action.type) {
@@ -36,12 +36,9 @@ export function reducer(state: State, action: Action) {
       });
 
       const nextState = produce(state, s => {
-        // s[affectedListId] = without(s[affectedListId], index);
         s[affectedListId].splice(index, 1);
       });
-      console.log("delete-argument");
       return nextState;
-      // return nextState;
     }
     case "set-winner-id": {
       const { winnerId } = action.payload;
@@ -54,6 +51,32 @@ export function reducer(state: State, action: Action) {
       const { title } = action.payload;
       const nextState = produce(state, s => {
         s.title = title;
+      });
+      return nextState;
+    }
+    case "reorder-list": {
+      const { listType, startIndex, endIndex } = action.payload;
+      const nextState = produce(state, s => {
+        const [removed] = s[listType].splice(startIndex, 1);
+        s[listType].splice(endIndex, 0, removed);
+      });
+      return nextState;
+    }
+    case "move-to-list": {
+      const {
+        startListType,
+        endListType,
+        startIndex,
+        endIndex
+      } = action.payload;
+      const nextState = produce(state, s => {
+        const [removed] = s[startListType].splice(startIndex, 1);
+        const endListArgType = endListType.slice(
+          endListType.length - 2,
+          endListType.length - 1
+        ) as ArgumentType;
+        removed.type = endListArgType;
+        s[endListType].splice(endIndex, 0, removed);
       });
       return nextState;
     }

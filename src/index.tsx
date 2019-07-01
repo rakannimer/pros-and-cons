@@ -6,7 +6,12 @@ import "./icons.css";
 
 import { INITIAL_STATE } from "./initial-state";
 import { reducer } from "./reducer";
-import { LeftSidebar, List, Header } from "./components";
+import { List, LeftSidebar, Header } from "./components";
+import {
+  DropResult,
+  ResponderProvided,
+  DragDropContext
+} from "react-beautiful-dnd";
 
 let App = () => {
   const [state, dispatch] = React.useReducer(reducer, INITIAL_STATE);
@@ -31,6 +36,54 @@ let App = () => {
       }
     });
   }, [pros, cons]);
+  const onDragStart = () => {
+    console.warn("dragstart");
+  };
+  const onDragEnd = (result: DropResult, provided: ResponderProvided) => {
+    console.warn("dragend ", result);
+    const sourceIndex = result.source.index;
+    const destinationIndex = result.destination && result.destination.index;
+    const sourceId = result.source.droppableId;
+    const destinationId = result.destination && result.destination.droppableId;
+    if (destinationId !== undefined && destinationIndex !== undefined) {
+      if (destinationId === sourceId) {
+        const listType = sourceId === "pros" ? "pros" : "cons";
+        dispatch({
+          type: "reorder-list",
+          payload: {
+            listType,
+            endIndex: destinationIndex,
+            startIndex: sourceIndex
+          }
+        });
+      } else {
+        const startListType = sourceId === "pros" ? "pros" : "cons";
+        const endListType = destinationId === "pros" ? "pros" : "cons";
+        dispatch({
+          type: "move-to-list",
+          payload: {
+            startListType,
+            endListType,
+            endIndex: destinationIndex,
+            startIndex: sourceIndex
+          }
+        });
+      }
+    }
+
+    // if (destinationIndex !== undefined && type !== "") {
+    //   dispatch({
+    //     type: "reorder-list",
+    //     payload: {
+    //       listType: type,
+    //       endIndex: destinationIndex,
+    //       startIndex: sourceIndex
+    //     }
+    //   });
+    // }
+    console.log({ sourceIndex, destinationIndex, sourceId, destinationId });
+  };
+
   return (
     <div className="app-container">
       <LeftSidebar />
@@ -38,20 +91,22 @@ let App = () => {
         <Header title={state.title} dispatch={dispatch} />
         <div className="pros-and-cons-and-right-sidebar">
           <div className="pros-and-cons-container">
-            <List
-              winner={state.winner}
-              arguments={state.pros}
-              dispatch={dispatch}
-              title="PROS"
-              type="pros"
-            />
-            <List
-              winner={state.winner}
-              arguments={state.cons}
-              dispatch={dispatch}
-              title="CONS"
-              type="cons"
-            />
+            <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
+              <List
+                winner={state.winner}
+                arguments={state.pros}
+                dispatch={dispatch}
+                title="PROS"
+                type="pros"
+              />
+              <List
+                winner={state.winner}
+                arguments={state.cons}
+                dispatch={dispatch}
+                title="CONS"
+                type="cons"
+              />
+            </DragDropContext>
           </div>
           <div className="right-sidebar">
             <div className="app-name">Pros & Cons</div>
