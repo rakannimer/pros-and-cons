@@ -1,18 +1,19 @@
 import * as React from "react";
 import autosize from "autosize";
 
-//@ts-ignore
-import SimpleBar from "simplebar-react";
-
 import { range, uid } from "../utils";
 import { Action, Argument, State } from "../types";
 
 export const TextArea: React.ComponentType<{
   onChange?: (v: string) => void;
-}> = ({ children, onChange = () => {} }) => {
+  value: string;
+}> = ({ value, onChange = () => {} }) => {
   const textAreaRef = React.useRef<HTMLTextAreaElement | null>(null);
   React.useEffect(() => {
     if (textAreaRef.current === null) return;
+    if (value === "") {
+      textAreaRef.current.focus();
+    }
     autosize(textAreaRef.current);
   }, []);
   return (
@@ -21,7 +22,8 @@ export const TextArea: React.ComponentType<{
       onChange={ev => {
         onChange(ev.target.value);
       }}
-      value={`${children}`}
+      value={value}
+      rows={1}
     />
   );
 };
@@ -50,9 +52,8 @@ export const ListItem = React.memo(
                   }
                 });
               }}
-            >
-              {argument.text}
-            </TextArea>
+              value={argument.text}
+            />
           </div>
         </div>
         <div className="weight-and-hint">
@@ -162,9 +163,8 @@ export const Header = React.memo(
               onChange={title => {
                 dispatch({ type: "set-title", payload: { title } });
               }}
-            >
-              {title}
-            </TextArea>
+              value={title}
+            />
           </div>
           <div className="share-button-container">
             <button className="share-button">
@@ -179,10 +179,12 @@ export const Header = React.memo(
   }
 );
 
+export const LazySimpleBar = React.lazy(() => import("./Scrollbar"));
+
 export const List = React.memo(
   ({
     winner,
-    arguments: pros,
+    arguments: args,
     dispatch,
     type,
     title
@@ -193,17 +195,25 @@ export const List = React.memo(
     type: State["winner"];
     dispatch: React.Dispatch<Action>;
   }) => {
+    const argsList = args.map(arg => (
+      <ListItem argument={arg} key={arg.id} dispatch={dispatch} />
+    ));
+
     return (
       <div className="list">
         <div className={`list-title ${winner === type ? "text-glow" : ""}`}>
           {title}
         </div>
         <div className="list-items-and-footer">
-          <SimpleBar style={{ height: "60vh" }}>
-            {pros.map(pro => (
-              <ListItem argument={pro} key={pro.id} dispatch={dispatch} />
-            ))}
-          </SimpleBar>
+          <React.Suspense
+            fallback={
+              <div style={{ height: "60vh", overflow: "hidden" }}>
+                {argsList}
+              </div>
+            }
+          >
+            <LazySimpleBar style={{ height: "60vh" }}>{argsList}</LazySimpleBar>
+          </React.Suspense>
         </div>
 
         <div className="list-footer">

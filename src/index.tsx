@@ -4,8 +4,6 @@ import { render } from "react-dom";
 import "./styles.css";
 import "./icons.css";
 
-import "simplebar/dist/simplebar.css";
-
 import { INITIAL_STATE } from "./initial-state";
 import { reducer } from "./reducer";
 import { LeftSidebar, List, Header } from "./components";

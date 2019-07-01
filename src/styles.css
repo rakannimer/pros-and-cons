@@ -200,7 +200,8 @@ body {
   min-width: 300px;
   text-align: center;
   margin-bottom: 10px;
-  max-height: 75vh;
+  max-height: 60vh;
+  /* overflow: hidden; */
 }
 
 .right-sidebar {
