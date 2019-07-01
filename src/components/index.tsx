@@ -199,11 +199,11 @@ export const List = React.memo(
           {title}
         </div>
         <div className="list-items-and-footer">
-          <div className="list-items">
+          <SimpleBar style={{ height: "60vh" }}>
             {pros.map(pro => (
               <ListItem argument={pro} key={pro.id} dispatch={dispatch} />
             ))}
-          </div>
+          </SimpleBar>
         </div>
 
         <div className="list-footer">

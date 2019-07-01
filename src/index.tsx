@@ -1,7 +1,6 @@
 import * as React from "react";
 import { render } from "react-dom";
-//@ts-ignore
-import SimpleBar from "simplebar-react";
+
 import "./styles.css";
 import "./icons.css";
 
