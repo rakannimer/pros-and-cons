@@ -17,6 +17,12 @@ export const ListItem = React.forwardRef(
     },
     ref: any
   ) => {
+    const [focus, setFocus] = React.useState<false | number>(false);
+    React.useEffect(() => {
+      if (argument.text === "") {
+        setFocus(Date.now());
+      }
+    }, []);
     return (
       <div
         key={argument.id}
@@ -27,6 +33,7 @@ export const ListItem = React.forwardRef(
         <div className="argument-description-container">
           <div className="description">
             <TextArea
+              isFocused={focus}
               onChange={v => {
                 dispatch({
                   type: "edit-argument",

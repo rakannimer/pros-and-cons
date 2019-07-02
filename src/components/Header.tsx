@@ -11,16 +11,23 @@ export const Header = React.memo(
     title: string;
     dispatch: React.Dispatch<Action>;
   }) => {
+    const [focus, setFocus] = React.useState<false | number>(false);
+    React.useEffect(() => {
+      setFocus(Date.now());
+    }, []);
     return (
       <>
         <div className="app-header">PROS & CONS</div>
         <div className="title-and-share-container">
           <div className="title-container">
             <TextArea
+              isFocused={focus}
+              isSelected={focus}
               onChange={title => {
                 dispatch({ type: "set-title", payload: { title } });
               }}
               value={title}
+              style={{ width: "200px" }}
             />
           </div>
           <div className="share-button-container">

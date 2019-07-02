@@ -28,6 +28,72 @@ export const INITIAL_STATE: State = {
       type: "con",
       id: uid(),
       weight: 1
+    },
+    {
+      text: `Reason against ${uid()}`,
+      type: "con",
+      id: uid(),
+      weight: 1
+    },
+    {
+      text: `Reason against ${uid()}`,
+      type: "con",
+      id: uid(),
+      weight: 1
+    },
+    {
+      text: `Reason against ${uid()}`,
+      type: "con",
+      id: uid(),
+      weight: 1
+    },
+    {
+      text: `Reason against ${uid()}`,
+      type: "con",
+      id: uid(),
+      weight: 1
+    },
+    {
+      text: `Reason against ${uid()}`,
+      type: "con",
+      id: uid(),
+      weight: 1
+    },
+    {
+      text: `Reason against ${uid()}`,
+      type: "con",
+      id: uid(),
+      weight: 1
+    },
+    {
+      text: `Reason against ${uid()}`,
+      type: "con",
+      id: uid(),
+      weight: 1
+    },
+    {
+      text: `Reason against ${uid()}`,
+      type: "con",
+      id: uid(),
+      weight: 1
+    },
+    {
+      text: `Reason against ${uid()}`,
+      type: "con",
+      id: uid(),
+      weight: 1
+    },
+    {
+      text: `Reason against ${uid()}`,
+      type: "con",
+      id: uid(),
+      weight: 1
+    },
+    {
+      text: `Reason against ${uid()}`,
+      type: "con",
+      id: uid(),
+      weight: 1
     }
   ],
   title: "Decision",

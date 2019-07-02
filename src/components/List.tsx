@@ -4,8 +4,7 @@ import { Droppable, Draggable } from "react-beautiful-dnd";
 import { AddArgumentButton } from "./AddArgumentButton";
 import { Action, State, Argument } from "../types";
 import { ListItem } from "./ListItem";
-
-const LazySimpleBar = React.lazy(() => import("./Scrollbar"));
+import { LazyScrollBar } from "./LazyScrollBar";
 
 const renderListItems = (
   args: Argument[],
@@ -59,7 +58,7 @@ export const List = React.memo(
               </div>
             }
           >
-            <LazySimpleBar style={{ height: "60vh" }}>
+            <LazyScrollBar style={{ height: "60vh" }}>
               <Droppable droppableId={type}>
                 {provided => (
                   <div ref={provided.innerRef} {...provided.droppableProps}>
@@ -67,7 +66,7 @@ export const List = React.memo(
                   </div>
                 )}
               </Droppable>
-            </LazySimpleBar>
+            </LazyScrollBar>
           </React.Suspense>
         </div>
 
