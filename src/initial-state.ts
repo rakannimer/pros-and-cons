@@ -10,7 +10,7 @@ export const INITIAL_STATE: State = {
       weight: 1
     },
     {
-      text: "It breaks it down to 2 dimensions only",
+      text: "It breaks the problem down to 2 dimensions",
       type: "pro",
       id: uid(),
       weight: 2

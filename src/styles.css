@@ -219,11 +219,16 @@ body {
 }
 .right-sidebar .app-description {
   margin-top: 10vh;
+  margin-bottom: 10vh;
   font-family: "Roboto", sans-serif;
   color: var(--light-gray);
   padding-left: 10px;
   padding-right: 10px;
   /* font-weight: bold; */
+}
+
+button {
+  cursor: pointer;
 }
 
 .app-without-left-sidebar {
@@ -432,17 +437,25 @@ body {
   cursor: pointer;
 }
 
+textarea:focus {
+  outline: none;
+  /* box-shadow: var(--light-blue) 1px 1px 1px 1px; */
+}
+
 textarea {
   resize: none;
   text-align: center;
   padding-top: 10px;
   padding-bottom: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
   background: inherit;
   color: inherit;
   font-family: inherit;
   font-size: inherit;
   font-weight: inherit;
   border: none;
+  overflow: hidden;
 }
 
 .ScrollbarsCustom-Thumb.ScrollbarsCustom-ThumbY {
