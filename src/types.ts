@@ -57,4 +57,5 @@ export type Action =
       };
     }
   | { type: "set-title"; payload: { title: string } }
-  | { type: "clear-list" };
+  | { type: "clear-list" }
+  | { type: "hydrate"; payload: State };

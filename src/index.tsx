@@ -5,8 +5,7 @@ import {
   ResponderProvided,
   DragDropContext
 } from "react-beautiful-dnd";
-
-// TODO : Add clear list button in right sidebar that clears state and focuses title
+import * as db from "idb-keyval";
 // TODO : Add export to CSV functionality with https://github.com/kennethjiang/js-file-download
 // TODO : Decide what share functionality should look like. (Firebase vs Amplify vs FaunaDB)
 // TODO : Add share functionality 1 : Add share button next to export button
@@ -15,15 +14,21 @@ import {
 // imports firebase, does an anonymous sign-in with it and pushes to lists table.
 // It then appends the id to the current url and displays it in a small modal with a message.
 // TODO : Add modal to be displayed when sharing
-// TODO : Add auto-save and persist data through refreshs (add middleware to the reducer that saves state using idb-keyval and returns it without waiting to finish)
+
+// <DOING>
+
+// </DOING>
 
 // <DONE>
+// TODO : Add auto-save and persist data through refreshs (add middleware to the reducer that saves state using idb-keyval and returns it without waiting to finish)
 // TODO : CHange initial state
 // TODO : Focus title on first mount.
 // TODO : Add unmount and mount listitem animations
 // TODO: Refactor renderListItems function to ListItems component
 // TODO : Add scrollbar for list container -- used simplebar
 // TODO : Make it usable on mobile.
+// TODO : Add clear list button in right sidebar that clears state and focuses title
+
 // </DONE>
 
 import "./styles.css";
@@ -95,9 +100,26 @@ const ProsAndCons = (
     </div>
   );
 };
+const withLocalStorage = (reducer: React.Reducer<State, Action>) => {
+  const newReducer = (state: State, action: Action) => {
+    const newState = reducer(state, action);
+    db.set("offline-list", newState);
+    return newState;
+  };
+  return newReducer;
+};
 
 let App = () => {
-  const [state, dispatch] = React.useReducer(reducer, INITIAL_STATE);
+  const [state, dispatch] = React.useReducer(
+    withLocalStorage(reducer),
+    INITIAL_STATE
+  );
+  React.useEffect(() => {
+    db.get<State>("offline-list").then(v => {
+      dispatch({ type: "hydrate", payload: v });
+    });
+  }, []);
+
   const pros = state.pros;
   const cons = state.cons;
 
@@ -127,7 +149,6 @@ let App = () => {
         <Header title={state.title} dispatch={dispatch} />
         <div className="pros-and-cons-and-right-sidebar">
           <ProsAndCons {...state} dispatch={dispatch} />
-          {/*  */}
           <div className="right-sidebar">
             <div className="app-name">Pros & Cons</div>
             <div className="app-description">
@@ -136,7 +157,13 @@ let App = () => {
             </div>
             <div style={{ marginTop: "20px", borderRadius: "10px" }}>
               <button
-                style={{ borderRadius: "10px", padding: 10, width: "80%" }}
+                style={{
+                  borderRadius: "10px",
+                  padding: 10,
+                  width: "80%",
+                  background: "inherit",
+                  color: "var(--white)"
+                }}
                 onClick={() => {
                   dispatch({ type: "clear-list" });
                 }}

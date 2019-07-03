@@ -71,6 +71,15 @@ export function reducer(state: State, action: Action) {
       });
       return nextState;
     }
+    case "hydrate": {
+      const nextState = produce(state, s => {
+        s.pros = action.payload.pros;
+        s.cons = action.payload.cons;
+        s.title = action.payload.title;
+      });
+      console.log({ payload: action.payload, nextState });
+      return nextState;
+    }
     case "move-to-list": {
       const {
         startListType,

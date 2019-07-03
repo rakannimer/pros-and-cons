@@ -68,7 +68,7 @@ export const ListItem = React.memo(
             <div className="weight-and-hint">
               <div className="argument-weight-container">
                 <select
-                  defaultValue={`${argument.weight}`}
+                  value={`${argument.weight}`}
                   onChange={ev => {
                     dispatch({
                       type: "edit-argument",
