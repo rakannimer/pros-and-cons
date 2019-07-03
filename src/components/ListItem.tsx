@@ -94,6 +94,7 @@ export const ListItem = React.memo(
             <button
               className="argument-delete-container"
               onClick={() => {
+                if (shouldAnimateOut === true) return;
                 setShouldAnimateOut(true);
                 setTimeout(() => {
                   dispatch({
