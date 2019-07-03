@@ -13,7 +13,7 @@ export const Header = React.memo(
   }) => {
     const [focus, setFocus] = React.useState<false | number>(false);
     React.useEffect(() => {
-      setFocus(Date.now());
+      // setFocus(Date.now());
     }, []);
     return (
       <>
