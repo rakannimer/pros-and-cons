@@ -13,7 +13,7 @@ export const Header = React.memo(
   }) => {
     const [focus, setFocus] = React.useState<false | number>(false);
     React.useEffect(() => {
-      // setFocus(Date.now());
+      setFocus(Date.now());
     }, []);
     return (
       <>
@@ -22,12 +22,12 @@ export const Header = React.memo(
           <div className="title-container">
             <TextArea
               isFocused={focus}
-              isSelected={focus}
+              isSelected={false}
               onChange={title => {
                 dispatch({ type: "set-title", payload: { title } });
               }}
               value={title}
-              style={{ width: "200px" }}
+              style={{ width: "50%" }}
             />
           </div>
           <div className="share-button-container">

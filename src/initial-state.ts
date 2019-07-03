@@ -4,98 +4,26 @@ import { uid, range } from "./utils";
 export const INITIAL_STATE: State = {
   pros: [
     {
-      text: "Reason for",
+      text: "It's fun",
       type: "pro",
       id: uid(),
       weight: 1
     },
     {
-      text: "Another reason for",
+      text: "It breaks it down to 2 dimensions only",
       type: "pro",
       id: uid(),
       weight: 2
-    },
-    ...range(1, 5).map(i => ({
-      id: uid(),
-      type: "pro" as ArgumentType,
-      weight: 1,
-      text: `Text ${i}`
-    }))
+    }
   ],
   cons: [
     {
-      text: "Reason against",
-      type: "con",
-      id: uid(),
-      weight: 1
-    },
-    {
-      text: `Reason against ${uid()}`,
-      type: "con",
-      id: uid(),
-      weight: 1
-    },
-    {
-      text: `Reason against ${uid()}`,
-      type: "con",
-      id: uid(),
-      weight: 1
-    },
-    {
-      text: `Reason against ${uid()}`,
-      type: "con",
-      id: uid(),
-      weight: 1
-    },
-    {
-      text: `Reason against ${uid()}`,
-      type: "con",
-      id: uid(),
-      weight: 1
-    },
-    {
-      text: `Reason against ${uid()}`,
-      type: "con",
-      id: uid(),
-      weight: 1
-    },
-    {
-      text: `Reason against ${uid()}`,
-      type: "con",
-      id: uid(),
-      weight: 1
-    },
-    {
-      text: `Reason against ${uid()}`,
-      type: "con",
-      id: uid(),
-      weight: 1
-    },
-    {
-      text: `Reason against ${uid()}`,
-      type: "con",
-      id: uid(),
-      weight: 1
-    },
-    {
-      text: `Reason against ${uid()}`,
-      type: "con",
-      id: uid(),
-      weight: 1
-    },
-    {
-      text: `Reason against ${uid()}`,
-      type: "con",
-      id: uid(),
-      weight: 1
-    },
-    {
-      text: `Reason against ${uid()}`,
+      text: "I could be doing something else",
       type: "con",
       id: uid(),
       weight: 1
     }
   ],
-  title: "Decision",
+  title: "Should I use a pros and cons list to make a decision ?",
   winner: ""
 };

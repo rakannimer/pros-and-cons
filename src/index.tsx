@@ -6,10 +6,6 @@ import {
   DragDropContext
 } from "react-beautiful-dnd";
 
-// TODO : Focus title on first mount.
-// TODO: Refactor renderListItems function to ListItems component
-// TODO : Make it usable on mobile.
-// TODO : Add scrollbar for list container
 // TODO : Add clear list button in right sidebar that clears state and focuses title
 // TODO : Add export to CSV functionality with https://github.com/kennethjiang/js-file-download
 // TODO : Decide what share functionality should look like. (Firebase vs Amplify vs FaunaDB)
@@ -20,7 +16,15 @@ import {
 // It then appends the id to the current url and displays it in a small modal with a message.
 // TODO : Add modal to be displayed when sharing
 // TODO : Add auto-save and persist data through refreshs (add middleware to the reducer that saves state using idb-keyval and returns it without waiting to finish)
-// TODO : Add delete and added listitem animations
+
+// <DONE>
+// TODO : CHange initial state
+// TODO : Focus title on first mount.
+// TODO : Add unmount and mount listitem animations
+// TODO: Refactor renderListItems function to ListItems component
+// TODO : Add scrollbar for list container -- used simplebar
+// TODO : Make it usable on mobile.
+// </DONE>
 
 import "./styles.css";
 import "./icons.css";
