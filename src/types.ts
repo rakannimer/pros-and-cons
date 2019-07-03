@@ -56,4 +56,5 @@ export type Action =
         endIndex: number;
       };
     }
-  | { type: "set-title"; payload: { title: string } };
+  | { type: "set-title"; payload: { title: string } }
+  | { type: "clear-list" };

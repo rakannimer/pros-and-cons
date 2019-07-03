@@ -8,7 +8,8 @@ import {
 
 // TODO : Focus title on first mount.
 // TODO: Refactor renderListItems function to ListItems component
-// TODO : Make it usable on mobile. Add scrollbar for list container
+// TODO : Make it usable on mobile.
+// TODO : Add scrollbar for list container
 // TODO : Add clear list button in right sidebar that clears state and focuses title
 // TODO : Add export to CSV functionality with https://github.com/kennethjiang/js-file-download
 // TODO : Decide what share functionality should look like. (Firebase vs Amplify vs FaunaDB)
@@ -20,8 +21,10 @@ import {
 // TODO : Add modal to be displayed when sharing
 // TODO : Add auto-save and persist data through refreshs (add middleware to the reducer that saves state using idb-keyval and returns it without waiting to finish)
 // TODO : Add delete and added listitem animations
+
 import "./styles.css";
 import "./icons.css";
+import "animate.css/animate.min.css";
 
 import { INITIAL_STATE } from "./initial-state";
 import { reducer } from "./reducer";
@@ -126,6 +129,16 @@ let App = () => {
             <div className="app-description">
               Struggling with a decision ? <br />
               <br /> Weigh the tradeoffs here.
+            </div>
+            <div style={{ marginTop: "20px", borderRadius: "10px" }}>
+              <button
+                style={{ borderRadius: "10px", padding: 10, width: "80%" }}
+                onClick={() => {
+                  dispatch({ type: "clear-list" });
+                }}
+              >
+                Clear
+              </button>
             </div>
           </div>
         </div>

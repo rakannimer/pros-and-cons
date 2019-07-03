@@ -15,11 +15,11 @@ export const INITIAL_STATE: State = {
       id: uid(),
       weight: 2
     },
-    ...range(1, 10).map(() => ({
+    ...range(1, 5).map(i => ({
       id: uid(),
       type: "pro" as ArgumentType,
       weight: 1,
-      text: "Text"
+      text: `Text ${i}`
     }))
   ],
   cons: [

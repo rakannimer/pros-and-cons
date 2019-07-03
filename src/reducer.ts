@@ -62,6 +62,15 @@ export function reducer(state: State, action: Action) {
       });
       return nextState;
     }
+    case "clear-list": {
+      const nextState = produce(state, s => {
+        s.pros = [];
+        s.cons = [];
+        s.winner = "";
+        s.title = "";
+      });
+      return nextState;
+    }
     case "move-to-list": {
       const {
         startListType,
