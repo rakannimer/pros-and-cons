@@ -6,7 +6,8 @@ import {
   DragDropContext
 } from "react-beautiful-dnd";
 import * as db from "idb-keyval";
-// TODO : Add export to CSV functionality with https://github.com/kennethjiang/js-file-download
+import download from "js-file-download";
+
 // TODO : Decide what share functionality should look like. (Firebase vs Amplify vs FaunaDB)
 // TODO : Add share functionality 1 : Add share button next to export button
 // TODO : Add share functionality 2 : Add loading state to share button with dynamic text (saving-authenticating)
@@ -20,6 +21,7 @@ import * as db from "idb-keyval";
 // </DOING>
 
 // <DONE>
+// TODO : Add export to JSON functionality with https://github.com/kennethjiang/js-file-download
 // TODO : Add auto-save and persist data through refreshs (add middleware to the reducer that saves state using idb-keyval and returns it without waiting to finish)
 // TODO : CHange initial state
 // TODO : Focus title on first mount.
@@ -115,11 +117,14 @@ let App = () => {
     INITIAL_STATE
   );
   React.useEffect(() => {
+    // download("hi", "data.csv");
     db.get<State>("offline-list").then(v => {
-      dispatch({ type: "hydrate", payload: v });
+      //dispatch({ type: "hydrate", payload: v });
     });
   }, []);
-
+  const downloadAsJson = () => {
+    download(JSON.stringify(state, undefined, 2), "pros-and-cons-list.json");
+  };
   const pros = state.pros;
   const cons = state.cons;
 
@@ -146,7 +151,11 @@ let App = () => {
     <div className="app-container">
       <LeftSidebar />
       <div className="app-without-left-sidebar">
-        <Header title={state.title} dispatch={dispatch} />
+        <Header
+          title={state.title}
+          dispatch={dispatch}
+          downloadAsJson={downloadAsJson}
+        />
         <div className="pros-and-cons-and-right-sidebar">
           <ProsAndCons {...state} dispatch={dispatch} />
           <div className="right-sidebar">

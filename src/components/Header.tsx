@@ -6,9 +6,11 @@ import { Action } from "../types";
 export const Header = React.memo(
   ({
     title,
-    dispatch
+    dispatch,
+    downloadAsJson
   }: {
     title: string;
+    downloadAsJson: Function;
     dispatch: React.Dispatch<Action>;
   }) => {
     const [focus, setFocus] = React.useState<false | number>(false);
@@ -31,7 +33,12 @@ export const Header = React.memo(
             />
           </div>
           <div className="share-button-container">
-            <button className="share-button">
+            <button
+              className="share-button"
+              onClick={() => {
+                downloadAsJson();
+              }}
+            >
               <div>Export</div>
               <div className="share-separator" />
               <div className="icon-plus" />

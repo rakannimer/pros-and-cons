@@ -89,7 +89,7 @@ export const ListItem = React.memo(
                   <div className="icon-down-open" />
                 </div>
               </div>
-              <div className="hint">Set importance</div>
+              <div className="hint">Importance</div>
             </div>
             <button
               className="argument-delete-container"

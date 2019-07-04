@@ -353,6 +353,9 @@ button {
   text-align: left;
 
   padding-left: 2px;
+  position: absolute;
+  margin-top: 25px;
+
   /* position: absolute; */
   /* margin-top: 19px;
   margin-left: 2px; */
@@ -369,7 +372,7 @@ button {
 
 .argument-delete-container .icon-cancel-circled-outline {
   color: var(--white);
-  font-size: 1.9em;
+  font-size: 1.6em;
 }
 .argument-delete-container:hover {
   cursor: pointer;
@@ -415,10 +418,10 @@ button {
   background-color: var(--black);
   color: var(--white);
   border: none;
-  width: 70px;
+  width: 55px;
   /* text-align: center; */
   /* text-align-last: center; */
-  height: 25px;
+  height: 20px;
   -webkit-appearance: none;
   border-radius: 15px;
   border: solid 1px var(--light-gray);
