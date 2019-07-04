@@ -73,8 +73,10 @@ body {
 .share-button-container {
   flex: 1.1;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
+  height: 100%;
   /* max-width: 50px; */
   /* font-weight: bold; */
 }
@@ -88,12 +90,10 @@ body {
   border: solid var(--white) 1px;
   border-radius: 19px;
   font-family: "Roboto", sans-serif;
-  padding-top: 1.5vh;
-  padding-bottom: 1.5vh;
-  padding-left: 1.5vw;
-  padding-right: 1.5vw;
   font-size: 0.65em;
   letter-spacing: 0.2px;
+  padding-top: 3px;
+  padding-bottom: 3px;
 }
 
 .share-button:hover {
@@ -105,11 +105,12 @@ body {
 .share-button:active {
   background: var(--white);
   color: var(--blue);
-  font-size: 0.76em;
-  padding-top: 1.6vh;
+  /* font-size: 0.76em; */
+  /* padding-top: 1.6vh;
   padding-bottom: 1.6vh;
-  padding-left: 3.1vh;
-  padding-right: 3.1vh;
+  padding-left: 1.6vh;
+  padding-right: 1.6vh; */
+  transform: scaleY(1.05);
 }
 
 .share-button:focus {

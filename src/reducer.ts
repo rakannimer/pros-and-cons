@@ -5,11 +5,28 @@ import { findIndex } from "./utils";
 
 export function reducer(state: State, action: Action) {
   switch (action.type) {
+    case "update-url": {
+      const nextState = produce(state, s => {
+        s.hasIdInUrl = action.payload.hasIdInUrl;
+        s.idInUrl = action.payload.idInUrl;
+      });
+      return nextState;
+    }
+    case "toggle-is-live": {
+      const nextState = produce(state, s => {
+        s.isLive = !s.isLive;
+      });
+      return nextState;
+    }
     case "add-argument": {
       const { argument } = action.payload;
       const affectedListId = argument.type === "pro" ? "pros" : "cons";
+      const keysOrderId =
+        argument.type === "pro" ? `pros_keys_order` : "cons_keys_order";
       const nextState = produce(state, s => {
-        s[affectedListId].push(argument);
+        const argId = argument.id;
+        s[keysOrderId].push(argId);
+        s[affectedListId][argId] = argument;
       });
       return nextState;
     }
@@ -17,26 +34,25 @@ export function reducer(state: State, action: Action) {
       const { argument } = action.payload;
       const affectedListId = argument.type === "pro" ? "pros" : "cons";
       const { id } = argument;
-      const index = findIndex(state[affectedListId], v => v.id === id, {
-        action,
-        state
-      });
       const nextState = produce(state, s => {
-        s[affectedListId][index] = { ...argument };
+        s[affectedListId][id] = { ...argument };
       });
       return nextState;
     }
     case "delete-argument": {
       const { argument } = action.payload;
       const affectedListId = argument.type === "pro" ? "pros" : "cons";
+      const keysOrderId =
+        argument.type === "pro" ? `pros_keys_order` : "cons_keys_order";
       const { id } = argument;
-      const index = findIndex(state[affectedListId], v => v.id === id, {
+      const keyIndex = findIndex(state[keysOrderId], v => v === id, {
         action,
         state
       });
 
       const nextState = produce(state, s => {
-        s[affectedListId].splice(index, 1);
+        s[keysOrderId].splice(keyIndex, 1);
+        delete s[affectedListId][id];
       });
       return nextState;
     }
@@ -56,16 +72,18 @@ export function reducer(state: State, action: Action) {
     }
     case "reorder-list": {
       const { listType, startIndex, endIndex } = action.payload;
+      const keysOrderId =
+        listType === "pros" ? `pros_keys_order` : "cons_keys_order";
       const nextState = produce(state, s => {
-        const [removed] = s[listType].splice(startIndex, 1);
-        s[listType].splice(endIndex, 0, removed);
+        const [removed] = s[keysOrderId].splice(startIndex, 1);
+        s[keysOrderId].splice(endIndex, 0, removed);
       });
       return nextState;
     }
     case "clear-list": {
       const nextState = produce(state, s => {
-        s.pros = [];
-        s.cons = [];
+        s.pros = {};
+        s.cons = {};
         s.winner = "";
         s.title = "";
       });
@@ -87,14 +105,18 @@ export function reducer(state: State, action: Action) {
         startIndex,
         endIndex
       } = action.payload;
+      const startListKeyIds =
+        startListType === "pros" ? `pros_keys_order` : "cons_keys_order";
+      const endListKeyIds =
+        endListType === "pros" ? `pros_keys_order` : "cons_keys_order";
       const nextState = produce(state, s => {
-        const [removed] = s[startListType].splice(startIndex, 1);
+        const [removed] = s[startListKeyIds].splice(startIndex, 1);
         const endListArgType = endListType.slice(
           endListType.length - 2,
           endListType.length - 1
         ) as ArgumentType;
-        removed.type = endListArgType;
-        s[endListType].splice(endIndex, 0, removed);
+        s[endListType][removed].type = endListArgType;
+        s[endListKeyIds].splice(endIndex, 0, removed);
       });
       return nextState;
     }
@@ -103,3 +125,4 @@ export function reducer(state: State, action: Action) {
     }
   }
 }
+const a = produce({}, () => {});

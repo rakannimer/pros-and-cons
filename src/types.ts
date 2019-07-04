@@ -10,10 +10,15 @@ export type Argument = {
 };
 
 export type State = {
-  pros: Argument[];
-  cons: Argument[];
+  pros: { [id: string]: Argument };
+  pros_keys_order: string[];
+  cons: { [id: string]: Argument };
+  cons_keys_order: string[];
   title: string;
   winner: "pros" | "cons" | "";
+  isLive: boolean;
+  hasIdInUrl: boolean;
+  idInUrl: string;
 };
 
 export type Action =
@@ -58,4 +63,12 @@ export type Action =
     }
   | { type: "set-title"; payload: { title: string } }
   | { type: "clear-list" }
-  | { type: "hydrate"; payload: State };
+  | { type: "hydrate"; payload: State }
+  | { type: "toggle-is-live" }
+  | {
+      type: "update-url";
+      payload: {
+        hasIdInUrl: boolean;
+        idInUrl: string;
+      };
+    };

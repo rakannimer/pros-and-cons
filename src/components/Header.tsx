@@ -7,11 +7,13 @@ export const Header = React.memo(
   ({
     title,
     dispatch,
-    downloadAsJson
+    downloadAsJson,
+    isLive
   }: {
     title: string;
     downloadAsJson: Function;
     dispatch: React.Dispatch<Action>;
+    isLive: boolean;
   }) => {
     const [focus, setFocus] = React.useState<false | number>(false);
     React.useEffect(() => {
@@ -46,10 +48,18 @@ export const Header = React.memo(
             <button
               className="share-button"
               onClick={() => {
-                console.log("going live");
+                // if (!isLive) {
+                // Going live
+                // 1 - fetch firebase
+                // 2 - authenticate
+                // 3 - create session id and add current state to it at /session/{id}
+                // 4 - change current url to /{id}
+                //
+                // }
+                dispatch({ type: "toggle-is-live" });
               }}
             >
-              <div>Go live</div>
+              <div>{isLive ? "Stop sharing" : "Go live"}</div>
               <div className="share-separator" />
               <div className="icon-plus" />
             </button>

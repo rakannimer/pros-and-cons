@@ -7,7 +7,9 @@ import {
 } from "react-beautiful-dnd";
 import * as db from "idb-keyval";
 import download from "js-file-download";
-
+import memoize from "memoize-one";
+import useThunkReducer from "react-hook-thunk-reducer";
+import { createBrowserHistory } from "history";
 // TODO : Decide what share functionality should look like. (Firebase vs Amplify vs FaunaDB)
 // TODO : Add share functionality 1 : Add share button next to export button
 // TODO : Add share functionality 2 : Add loading state to share button with dynamic text (saving-authenticating)
@@ -42,8 +44,18 @@ import { reducer } from "./reducer";
 import { List, LeftSidebar, Header } from "./components";
 import { State, Action } from "./types";
 
+const getHistory = memoize(
+  () => {
+    return createBrowserHistory();
+  },
+  () => true
+);
+
 const ProsAndCons = (
-  props: Pick<State, "pros" | "cons" | "winner"> & {
+  props: Pick<
+    State,
+    "pros" | "cons" | "winner" | "pros_keys_order" | "cons_keys_order"
+  > & {
     dispatch: React.Dispatch<Action>;
   }
 ) => {
@@ -87,6 +99,7 @@ const ProsAndCons = (
         <List
           winner={winner}
           arguments={pros}
+          argsIds={props.pros_keys_order}
           dispatch={dispatch}
           title="PROS"
           type="pros"
@@ -95,6 +108,7 @@ const ProsAndCons = (
           winner={winner}
           arguments={cons}
           dispatch={dispatch}
+          argsIds={props.cons_keys_order}
           title="CONS"
           type="cons"
         />
@@ -111,17 +125,119 @@ const withLocalStorage = (reducer: React.Reducer<State, Action>) => {
   return newReducer;
 };
 
+const getFirebase = memoize(
+  async () => {
+    console.log("getting firebase");
+    const firebasePromise: [
+      typeof import("firebase/app"),
+      unknown,
+      unknown
+    ] = await Promise.all([
+      import("firebase/app"),
+      import("firebase/database"),
+      import("firebase/auth")
+    ]);
+    const firebaseConfig = {
+      apiKey: "AIzaSyDFlpM-x7xMq_0GHfgoBCeYKfXdtfTZYG0",
+      authDomain: "pros-and-cons-c21f9.firebaseapp.com",
+      databaseURL: "https://pros-and-cons-c21f9.firebaseio.com",
+      projectId: "pros-and-cons-c21f9",
+      storageBucket: "",
+      messagingSenderId: "319805998868",
+      appId: "1:319805998868:web:7767e7938b9224f9"
+    };
+    const [firebase] = firebasePromise;
+    firebase.initializeApp(firebaseConfig);
+    return firebase;
+  },
+  () => true
+);
+import { useAsyncEffect } from "use-async-effect";
+const withFirebaseStorage = (reducer: React.Reducer<State, Action>) => {
+  const newReducer = (state: State, action: Action) => {
+    const newState = reducer(state, action);
+    return newState;
+  };
+};
+
 let App = () => {
-  const [state, dispatch] = React.useReducer(
+  const history = getHistory();
+  const hasIdInUrl = history.location.pathname !== "/";
+  const idInUrl = history.location.pathname.substr(
+    1,
+    history.location.pathname.length
+  );
+  console.log({ idInUrl });
+  const [state, dispatch] = useThunkReducer<State, Action>(
     withLocalStorage(reducer),
-    INITIAL_STATE
+    {
+      ...INITIAL_STATE,
+      hasIdInUrl,
+      idInUrl
+    }
   );
   React.useEffect(() => {
-    // download("hi", "data.csv");
+    const unlisten = history.listen((location, action) => {
+      const hasIdInUrl = history.location.pathname !== "/";
+      const idInUrl = history.location.pathname.substr(
+        1,
+        history.location.pathname.length
+      );
+      dispatch({
+        type: "update-url",
+        payload: {
+          hasIdInUrl,
+          idInUrl
+        }
+      });
+    });
+    return unlisten;
+  }, []);
+
+  React.useEffect(() => {
     db.get<State>("offline-list").then(v => {
       //dispatch({ type: "hydrate", payload: v });
     });
   }, []);
+  let listeners = [];
+
+  useAsyncEffect(async () => {
+    if (idInUrl === "") {
+      return;
+    }
+    console.warn(`Checking if ${idInUrl} is in firebase database`);
+    const firebase = await getFirebase();
+    const isAuthed = firebase.auth().currentUser !== null;
+    if (!isAuthed) {
+      await firebase.auth().signInAnonymously();
+    }
+
+    const titleSnapshot = await firebase
+      .app()
+      .database()
+      .ref(`/sessions/${idInUrl}/title`)
+      .once("value");
+    const title = titleSnapshot.val();
+    if (title === null) {
+      await firebase
+        .app()
+        .database()
+        .ref(`/sessions/${idInUrl}/`)
+        .update(state);
+    }
+    firebase
+      .app()
+      .database()
+      .ref(`/sessions/${idInUrl}/pros_keys_order`)
+      .on("value", () => {
+        // dispatch()
+      });
+    // if (id)
+    // 1 - Check if sessions/id exists
+    // 2 - If it doesnt create it from local state
+    // 3 - If it does listen to pros_keys_order and cons_keys_order and change them in state accordingly
+    // 4 - For every key in pros_keys_order listen to sessions/{id}/pros/{key} and change them in state accordingly
+  }, [state.idInUrl]);
   const downloadAsJson = () => {
     download(JSON.stringify(state, undefined, 2), "pros-and-cons-list.json");
   };
@@ -129,12 +245,12 @@ let App = () => {
   const cons = state.cons;
 
   React.useEffect(() => {
-    const prosScore = pros.reduce((acc, cur) => {
-      acc += cur.weight;
+    const prosScore = state.pros_keys_order.reduce((acc, cur) => {
+      acc += state.pros[cur].weight;
       return acc;
     }, 0);
-    const consScore = cons.reduce((acc, cur) => {
-      acc += cur.weight;
+    const consScore = state.cons_keys_order.reduce((acc, cur) => {
+      acc += state.cons[cur].weight;
       return acc;
     }, 0);
     const winnerId =
@@ -153,6 +269,7 @@ let App = () => {
       <div className="app-without-left-sidebar">
         <Header
           title={state.title}
+          isLive={state.isLive}
           dispatch={dispatch}
           downloadAsJson={downloadAsJson}
         />
@@ -160,6 +277,15 @@ let App = () => {
           <ProsAndCons {...state} dispatch={dispatch} />
           <div className="right-sidebar">
             <div className="app-name">Pros & Cons</div>
+            {/* <a
+              href="/abcd"
+              onClick={event => {
+                event.preventDefault();
+                history.push("/abcd");
+              }}
+            >
+              abcd
+            </a> */}
             <div className="app-description">
               Struggling with a decision ? <br />
               <br /> Weigh the tradeoffs here.
