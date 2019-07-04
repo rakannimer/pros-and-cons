@@ -43,6 +43,16 @@ export const Header = React.memo(
               <div className="share-separator" />
               <div className="icon-plus" />
             </button>
+            <button
+              className="share-button"
+              onClick={() => {
+                console.log("going live");
+              }}
+            >
+              <div>Go live</div>
+              <div className="share-separator" />
+              <div className="icon-plus" />
+            </button>
           </div>
         </div>
       </>

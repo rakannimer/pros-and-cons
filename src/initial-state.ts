@@ -15,6 +15,12 @@ export const INITIAL_STATE: State = {
       id: uid(),
       weight: 2
     }
+    // ...range(1, 10).map(i => ({
+    //   text: `a ${i}`,
+    //   type: "pro" as "pro",
+    //   id: uid(),
+    //   weight: 1
+    // }))
   ],
   cons: [
     {

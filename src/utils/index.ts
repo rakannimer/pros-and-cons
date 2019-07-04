@@ -24,5 +24,5 @@ export const findIndex = <T = unknown>(
   return index;
 };
 
-let __id = 0;
-export const uid = () => `${__id++}`;
+import id from "nanoid";
+export const uid = () => id();
