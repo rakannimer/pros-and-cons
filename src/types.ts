@@ -73,4 +73,12 @@ export type Action =
         idInUrl: string;
       };
     }
-  | { type: "set-is-authed"; payload: boolean };
+  | { type: "set-is-authed"; payload: boolean }
+  | {
+      type: "set-pros";
+      payload: State["pros"];
+    }
+  | {
+      type: "set-cons";
+      payload: State["cons"];
+    };

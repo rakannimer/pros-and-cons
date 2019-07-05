@@ -6,26 +6,26 @@ import "simplebar/dist/simplebar.css";
 //@ts-ignore
 import SimpleBar from "simplebar-react";
 import { AddArgumentButton } from "./AddArgumentButton";
-import { Action, State, Argument } from "../types";
+import { State, Argument } from "../types";
 import { ListItem } from "./ListItem";
+import { DispatcherContext } from "../DispatcherContext";
 
 const ListItems = React.memo(
   ({
-    args,
-    dispatch,
+    args, // dispatch,
     withDraggable = true
   }: {
-    args: Argument[];
-    dispatch: React.Dispatch<Action>;
+    args: Argument[]; // dispatch: React.Dispatch<Action>;
     withDraggable: boolean;
   }) => {
+    const dispatch = React.useContext(DispatcherContext);
     return (
       <React.Fragment>
         <SimpleBar style={{ height: "60vh" }}>
           {args.map((arg, index) => {
             // const arg = args[argId];
             return !withDraggable ? (
-              <ListItem argument={arg} key={arg.id} dispatch={dispatch} />
+              <ListItem argument={arg} key={arg.id} />
             ) : (
               <Draggable key={arg.id} draggableId={arg.id} index={index}>
                 {(provided, snapshot) => (
@@ -36,7 +36,6 @@ const ListItems = React.memo(
                     ref={provided.innerRef}
                     argument={arg}
                     key={arg.id}
-                    dispatch={dispatch}
                   />
                 )}
               </Draggable>
@@ -52,7 +51,6 @@ export const List = React.memo(
   ({
     winner,
     arguments: args,
-    dispatch,
     type,
     title
   }: {
@@ -60,8 +58,8 @@ export const List = React.memo(
     winner: State["winner"];
     title: string;
     type: State["winner"];
-    dispatch: React.Dispatch<Action>;
   }) => {
+    const dispatch = React.useContext(DispatcherContext);
     return (
       <div className="list">
         <div className={`list-title ${winner === type ? "text-glow" : ""}`}>
@@ -75,7 +73,7 @@ export const List = React.memo(
               overflowY: "auto"
             }}
           >
-            <ListItems args={args} dispatch={dispatch} withDraggable={false} />
+            <ListItems args={args} withDraggable={false} />
           </div>
         </div>
 
@@ -88,4 +86,6 @@ export const List = React.memo(
       </div>
     );
   }
+  // ,(prevProps, props) =>
+  //   prevProps.arguments === props.arguments && prevProps.winner === props.winner
 );

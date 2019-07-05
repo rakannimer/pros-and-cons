@@ -95,6 +95,11 @@ body {
   padding-top: 3px;
   padding-bottom: 3px;
 }
+.button-selected {
+  background: var(--white);
+  color: var(--blue);
+  border: solid 1px var(--light-gray);
+}
 
 .share-button:hover {
   background: var(--white);

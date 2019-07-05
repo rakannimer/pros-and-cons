@@ -1,18 +1,20 @@
 import { State } from "./types";
 import { uid } from "./utils";
-
+export const getInitialState = () => {
+  return INITIAL_STATE;
+};
 export const INITIAL_STATE: State = {
   pros: [
     {
       text: "It's fun",
       type: "pro",
-      id: uid(),
+      id: "1",
       weight: 1
     },
     {
       text: "It breaks the problem down to 2 dimensions",
       type: "pro",
-      id: uid(),
+      id: "2",
       weight: 1
     }
   ],
@@ -20,7 +22,7 @@ export const INITIAL_STATE: State = {
     {
       text: "I could be outside",
       type: "con",
-      id: uid(),
+      id: "3",
       weight: 1
     }
   ],

@@ -4,7 +4,20 @@ import { State, Action, ArgumentType } from "./types";
 import { findIndex } from "./utils";
 
 export function reducer(state: State, action: Action) {
+  console.error(action.type);
   switch (action.type) {
+    case "set-pros": {
+      const nextState = produce(state, s => {
+        s.pros = action.payload;
+      });
+      return nextState;
+    }
+    case "set-cons": {
+      const nextState = produce(state, s => {
+        s.cons = action.payload;
+      });
+      return nextState;
+    }
     case "set-is-authed": {
       const nextState = produce(state, s => {
         s.isAuthed = action.payload;

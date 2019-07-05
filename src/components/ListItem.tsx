@@ -4,22 +4,18 @@ import { Animated } from "react-animated-css";
 import { TextArea } from "./TextArea";
 import { range } from "../utils";
 import { Action, Argument } from "../types";
+import { DispatcherContext } from "../DispatcherContext";
 
-export const ListItem = React.memo(
+type Props = {
+  argument: Argument;
+  style?: React.CSSProperties;
+  [propName: string]: unknown;
+};
+
+export const ListItem = React.memo<Props>(
   React.forwardRef(
-    (
-      {
-        argument,
-        dispatch,
-        ...rest
-      }: {
-        argument: Argument;
-        dispatch: React.Dispatch<Action>;
-        style?: React.CSSProperties;
-        [propName: string]: unknown;
-      },
-      ref: React.Ref<HTMLDivElement>
-    ) => {
+    ({ argument, ...rest }: Props, ref: React.Ref<HTMLDivElement>) => {
+      const dispatch = React.useContext(DispatcherContext);
       const [focus, setFocus] = React.useState<false | number>(false);
       React.useEffect(() => {
         if (argument.text === "") {
@@ -116,4 +112,12 @@ export const ListItem = React.memo(
       );
     }
   )
+  // (prevProps, props) => {
+
+  //   return (
+  //     props.argument.id !== prevProps.argument.id &&
+  //     props.argument.text === prevProps.argument.text &&
+  //     props.argument.weight === prevProps.argument.weight
+  //   );
+  // }
 );

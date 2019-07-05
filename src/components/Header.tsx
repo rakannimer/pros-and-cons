@@ -1,20 +1,20 @@
 import * as React from "react";
 
 import { TextArea } from "./TextArea";
-import { Action } from "../types";
+import { DispatcherContext } from "../DispatcherContext";
+import { getHistory, uid } from "../utils";
 
 export const Header = React.memo(
   ({
     title,
-    dispatch,
     downloadAsJson,
-    isLive
+    idInUrl
   }: {
     title: string;
     downloadAsJson: Function;
-    dispatch: React.Dispatch<Action>;
-    isLive: boolean;
+    idInUrl: string;
   }) => {
+    const dispatch = React.useContext(DispatcherContext);
     const [focus, setFocus] = React.useState<false | number>(false);
     React.useEffect(() => {
       setFocus(Date.now());
@@ -46,20 +46,18 @@ export const Header = React.memo(
               <div className="icon-plus" />
             </button>
             <button
-              className="share-button"
+              className={`share-button ${
+                idInUrl !== "" ? "button-selected" : ""
+              }`}
               onClick={() => {
-                // if (!isLive) {
-                // Going live
-                // 1 - fetch firebase
-                // 2 - authenticate
-                // 3 - create session id and add current state to it at /session/{id}
-                // 4 - change current url to /{id}
-                //
-                // }
-                dispatch({ type: "toggle-is-live" });
+                if (idInUrl === "") {
+                  getHistory().push(`/${uid}`);
+                } else {
+                  getHistory().push(`/`);
+                }
               }}
             >
-              <div>{isLive ? "Stop sharing" : "Go live"}</div>
+              <div>{idInUrl !== "" ? "Sharing" : "Go live"}</div>
               <div className="share-separator" />
               <div className="icon-plus" />
             </button>

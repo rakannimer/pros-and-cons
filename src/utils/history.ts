@@ -24,11 +24,9 @@ export const mapHistoryToState = (dispatch: Dispatcher) => {
     }
   });
   const unlisten = history.listen((location, action) => {
-    const hasIdInUrl = history.location.pathname !== "/";
-    const idInUrl = history.location.pathname.substr(
-      1,
-      history.location.pathname.length
-    );
+    const hasIdInUrl = location.pathname !== "/";
+    const idInUrl = location.pathname.substr(1, location.pathname.length);
+
     dispatch({
       type: "update-url",
       payload: {
