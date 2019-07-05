@@ -11,21 +11,19 @@ import { ListItem } from "./ListItem";
 
 const ListItems = React.memo(
   ({
-    argsIds,
     args,
     dispatch,
     withDraggable = true
   }: {
-    argsIds: string[];
-    args: { [id: string]: Argument };
+    args: Argument[];
     dispatch: React.Dispatch<Action>;
     withDraggable: boolean;
   }) => {
     return (
       <React.Fragment>
         <SimpleBar style={{ height: "60vh" }}>
-          {argsIds.map((argId, index) => {
-            const arg = args[argId];
+          {args.map((arg, index) => {
+            // const arg = args[argId];
             return !withDraggable ? (
               <ListItem argument={arg} key={arg.id} dispatch={dispatch} />
             ) : (
@@ -53,14 +51,12 @@ const ListItems = React.memo(
 export const List = React.memo(
   ({
     winner,
-    argsIds,
     arguments: args,
     dispatch,
     type,
     title
   }: {
     arguments: State["pros"];
-    argsIds: State["pros_keys_order"];
     winner: State["winner"];
     title: string;
     type: State["winner"];
@@ -79,12 +75,7 @@ export const List = React.memo(
               overflowY: "auto"
             }}
           >
-            <ListItems
-              argsIds={argsIds}
-              args={args}
-              dispatch={dispatch}
-              withDraggable={false}
-            />
+            <ListItems args={args} dispatch={dispatch} withDraggable={false} />
           </div>
         </div>
 

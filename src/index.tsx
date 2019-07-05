@@ -42,20 +42,10 @@ import "animate.css/animate.min.css";
 import { INITIAL_STATE } from "./initial-state";
 import { reducer } from "./reducer";
 import { List, LeftSidebar, Header } from "./components";
-import { State, Action } from "./types";
-
-const getHistory = memoize(
-  () => {
-    return createBrowserHistory();
-  },
-  () => true
-);
+import { State, Action, Dispatcher } from "./types";
 
 const ProsAndCons = (
-  props: Pick<
-    State,
-    "pros" | "cons" | "winner" | "pros_keys_order" | "cons_keys_order"
-  > & {
+  props: Pick<State, "pros" | "cons" | "winner"> & {
     dispatch: React.Dispatch<Action>;
   }
 ) => {
@@ -99,7 +89,6 @@ const ProsAndCons = (
         <List
           winner={winner}
           arguments={pros}
-          argsIds={props.pros_keys_order}
           dispatch={dispatch}
           title="PROS"
           type="pros"
@@ -108,7 +97,6 @@ const ProsAndCons = (
           winner={winner}
           arguments={cons}
           dispatch={dispatch}
-          argsIds={props.cons_keys_order}
           title="CONS"
           type="cons"
         />
@@ -125,34 +113,8 @@ const withLocalStorage = (reducer: React.Reducer<State, Action>) => {
   return newReducer;
 };
 
-const getFirebase = memoize(
-  async () => {
-    console.log("getting firebase");
-    const firebasePromise: [
-      typeof import("firebase/app"),
-      unknown,
-      unknown
-    ] = await Promise.all([
-      import("firebase/app"),
-      import("firebase/database"),
-      import("firebase/auth")
-    ]);
-    const firebaseConfig = {
-      apiKey: "AIzaSyDFlpM-x7xMq_0GHfgoBCeYKfXdtfTZYG0",
-      authDomain: "pros-and-cons-c21f9.firebaseapp.com",
-      databaseURL: "https://pros-and-cons-c21f9.firebaseio.com",
-      projectId: "pros-and-cons-c21f9",
-      storageBucket: "",
-      messagingSenderId: "319805998868",
-      appId: "1:319805998868:web:7767e7938b9224f9"
-    };
-    const [firebase] = firebasePromise;
-    firebase.initializeApp(firebaseConfig);
-    return firebase;
-  },
-  () => true
-);
 import { useAsyncEffect } from "use-async-effect";
+import { initializeFirebase, mapHistoryToState } from "./utils";
 const withFirebaseStorage = (reducer: React.Reducer<State, Action>) => {
   const newReducer = (state: State, action: Action) => {
     const newState = reducer(state, action);
@@ -161,96 +123,39 @@ const withFirebaseStorage = (reducer: React.Reducer<State, Action>) => {
 };
 
 let App = () => {
-  const history = getHistory();
-  const hasIdInUrl = history.location.pathname !== "/";
-  const idInUrl = history.location.pathname.substr(
-    1,
-    history.location.pathname.length
-  );
-  console.log({ idInUrl });
   const [state, dispatch] = useThunkReducer<State, Action>(
     withLocalStorage(reducer),
     {
-      ...INITIAL_STATE,
-      hasIdInUrl,
-      idInUrl
+      ...INITIAL_STATE
+      // hasIdInUrl,
+      // idInUrl
     }
   );
-  React.useEffect(() => {
-    const unlisten = history.listen((location, action) => {
-      const hasIdInUrl = history.location.pathname !== "/";
-      const idInUrl = history.location.pathname.substr(
-        1,
-        history.location.pathname.length
-      );
-      dispatch({
-        type: "update-url",
-        payload: {
-          hasIdInUrl,
-          idInUrl
-        }
-      });
-    });
-    return unlisten;
-  }, []);
 
+  React.useEffect(() => mapHistoryToState(dispatch), []);
   React.useEffect(() => {
     db.get<State>("offline-list").then(v => {
       //dispatch({ type: "hydrate", payload: v });
     });
   }, []);
-  let listeners = [];
 
-  useAsyncEffect(async () => {
-    if (idInUrl === "") {
-      return;
-    }
-    console.warn(`Checking if ${idInUrl} is in firebase database`);
-    const firebase = await getFirebase();
-    const isAuthed = firebase.auth().currentUser !== null;
-    if (!isAuthed) {
-      await firebase.auth().signInAnonymously();
-    }
-
-    const titleSnapshot = await firebase
-      .app()
-      .database()
-      .ref(`/sessions/${idInUrl}/title`)
-      .once("value");
-    const title = titleSnapshot.val();
-    if (title === null) {
-      await firebase
-        .app()
-        .database()
-        .ref(`/sessions/${idInUrl}/`)
-        .update(state);
-    }
-    firebase
-      .app()
-      .database()
-      .ref(`/sessions/${idInUrl}/pros_keys_order`)
-      .on("value", () => {
-        // dispatch()
-      });
-    // if (id)
-    // 1 - Check if sessions/id exists
-    // 2 - If it doesnt create it from local state
-    // 3 - If it does listen to pros_keys_order and cons_keys_order and change them in state accordingly
-    // 4 - For every key in pros_keys_order listen to sessions/{id}/pros/{key} and change them in state accordingly
+  React.useEffect(() => {
+    initializeFirebase(state.idInUrl, dispatch);
   }, [state.idInUrl]);
-  const downloadAsJson = () => {
-    download(JSON.stringify(state, undefined, 2), "pros-and-cons-list.json");
-  };
+
+  function downloadAsJson() {
+    download(JSON.stringify(state, null, 2), "pros-and-cons-list.json");
+  }
   const pros = state.pros;
   const cons = state.cons;
 
   React.useEffect(() => {
-    const prosScore = state.pros_keys_order.reduce((acc, cur) => {
-      acc += state.pros[cur].weight;
+    const prosScore = state.pros.reduce((acc, cur) => {
+      acc += cur.weight;
       return acc;
     }, 0);
-    const consScore = state.cons_keys_order.reduce((acc, cur) => {
-      acc += state.cons[cur].weight;
+    const consScore = state.cons.reduce((acc, cur) => {
+      acc += cur.weight;
       return acc;
     }, 0);
     const winnerId =

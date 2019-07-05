@@ -5,6 +5,12 @@ import { findIndex } from "./utils";
 
 export function reducer(state: State, action: Action) {
   switch (action.type) {
+    case "set-is-authed": {
+      const nextState = produce(state, s => {
+        s.isAuthed = action.payload;
+      });
+      return nextState;
+    }
     case "update-url": {
       const nextState = produce(state, s => {
         s.hasIdInUrl = action.payload.hasIdInUrl;
@@ -20,13 +26,10 @@ export function reducer(state: State, action: Action) {
     }
     case "add-argument": {
       const { argument } = action.payload;
+      const argId = argument.id;
       const affectedListId = argument.type === "pro" ? "pros" : "cons";
-      const keysOrderId =
-        argument.type === "pro" ? `pros_keys_order` : "cons_keys_order";
       const nextState = produce(state, s => {
-        const argId = argument.id;
-        s[keysOrderId].push(argId);
-        s[affectedListId][argId] = argument;
+        s[affectedListId].push(argument);
       });
       return nextState;
     }
@@ -34,25 +37,22 @@ export function reducer(state: State, action: Action) {
       const { argument } = action.payload;
       const affectedListId = argument.type === "pro" ? "pros" : "cons";
       const { id } = argument;
+      const argIndex = findIndex(state[affectedListId], v => v.id === id, {});
       const nextState = produce(state, s => {
-        s[affectedListId][id] = { ...argument };
+        s[affectedListId][argIndex] = { ...argument };
       });
       return nextState;
     }
     case "delete-argument": {
       const { argument } = action.payload;
       const affectedListId = argument.type === "pro" ? "pros" : "cons";
-      const keysOrderId =
-        argument.type === "pro" ? `pros_keys_order` : "cons_keys_order";
       const { id } = argument;
-      const keyIndex = findIndex(state[keysOrderId], v => v === id, {
+      const keyIndex = findIndex(state[affectedListId], v => v.id === id, {
         action,
         state
       });
-
       const nextState = produce(state, s => {
-        s[keysOrderId].splice(keyIndex, 1);
-        delete s[affectedListId][id];
+        s[affectedListId].splice(keyIndex, 1);
       });
       return nextState;
     }
@@ -75,15 +75,15 @@ export function reducer(state: State, action: Action) {
       const keysOrderId =
         listType === "pros" ? `pros_keys_order` : "cons_keys_order";
       const nextState = produce(state, s => {
-        const [removed] = s[keysOrderId].splice(startIndex, 1);
-        s[keysOrderId].splice(endIndex, 0, removed);
+        const [removed] = s[listType].splice(startIndex, 1);
+        s[listType].splice(endIndex, 0, removed);
       });
       return nextState;
     }
     case "clear-list": {
       const nextState = produce(state, s => {
-        s.pros = {};
-        s.cons = {};
+        s.pros = [];
+        s.cons = [];
         s.winner = "";
         s.title = "";
       });
@@ -105,18 +105,14 @@ export function reducer(state: State, action: Action) {
         startIndex,
         endIndex
       } = action.payload;
-      const startListKeyIds =
-        startListType === "pros" ? `pros_keys_order` : "cons_keys_order";
-      const endListKeyIds =
-        endListType === "pros" ? `pros_keys_order` : "cons_keys_order";
       const nextState = produce(state, s => {
-        const [removed] = s[startListKeyIds].splice(startIndex, 1);
+        const [removed] = s[startListType].splice(startIndex, 1);
         const endListArgType = endListType.slice(
           endListType.length - 2,
           endListType.length - 1
         ) as ArgumentType;
-        s[endListType][removed].type = endListArgType;
-        s[endListKeyIds].splice(endIndex, 0, removed);
+        removed.type = endListArgType;
+        s[endListType].splice(endIndex, 0, removed);
       });
       return nextState;
     }
@@ -125,4 +121,3 @@ export function reducer(state: State, action: Action) {
     }
   }
 }
-const a = produce({}, () => {});

@@ -10,16 +10,17 @@ export type Argument = {
 };
 
 export type State = {
-  pros: { [id: string]: Argument };
-  pros_keys_order: string[];
-  cons: { [id: string]: Argument };
-  cons_keys_order: string[];
+  pros: Argument[];
+  cons: Argument[];
   title: string;
   winner: "pros" | "cons" | "";
   isLive: boolean;
+  isAuthed: boolean;
   hasIdInUrl: boolean;
   idInUrl: string;
 };
+
+export type Dispatcher = React.Dispatch<Action>;
 
 export type Action =
   | {
@@ -71,4 +72,5 @@ export type Action =
         hasIdInUrl: boolean;
         idInUrl: string;
       };
-    };
+    }
+  | { type: "set-is-authed"; payload: boolean };

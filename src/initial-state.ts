@@ -1,42 +1,36 @@
-import { State, ArgumentType } from "./types";
-import { uid, range } from "./utils";
+import { State } from "./types";
+import { uid } from "./utils";
 
 export const INITIAL_STATE: State = {
-  pros: {},
-  pros_keys_order: [],
-  cons: {},
-  cons_keys_order: [],
+  pros: [
+    {
+      text: "It's fun",
+      type: "pro",
+      id: uid(),
+      weight: 1
+    },
+    {
+      text: "It breaks the problem down to 2 dimensions",
+      type: "pro",
+      id: uid(),
+      weight: 1
+    }
+  ],
+  cons: [
+    {
+      text: "I could be outside",
+      type: "con",
+      id: uid(),
+      weight: 1
+    }
+  ],
   title: "Should I use a pros and cons list to make a decision ?",
   winner: "",
   isLive: false,
   hasIdInUrl: false,
-  idInUrl: ""
+  idInUrl: "",
+  isAuthed: false
 };
-let id = uid();
-INITIAL_STATE.pros[id] = {
-  text: "It's fun",
-  type: "pro",
-  id,
-  weight: 1
-};
-INITIAL_STATE.pros_keys_order.push(id);
-id = uid();
-INITIAL_STATE.pros[id] = {
-  text: "It breaks the problem down to 2 dimensions",
-  type: "pro",
-  id,
-  weight: 1
-};
-INITIAL_STATE.pros_keys_order.push(id);
-id = uid();
-
-INITIAL_STATE.cons[id] = {
-  text: "I could be outside",
-  type: "con",
-  id,
-  weight: 1
-};
-INITIAL_STATE.cons_keys_order.push(id);
 
 // export const INITIAL_STATE: State = {
 //   pros: [
