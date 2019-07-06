@@ -1,5 +1,5 @@
 {
-  "include": ["./src/*", "src/utils/utils.ts"],
+  "include": ["./src/*"],
   "compilerOptions": {
     "lib": ["dom", "es2015"],
     "jsx": "preserve",

@@ -1,6 +1,5 @@
 import * as React from "react";
-import { Dispatcher } from "../types";
-import { DispatcherContext } from "../DispatcherContext";
+import { DispatcherContext } from "../state/DispatcherContext";
 
 export const RightSidebar = ({}) => {
   const dispatch = React.useContext(DispatcherContext);

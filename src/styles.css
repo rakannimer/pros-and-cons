@@ -180,7 +180,6 @@ body {
   width: 100%;
   background: var(--blue);
   color: var(--white);
-  /* background: gold; */
 }
 
 .pros-and-cons-and-right-sidebar {
@@ -245,12 +244,12 @@ button {
 .list-title {
   width: 100%;
   background: var(--black);
-  min-height: 7vh;
+  min-height: 8vh;
   display: flex;
   justify-content: center;
   align-items: center;
 
-  font-size: 1.5em;
+  font-size: 1.3em;
   color: var(--white);
   font-family: "Montserrat", sans-serif;
 }
@@ -322,6 +321,7 @@ button {
   max-width: 180px;
   min-width: 100px;
   display: block;
+  padding-right: 10px;
 }
 
 .argument-weight-container {

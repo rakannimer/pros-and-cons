@@ -1,5 +1,4 @@
-import { State } from "./types";
-import { uid } from "./utils";
+import { State } from "../types";
 export const getInitialState = () => {
   return INITIAL_STATE;
 };

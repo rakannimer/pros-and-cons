@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { TextArea } from "./TextArea";
-import { DispatcherContext } from "../DispatcherContext";
+import { DispatcherContext } from "../state/DispatcherContext";
 import { getHistory, uid } from "../utils";
 
 export const Header = React.memo(
@@ -19,6 +19,7 @@ export const Header = React.memo(
     React.useEffect(() => {
       setFocus(Date.now());
     }, []);
+
     return (
       <>
         <div className="app-header">PROS & CONS</div>
@@ -51,7 +52,7 @@ export const Header = React.memo(
               }`}
               onClick={() => {
                 if (idInUrl === "") {
-                  getHistory().push(`/${uid}`);
+                  getHistory().push(`/${uid()}`);
                 } else {
                   getHistory().push(`/`);
                 }

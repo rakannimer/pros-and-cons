@@ -3,8 +3,8 @@ import { Animated } from "react-animated-css";
 
 import { TextArea } from "./TextArea";
 import { range } from "../utils";
-import { Action, Argument } from "../types";
-import { DispatcherContext } from "../DispatcherContext";
+import { Argument } from "../types";
+import { DispatcherContext } from "../state/DispatcherContext";
 
 type Props = {
   argument: Argument;

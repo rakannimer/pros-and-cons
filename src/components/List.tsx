@@ -8,7 +8,7 @@ import SimpleBar from "simplebar-react";
 import { AddArgumentButton } from "./AddArgumentButton";
 import { State, Argument } from "../types";
 import { ListItem } from "./ListItem";
-import { DispatcherContext } from "../DispatcherContext";
+import { DispatcherContext } from "../state/DispatcherContext";
 
 const ListItems = React.memo(
   ({

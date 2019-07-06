@@ -22,7 +22,10 @@ const TextAreaComponent: React.ComponentType<{
     if (textAreaRef.current === null) return;
     autosize(textAreaRef.current);
   }, []);
-
+  React.useEffect(() => {
+    if (textAreaRef.current === null) return;
+    autosize.update(textAreaRef.current);
+  }, [value]);
   React.useEffect(() => {
     if (textAreaRef.current === null) return;
     if (isFocused === false) {
@@ -40,7 +43,7 @@ const TextAreaComponent: React.ComponentType<{
 
   return (
     <textarea
-      ref={ref => (textAreaRef.current = ref)}
+      ref={textAreaRef}
       onChange={ev => {
         onChange(ev.target.value);
       }}

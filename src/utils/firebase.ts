@@ -2,7 +2,7 @@ import memoize from "memoize-one";
 import { debounce } from "debounce";
 
 import { Dispatcher, State, Action } from "../types";
-import { getInitialState } from "../initial-state";
+import { getInitialState } from "../state/initial-state";
 
 const firebaseSet = (path: string, value: unknown) => {
   return getFirebase().then(firebase => {
@@ -27,59 +27,70 @@ const firebaseUpdate = (path: string, value: {}) => {
 
 const debouncedUpdate = debounce(firebaseUpdate);
 
-export const initializeFirebase = async (
+export const listenToRemoteState = (
+  firebase: typeof import("firebase"),
   sessionId: string,
-  dispatch: Dispatcher,
-  state: State
+  dispatch: Dispatcher
 ) => {
-  if (sessionId === "") {
-    return;
-  }
-  const firebase = await getFirebase();
-  const isAuthed = firebase.auth().currentUser !== null;
-  if (!isAuthed) {
-    await firebase.auth().signInAnonymously();
-  }
-  dispatch({ type: "set-is-authed", payload: true });
-  const title = (await firebase
-    .database()
-    .ref(`sessions/${sessionId}/title`)
-    .once("value")).val();
-  if (title === null) {
-    await firebase
-      .database()
-      .ref(`sessions/${sessionId}/`)
-      .update(getInitialState());
-  }
-  firebase
+  const unsubFromTitle = firebase
     .database()
     .ref(`sessions/${sessionId}/title`)
     .on("value", v => {
+      if (v === null || v.val() === null) {
+        return;
+      }
       dispatch({ type: "set-title", payload: { title: v.val() } });
     });
-  firebase
+  const unsubFromPros = firebase
     .database()
     .ref(`sessions/${sessionId}/pros`)
     .on("value", v => {
-      if (v.val() === null) {
+      if (v === null || v.val() === null) {
         return;
       }
       dispatch({ type: "set-pros", payload: v.val() });
     });
-  firebase
+  const unsubFromCons = firebase
     .database()
     .ref(`sessions/${sessionId}/cons`)
     .on("value", v => {
-      if (v.val() === null) {
+      if (v === null || v.val() === null) {
         return;
       }
       dispatch({ type: "set-cons", payload: v.val() });
     });
+  return () => {
+    unsubFromCons(null);
+    unsubFromPros(null);
+    unsubFromTitle(null);
+  };
+};
+
+export const initializeFirebaseState = (sessionId: string, state: State) => {
+  async function getTitle() {
+    const firebase = await getFirebase();
+    return (await firebase
+      .database()
+      .ref(`sessions/${sessionId}/title`)
+      .once("value")).val();
+  }
+  async function setInitialStateInFirebase() {
+    const firebase = await getFirebase();
+    await firebase
+      .database()
+      .ref(`sessions/${sessionId}/`)
+      .update(state);
+  }
+  getTitle().then(title => {
+    // List does not exist in Firebase so we create it.
+    if (title === null) {
+      return setInitialStateInFirebase();
+    }
+  });
 };
 
 export const getFirebase = memoize(
   async () => {
-    console.log("getting firebase");
     const firebasePromise: [
       typeof import("firebase/app"),
       unknown,
@@ -132,8 +143,8 @@ export const withFirebaseStorage = (reducer: React.Reducer<State, Action>) => {
         const { payload } = action;
         const { id, type } = payload.argument;
         const listType = type === "pro" ? "pros" : "cons";
-        console.warn("debounced set ", newState[listType]);
-        firebaseUpdate(
+        console.warn("set ", newState[listType]);
+        firebaseSet(
           `sessions/${state.idInUrl}/${listType}/`,
           newState[listType]
         );

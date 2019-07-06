@@ -3,35 +3,12 @@ import { render } from "react-dom";
 import * as db from "idb-keyval";
 import download from "js-file-download";
 
-// TODO : Add auto-save and persist data through refreshs on browser
-
-// <DOING>
-
-// </DOING>
-
-// <DONE>
-// TODO : Add export to JSON functionality with https://github.com/kennethjiang/js-file-download
-// TODO : CHange initial state
-// TODO : Focus title on first mount.
-// TODO : Add unmount and mount listitem animations
-// TODO: Refactor renderListItems function to ListItems component
-// TODO : Add scrollbar for list container -- used simplebar
-// TODO : Make it usable on mobile.
-// TODO : Add clear list button in right sidebar that clears state and focuses title
-// TODO : Decide what share functionality should look like. (Firebase vs Amplify vs FaunaDB)
-// TODO : Add share functionality 1 : Add share button next to export button
-// TODO : Add share functionality 2 : Add loading state to share button with dynamic text (saving-authenticating)
-// TODO : Add share functionality 3 : When share button is clicked it goes to loading state then
-// imports firebase, does an anonymous sign-in with it and pushes to lists table.
-// TODO : Add modal to be displayed when sharing
-// </DONE>
-
 import "./styles.css";
 import "./icons.css";
 import "animate.css/animate.min.css";
 
-import { INITIAL_STATE, getInitialState } from "./initial-state";
-import { reducer } from "./reducer";
+import { getInitialState } from "./state/initial-state";
+import { reducer } from "./state/reducer";
 import { List, LeftSidebar, Header, RightSidebar } from "./components";
 import { State, Action, Dispatcher } from "./types";
 
@@ -52,50 +29,80 @@ const ProsAndCons = (props: Pick<State, "pros" | "cons" | "winner">) => {
     </div>
   );
 };
-// const withLocalStorage = (reducer: React.Reducer<State, Action>) => {
-//   const newReducer = (state: State, action: Action) => {
-//     const newState = reducer(state, action);
-//     db.set("offline-list", newState);
-//     return newState;
-//   };
-//   return newReducer;
-// };
 
 import { useAsyncEffect } from "use-async-effect";
 import {
-  initializeFirebase,
+  listenToRemoteState,
   mapHistoryToState,
   onDragEndCreate,
   DragDropContext,
   withFirebaseStorage,
   withLocalStorage,
-  getHistory
+  getFirebase,
+  NO_OP,
+  initializeFirebaseState
 } from "./utils";
-import { DispatcherContext } from "./DispatcherContext";
+import { DispatcherContext } from "./state/DispatcherContext";
 
 let App = () => {
   const [state, dispatch] = React.useReducer(
     withFirebaseStorage(withLocalStorage(reducer)),
     getInitialState()
   );
+  const [firebase, setFirebase] = React.useState<
+    null | typeof import("firebase")
+  >(null);
 
   React.useEffect(() => mapHistoryToState(dispatch), []);
+
   React.useEffect(() => {
-    // if (state.idInUrl === "") {
-    //   db.get<State>("offline-list").then(v => {
-    //     console.log("hydrating from ", v);
-    //     dispatch({ type: "hydrate", payload: v });
-    //   });
-    // } else {
-    //   db.get<State>(state.idInUrl).then(v => {
-    //     console.log("hydrating from ", v);
-    //     dispatch({ type: "hydrate", payload: v });
-    //   });
-    // }
+    let isMounted = true;
+    const listId = state.idInUrl === "" ? "offline-list" : state.idInUrl;
+    db.get<State>(listId).then(v => {
+      if (isMounted === false || v === undefined) return;
+      dispatch({ type: "hydrate", payload: v });
+    });
+    return () => {
+      isMounted = false;
+    };
   }, [state.idInUrl]);
 
   React.useEffect(() => {
-    initializeFirebase(state.idInUrl, dispatch, state);
+    const sessionId = state.idInUrl;
+    let isMounted = true;
+    if (sessionId === "") {
+      return () => {};
+    }
+    async function getAuth() {
+      const firebase = await getFirebase();
+      setFirebase(firebase);
+      const isAuthed = firebase.auth().currentUser !== null;
+      if (!isAuthed) {
+        await firebase.auth().signInAnonymously();
+      }
+    }
+    getAuth().then(() => {
+      if (!isMounted) return;
+      dispatch({ type: "set-is-authed", payload: true });
+    });
+    return () => {
+      isMounted = false;
+    };
+  }, [state.idInUrl]);
+
+  React.useEffect(() => {
+    const sessionId = state.idInUrl;
+    if (state.isAuthed === false || firebase === null || sessionId === "") {
+      return NO_OP;
+    }
+    const stopListening = listenToRemoteState(firebase, sessionId, dispatch);
+    return stopListening;
+  }, [state.isAuthed, firebase, state.idInUrl]);
+
+  React.useEffect(() => {
+    const sessionId = state.idInUrl;
+    if (sessionId === "") return;
+    initializeFirebaseState(sessionId, state);
   }, [state.idInUrl]);
 
   function downloadAsJson() {
@@ -149,3 +156,26 @@ let App = () => {
 
 const rootElement = document.getElementById("root");
 render(<App />, rootElement);
+
+// <DOING>
+
+// </DOING>
+
+// <DONE>
+
+// TODO : Add auto-save and persist data through refreshs on browser
+// TODO : Add export to JSON functionality with https://github.com/kennethjiang/js-file-download
+// TODO : CHange initial state
+// TODO : Focus title on first mount.
+// TODO : Add unmount and mount listitem animations
+// TODO: Refactor renderListItems function to ListItems component
+// TODO : Add scrollbar for list container -- used simplebar
+// TODO : Make it usable on mobile.
+// TODO : Add clear list button in right sidebar that clears state and focuses title
+// TODO : Decide what share functionality should look like. (Firebase vs Amplify vs FaunaDB)
+// TODO : Add share functionality 1 : Add share button next to export button
+// TODO : Add share functionality 2 : Add loading state to share button with dynamic text (saving-authenticating)
+// TODO : Add share functionality 3 : When share button is clicked it goes to loading state then
+// imports firebase, does an anonymous sign-in with it and pushes to lists table.
+
+// </DONE>

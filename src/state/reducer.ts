@@ -1,7 +1,7 @@
 import produce from "immer";
 
-import { State, Action, ArgumentType } from "./types";
-import { findIndex } from "./utils";
+import { State, Action, ArgumentType } from "../types";
+import { findIndex } from "../utils";
 
 export function reducer(state: State, action: Action) {
   console.error(action.type);
