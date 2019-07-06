@@ -13,10 +13,12 @@ import { DispatcherContext } from "../state/DispatcherContext";
 const ListItems = React.memo(
   ({
     args, // dispatch,
-    withDraggable = true
+    withDraggable = true,
+    type
   }: {
     args: Argument[]; // dispatch: React.Dispatch<Action>;
     withDraggable: boolean;
+    type: "pros" | "cons";
   }) => {
     const dispatch = React.useContext(DispatcherContext);
     return (
@@ -32,7 +34,6 @@ const ListItems = React.memo(
                   <ListItem
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
-                    //@ts-ignore
                     ref={provided.innerRef}
                     argument={arg}
                     key={arg.id}
@@ -57,7 +58,7 @@ export const List = React.memo(
     arguments: State["pros"];
     winner: State["winner"];
     title: string;
-    type: State["winner"];
+    type: "pros" | "cons";
   }) => {
     const dispatch = React.useContext(DispatcherContext);
     return (
@@ -66,15 +67,21 @@ export const List = React.memo(
           {title}
         </div>
         <div className="list-items-and-footer">
-          <div
-            style={{
-              position: "relative",
-              height: "60vh",
-              overflowY: "auto"
-            }}
-          >
-            <ListItems args={args} withDraggable={false} />
-          </div>
+          <Droppable droppableId={type}>
+            {(provided, snapshot) => (
+              <div
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+                style={{
+                  position: "relative",
+                  height: "60vh",
+                  overflowY: "auto"
+                }}
+              >
+                <ListItems args={args} withDraggable={true} type={type} />
+              </div>
+            )}
+          </Droppable>
         </div>
 
         <div className="list-footer">

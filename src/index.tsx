@@ -9,44 +9,23 @@ import "animate.css/animate.min.css";
 
 import { getInitialState } from "./state/initial-state";
 import { reducer } from "./state/reducer";
-import { List, LeftSidebar, Header, RightSidebar } from "./components";
-import { State, Action, Dispatcher } from "./types";
-
-const ProsAndCons = (props: Pick<State, "pros" | "cons" | "winner">) => {
-  const dispatch = React.useContext(DispatcherContext);
-  const { winner, pros, cons } = props;
-  const onDragStart = () => {};
-
-  return (
-    <div className="pros-and-cons-container">
-      <DragDropContext
-        onDragEnd={onDragEndCreate(dispatch)}
-        onDragStart={onDragStart}
-      >
-        <List winner={winner} arguments={pros} title="PROS" type="pros" />
-        <List winner={winner} arguments={cons} title="CONS" type="cons" />
-      </DragDropContext>
-    </div>
-  );
-};
-
-import { useAsyncEffect } from "use-async-effect";
+import { LeftSidebar, Header, RightSidebar } from "./components";
+import { State } from "./types";
 import {
   listenToRemoteState,
   mapHistoryToState,
-  onDragEndCreate,
-  DragDropContext,
-  withFirebaseStorage,
-  withLocalStorage,
   getFirebase,
   NO_OP,
   initializeFirebaseState
 } from "./utils";
 import { DispatcherContext } from "./state/DispatcherContext";
+import { ProsAndCons } from "./components/ProsAndCons";
+import { withFirebaseUpdate } from "./higher-order-reducers/firebase";
+import { withLocalStorageUpdate } from "./higher-order-reducers/indexed-db";
 
 let App = () => {
   const [state, dispatch] = React.useReducer(
-    withFirebaseStorage(withLocalStorage(reducer)),
+    withFirebaseUpdate(withLocalStorageUpdate(reducer)),
     getInitialState()
   );
   const [firebase, setFirebase] = React.useState<
@@ -55,6 +34,7 @@ let App = () => {
 
   React.useEffect(() => mapHistoryToState(dispatch), []);
 
+  // Hydrate from cache
   React.useEffect(() => {
     let isMounted = true;
     const listId = state.idInUrl === "" ? "offline-list" : state.idInUrl;
@@ -67,6 +47,7 @@ let App = () => {
     };
   }, [state.idInUrl]);
 
+  // Auth
   React.useEffect(() => {
     const sessionId = state.idInUrl;
     let isMounted = true;
@@ -158,7 +139,7 @@ const rootElement = document.getElementById("root");
 render(<App />, rootElement);
 
 // <DOING>
-
+// TODO : Add drag and drop
 // </DOING>
 
 // <DONE>

@@ -380,19 +380,19 @@ button {
   color: var(--white);
   font-size: 1.6em;
 }
-.argument-delete-container:hover {
+.argument-delete-container button:hover {
   cursor: pointer;
 }
 
-.argument-delete-container:focus .icon-cancel-circled-outline {
+.argument-delete-container button:focus .icon-cancel-circled-outline {
   outline: none;
   border-radius: 50%;
 }
 
-.argument-delete-container:focus {
+.argument-delete-container button:focus {
   outline: none;
 }
-.argument-delete-container:hover .icon-cancel-circled-outline {
+.argument-delete-container button:hover .icon-cancel-circled-outline {
   color: var(--light-blue);
   font-size: 1.95em;
 }
@@ -406,13 +406,16 @@ button {
   outline: none;
   box-shadow: var(--blue) 5px 5px 5px;
 }
+.argument-delete-container button {
+  background: none;
+  border: none;
+}
 .argument-delete-container {
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: none;
-  border: none;
+
   /* background: orangered; */
 }
 .argument-delete-container select:focus {

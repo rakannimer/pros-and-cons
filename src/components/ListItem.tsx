@@ -26,9 +26,12 @@ export const ListItem = React.memo<Props>(
       const [shouldAnimateOut, setShouldAnimateOut] = React.useState(false);
       return (
         <Animated
+          key={argument.id}
           animationIn="fadeIn"
+          animationInDuration={0}
           animationOut="fadeOut"
           isVisible={!shouldAnimateOut}
+          animateOnMount={false}
         >
           <div
             key={argument.id}
@@ -87,37 +90,37 @@ export const ListItem = React.memo<Props>(
               </div>
               <div className="hint">Importance</div>
             </div>
-            <button
-              className="argument-delete-container"
-              onClick={() => {
-                if (shouldAnimateOut === true) return;
-                setShouldAnimateOut(true);
-                setTimeout(() => {
-                  dispatch({
-                    type: "delete-argument",
-                    payload: {
-                      argument: {
-                        id: argument.id,
-                        type: argument.type
+            <div className="argument-delete-container">
+              <button
+                onClick={() => {
+                  if (shouldAnimateOut === true) return;
+                  setShouldAnimateOut(true);
+                  setTimeout(() => {
+                    dispatch({
+                      type: "delete-argument",
+                      payload: {
+                        argument: {
+                          id: argument.id,
+                          type: argument.type
+                        }
                       }
-                    }
-                  });
-                }, 1000);
-              }}
-            >
-              <div className="icon-cancel-circled-outline" />
-            </button>
+                    });
+                  }, 1000);
+                }}
+              >
+                <div className="icon-cancel-circled-outline" />
+              </button>
+            </div>
           </div>
         </Animated>
       );
     }
-  )
-  // (prevProps, props) => {
-
-  //   return (
-  //     props.argument.id !== prevProps.argument.id &&
-  //     props.argument.text === prevProps.argument.text &&
-  //     props.argument.weight === prevProps.argument.weight
-  //   );
-  // }
+  ),
+  (prevProps, props) => {
+    return (
+      props.argument.id !== prevProps.argument.id &&
+      props.argument.text === prevProps.argument.text &&
+      props.argument.weight === prevProps.argument.weight
+    );
+  }
 );

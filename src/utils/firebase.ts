@@ -2,22 +2,19 @@ import memoize from "memoize-one";
 import { debounce } from "debounce";
 
 import { Dispatcher, State, Action } from "../types";
-import { getInitialState } from "../state/initial-state";
 
-const firebaseSet = (path: string, value: unknown) => {
+export const firebaseSet = (path: string, value: unknown) => {
   return getFirebase().then(firebase => {
-    console.warn("path ", path, " value : ", value);
     return firebase
       .database()
       .ref(path)
       .set(value);
   });
 };
-const debouncedSet = debounce(firebaseSet);
+export const firebaseDebouncedSet = debounce(firebaseSet);
 
-const firebaseUpdate = (path: string, value: {}) => {
+export const firebaseUpdate = (path: string, value: {}) => {
   return getFirebase().then(firebase => {
-    console.warn("path ", path, " value : ", value);
     return firebase
       .database()
       .ref(path)
@@ -25,7 +22,7 @@ const firebaseUpdate = (path: string, value: {}) => {
   });
 };
 
-const debouncedUpdate = debounce(firebaseUpdate);
+export const firebaseDebouncedUpdate = debounce(firebaseUpdate);
 
 export const listenToRemoteState = (
   firebase: typeof import("firebase"),
@@ -122,7 +119,10 @@ export const withFirebaseStorage = (reducer: React.Reducer<State, Action>) => {
     if (!state.isAuthed) return newState;
     switch (action.type) {
       case "set-title": {
-        debouncedSet(`sessions/${state.idInUrl}/title`, action.payload.title);
+        firebaseDebouncedSet(
+          `sessions/${state.idInUrl}/title`,
+          action.payload.title
+        );
         break;
       }
       case "edit-argument": {
@@ -132,8 +132,7 @@ export const withFirebaseStorage = (reducer: React.Reducer<State, Action>) => {
         const index = newState[listType].findIndex(v => v.id === id);
 
         if (index === -1) return newState;
-        // console.error("Updating argument");
-        debouncedUpdate(
+        firebaseDebouncedUpdate(
           `sessions/${state.idInUrl}/${listType}/${index}`,
           payload.argument
         );
@@ -143,7 +142,6 @@ export const withFirebaseStorage = (reducer: React.Reducer<State, Action>) => {
         const { payload } = action;
         const { id, type } = payload.argument;
         const listType = type === "pro" ? "pros" : "cons";
-        console.warn("set ", newState[listType]);
         firebaseSet(
           `sessions/${state.idInUrl}/${listType}/`,
           newState[listType]
@@ -165,6 +163,20 @@ export const withFirebaseStorage = (reducer: React.Reducer<State, Action>) => {
         firebaseSet(`sessions/${newState.idInUrl}/title`, null);
         firebaseSet(`sessions/${newState.idInUrl}/pros`, null);
         firebaseSet(`sessions/${newState.idInUrl}/cons`, null);
+        break;
+      }
+      case "reorder-list": {
+        const { payload } = action;
+        const { listType } = payload;
+        firebaseSet(
+          `sessions/${newState.idInUrl}/${listType}`,
+          newState[listType]
+        );
+        break;
+      }
+      case "move-to-list": {
+        firebaseSet(`sessions/${newState.idInUrl}/pros`, newState.pros);
+        firebaseSet(`sessions/${newState.idInUrl}/cons`, newState.cons);
         break;
       }
     }

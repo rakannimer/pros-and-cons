@@ -39,7 +39,6 @@ export function reducer(state: State, action: Action) {
     }
     case "add-argument": {
       const { argument } = action.payload;
-      const argId = argument.id;
       const affectedListId = argument.type === "pro" ? "pros" : "cons";
       const nextState = produce(state, s => {
         s[affectedListId].push(argument);
@@ -85,8 +84,6 @@ export function reducer(state: State, action: Action) {
     }
     case "reorder-list": {
       const { listType, startIndex, endIndex } = action.payload;
-      const keysOrderId =
-        listType === "pros" ? `pros_keys_order` : "cons_keys_order";
       const nextState = produce(state, s => {
         const [removed] = s[listType].splice(startIndex, 1);
         s[listType].splice(endIndex, 0, removed);

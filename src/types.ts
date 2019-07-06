@@ -21,7 +21,7 @@ export type State = {
 };
 
 export type Dispatcher = React.Dispatch<Action>;
-
+export type Reducer = React.Reducer<State, Action>;
 export type Action =
   | {
       type: "add-argument";
