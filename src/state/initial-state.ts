@@ -27,8 +27,6 @@ export const INITIAL_STATE: State = {
   ],
   title: "Should I use a pros and cons list to make a decision ?",
   winner: "",
-  isLive: false,
-  hasIdInUrl: false,
   idInUrl: "",
   isAuthed: false
 };

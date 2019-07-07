@@ -14,9 +14,7 @@ export type State = {
   cons: Argument[];
   title: string;
   winner: "pros" | "cons" | "";
-  isLive: boolean;
   isAuthed: boolean;
-  hasIdInUrl: boolean;
   idInUrl: string;
 };
 
@@ -65,11 +63,9 @@ export type Action =
   | { type: "set-title"; payload: { title: string } }
   | { type: "clear-list" }
   | { type: "hydrate"; payload: State }
-  | { type: "toggle-is-live" }
   | {
       type: "update-url";
       payload: {
-        hasIdInUrl: boolean;
         idInUrl: string;
       };
     }

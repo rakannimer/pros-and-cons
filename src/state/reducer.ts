@@ -25,14 +25,7 @@ export function reducer(state: State, action: Action) {
     }
     case "update-url": {
       const nextState = produce(state, s => {
-        s.hasIdInUrl = action.payload.hasIdInUrl;
         s.idInUrl = action.payload.idInUrl;
-      });
-      return nextState;
-    }
-    case "toggle-is-live": {
-      const nextState = produce(state, s => {
-        s.isLive = !s.isLive;
       });
       return nextState;
     }

@@ -11,7 +11,6 @@ export const getHistory = memoize(
 
 export const mapHistoryToState = (dispatch: Dispatcher) => {
   const history = getHistory();
-  const hasIdInUrl = history.location.pathname !== "/";
   const idInUrl = history.location.pathname.substr(
     1,
     history.location.pathname.length
@@ -19,18 +18,14 @@ export const mapHistoryToState = (dispatch: Dispatcher) => {
   dispatch({
     type: "update-url",
     payload: {
-      hasIdInUrl,
       idInUrl
     }
   });
   const unlisten = history.listen((location, action) => {
-    const hasIdInUrl = location.pathname !== "/";
     const idInUrl = location.pathname.substr(1, location.pathname.length);
-
     dispatch({
       type: "update-url",
       payload: {
-        hasIdInUrl,
         idInUrl
       }
     });
