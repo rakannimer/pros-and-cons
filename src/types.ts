@@ -1,3 +1,5 @@
+import { IObservableArray, IObservableValue } from "mobx";
+
 export type ID = string;
 
 export type ArgumentType = "pro" | "con";
@@ -17,6 +19,21 @@ export type State = {
   isAuthed: boolean;
   idInUrl: string;
   firebase: null | typeof import("firebase");
+};
+
+export type ObservableArgument = {
+  text: IObservableValue<string>;
+  weight: IObservableValue<number>;
+  id: IObservableValue<ID>;
+  type: IObservableValue<ArgumentType>;
+};
+export type ObservableState = {
+  pros: IObservableArray<ObservableArgument>;
+  cons: IObservableArray<ObservableArgument>;
+  title: IObservableValue<string>;
+  winner: IObservableValue<"pros" | "cons" | "">;
+  isAuthed: IObservableValue<boolean>;
+  idInUrl: IObservableValue<string>;
 };
 
 export type Dispatcher = React.Dispatch<Action>;
