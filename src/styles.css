@@ -371,7 +371,7 @@ button {
   /* color: var(--blue); */
 }
 
-.argument-weight-container:hover select {
+.argument-weight-container select:hover {
   color: var(--blue);
   cursor: pointer;
 }
@@ -468,14 +468,6 @@ textarea {
   font-weight: inherit;
   border: none;
   overflow: hidden;
-}
-
-.ScrollbarsCustom-Thumb.ScrollbarsCustom-ThumbY {
-  background: var(--blue) !important;
-}
-
-.ScrollbarsCustom-Track.ScrollbarsCustom-TrackY {
-  width: 5px !important;
 }
 
 .simplebar-scrollbar:before {

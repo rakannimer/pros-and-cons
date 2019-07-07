@@ -22,7 +22,7 @@ export const findIndex = <T = unknown>(
 ) => {
   const index = arr.findIndex(filter);
   if (index === -1) {
-    throw new Error(
+    console.error(
       `Could not find element in array: ${JSON.stringify(logWhenThrowing)}`
     );
   }

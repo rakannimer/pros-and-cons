@@ -107,7 +107,6 @@ export function reducer(state: State, action: Action) {
         s.cons = action.payload.cons;
         s.title = action.payload.title;
       });
-      console.log({ payload: action.payload, nextState });
       return nextState;
     }
     case "move-to-list": {

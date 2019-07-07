@@ -75,10 +75,11 @@ export const List = React.memo(
                 style={{
                   position: "relative",
                   height: "60vh",
-                  overflowY: "auto"
+                  overflow: "hidden"
                 }}
               >
                 <ListItems args={args} withDraggable={true} type={type} />
+                {provided.placeholder}
               </div>
             )}
           </Droppable>
