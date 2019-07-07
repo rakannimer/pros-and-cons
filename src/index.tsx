@@ -7,7 +7,7 @@ import "./icons.css";
 import "animate.css/animate.min.css";
 
 import { getInitialState } from "./state/initial-state";
-import { reducer } from "./state/reducer";
+import { reducer } from "./state/index";
 import { LeftSidebar, Header, RightSidebar } from "./components";
 import * as effects from "./effects";
 import { DispatcherContext } from "./state/DispatcherContext";

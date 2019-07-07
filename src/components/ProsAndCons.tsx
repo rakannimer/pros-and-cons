@@ -15,8 +15,8 @@ export const ProsAndCons = (props: Pick<State, "pros" | "cons" | "winner">) => {
         onDragEnd={onDragEndCreate(dispatch)}
         onDragStart={onDragStart}
       >
-        <List winner={winner} arguments={pros} title="PROS" type="pros" />
-        <List winner={winner} arguments={cons} title="CONS" type="cons" />
+        <List title="PROS" type="pros" />
+        <List title="CONS" type="cons" />
       </DragDropContext>
     </div>
   );

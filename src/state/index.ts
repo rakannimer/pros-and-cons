@@ -40,7 +40,7 @@ export const state: ObservableState = {
 };
 import produce from "immer";
 
-export const reducer = (currentState: unknown, action: Action) => {
+export const reducer = (currentState: State, action: Action) => {
   switch (action.type) {
     case "set-pros": {
       state.pros.replace(action.payload.map(argumentToObservableArgument));

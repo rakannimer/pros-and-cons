@@ -3,11 +3,11 @@ import { Animated } from "react-animated-css";
 
 import { TextArea } from "./TextArea";
 import { range } from "../utils";
-import { Argument } from "../types";
+import { ObservableArgument } from "../types";
 import { DispatcherContext } from "../state/DispatcherContext";
 
 type Props = {
-  argument: Argument;
+  argument: ObservableArgument;
   style?: React.CSSProperties;
   [propName: string]: unknown;
 };
@@ -18,15 +18,16 @@ export const ListItem = React.memo<Props>(
       const dispatch = React.useContext(DispatcherContext);
       const [focus, setFocus] = React.useState<false | number>(false);
       React.useEffect(() => {
-        if (argument.text === "") {
+        if (argument.text.get() === "") {
           setFocus(Date.now());
         }
       }, []);
 
       const [shouldAnimateOut, setShouldAnimateOut] = React.useState(false);
+      const argumentId = argument.id.get();
       return (
         <Animated
-          key={argument.id}
+          key={argumentId}
           animationIn="fadeIn"
           animationInDuration={0}
           animationOut="fadeOut"
@@ -34,7 +35,7 @@ export const ListItem = React.memo<Props>(
           animateOnMount={false}
         >
           <div
-            key={argument.id}
+            key={argumentId}
             className={`list-item-container ${
               shouldAnimateOut ? "shrink-height" : ""
             }`}
@@ -54,13 +55,18 @@ export const ListItem = React.memo<Props>(
                       type: "edit-argument",
                       payload: {
                         argument: {
-                          ...argument,
+                          ...{
+                            text: argument.text.get(),
+                            weight: argument.weight.get(),
+                            id: argument.id.get(),
+                            type: argument.type.get()
+                          },
                           text: String(v)
                         }
                       }
                     });
                   }}
-                  value={argument.text}
+                  value={argument.text.get()}
                 />
               </div>
             </div>
@@ -73,8 +79,10 @@ export const ListItem = React.memo<Props>(
                       type: "edit-argument",
                       payload: {
                         argument: {
-                          ...argument,
-                          weight: Number(ev.target.value)
+                          text: argument.text.get(),
+                          weight: Number(ev.target.value),
+                          id: argument.id.get(),
+                          type: argument.type.get()
                         }
                       }
                     });
@@ -100,8 +108,8 @@ export const ListItem = React.memo<Props>(
                       type: "delete-argument",
                       payload: {
                         argument: {
-                          id: argument.id,
-                          type: argument.type
+                          id: argumentId,
+                          type: argument.type.get()
                         }
                       }
                     });
@@ -118,7 +126,7 @@ export const ListItem = React.memo<Props>(
   ),
   (prevProps, props) => {
     return (
-      props.argument.id !== prevProps.argument.id &&
+      props.argumentId !== prevProps.argumentId &&
       props.argument.text === prevProps.argument.text &&
       props.argument.weight === prevProps.argument.weight
     );

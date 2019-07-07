@@ -6,17 +6,18 @@ import "simplebar/dist/simplebar.css";
 //@ts-ignore
 import SimpleBar from "simplebar-react";
 import { AddArgumentButton } from "./AddArgumentButton";
-import { State, Argument } from "../types";
+import { ObservableState } from "../types";
 import { ListItem } from "./ListItem";
 import { DispatcherContext } from "../state/DispatcherContext";
+import { state } from "../state/index";
 
-const ListItems = React.memo(
+const ListItems = observer(
   ({
     args, // dispatch,
     withDraggable = true,
     type
   }: {
-    args: Argument[]; // dispatch: React.Dispatch<Action>;
+    args: ObservableState["pros" | "cons"]; // dispatch: React.Dispatch<Action>;
     withDraggable: boolean;
     type: "pros" | "cons";
   }) => {
@@ -25,18 +26,19 @@ const ListItems = React.memo(
       <React.Fragment>
         <SimpleBar style={{ height: "60vh" }}>
           {args.map((arg, index) => {
+            const id = arg.id.get();
             // const arg = args[argId];
             return !withDraggable ? (
-              <ListItem argument={arg} key={arg.id} />
+              <ListItem argument={arg} key={arg.id.get()} />
             ) : (
-              <Draggable key={arg.id} draggableId={arg.id} index={index}>
+              <Draggable key={id} draggableId={id} index={index}>
                 {(provided, snapshot) => (
                   <ListItem
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
                     ref={provided.innerRef}
                     argument={arg}
-                    key={arg.id}
+                    key={id}
                   />
                 )}
               </Draggable>
@@ -47,19 +49,19 @@ const ListItems = React.memo(
     );
   }
 );
-
-export const List = React.memo(
+import { observer } from "mobx-react-lite";
+export const List = observer(
   ({
-    winner,
-    arguments: args,
+    // arguments: args,
     type,
     title
   }: {
-    arguments: State["pros"];
-    winner: State["winner"];
     title: string;
     type: "pros" | "cons";
   }) => {
+    const winner = state.winner.get();
+    const args = state[type];
+    // const title = state..get();
     return (
       <div className="list">
         <div className={`list-title ${winner === type ? "text-glow" : ""}`}>
