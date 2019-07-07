@@ -4,7 +4,6 @@ import { State, Action, ArgumentType } from "../types";
 import { findIndex } from "../utils";
 
 export function reducer(state: State, action: Action) {
-  console.error(action.type);
   switch (action.type) {
     case "set-pros": {
       const nextState = produce(state, s => {
@@ -49,7 +48,10 @@ export function reducer(state: State, action: Action) {
       const { argument } = action.payload;
       const affectedListId = argument.type === "pro" ? "pros" : "cons";
       const { id } = argument;
-      const argIndex = findIndex(state[affectedListId], v => v.id === id, {});
+      const argIndex = findIndex(state[affectedListId], v => v.id === id, {
+        action,
+        state
+      });
       const nextState = produce(state, s => {
         s[affectedListId][argIndex] = { ...argument };
       });
@@ -118,7 +120,7 @@ export function reducer(state: State, action: Action) {
       const nextState = produce(state, s => {
         const [removed] = s[startListType].splice(startIndex, 1);
         const endListArgType = endListType.slice(
-          endListType.length - 2,
+          0,
           endListType.length - 1
         ) as ArgumentType;
         removed.type = endListArgType;
