@@ -282,6 +282,13 @@ button {
   overflow: auto;
 }
 
+.list-item-container:active {
+  outline-style: none;
+}
+.list-item-container:focus {
+  outline-style: none;
+}
+
 .list-item-container {
   display: flex;
   border-bottom: solid 1px var(--light-gray);
