@@ -60,7 +60,6 @@ export const List = React.memo(
     title: string;
     type: "pros" | "cons";
   }) => {
-    const dispatch = React.useContext(DispatcherContext);
     return (
       <div className="list">
         <div className={`list-title ${winner === type ? "text-glow" : ""}`}>
@@ -87,7 +86,6 @@ export const List = React.memo(
 
         <div className="list-footer">
           <AddArgumentButton
-            dispatch={dispatch}
             type={type.slice(0, type.length - 1) as "pro" | "con"}
           />
         </div>

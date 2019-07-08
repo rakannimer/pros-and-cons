@@ -4,6 +4,7 @@ import { State, Action, ArgumentType } from "../types";
 import { findIndex } from "../utils";
 
 export function reducer(state: State, action: Action) {
+  console.warn(action.type);
   switch (action.type) {
     case "set-pros": {
       const nextState = produce(state, s => {
@@ -119,6 +120,13 @@ export function reducer(state: State, action: Action) {
         s[endListType].splice(endIndex, 0, removed);
       });
       return nextState;
+    }
+    case "set-firebase": {
+      // Using immer to set firebase will create an error
+      return {
+        ...state,
+        firebase: action.payload
+      };
     }
     default: {
       throw new Error(`Unspported action : ${JSON.stringify(action)}`);

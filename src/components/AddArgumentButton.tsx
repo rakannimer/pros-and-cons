@@ -2,15 +2,11 @@ import * as React from "react";
 
 import { uid } from "../utils";
 import { Action } from "../types";
+import { DispatcherContext } from "../state/DispatcherContext";
 
 export const AddArgumentButton = React.memo(
-  ({
-    dispatch,
-    type
-  }: {
-    dispatch: React.Dispatch<Action>;
-    type: "pro" | "con";
-  }) => {
+  ({ type }: { type: "pro" | "con" }) => {
+    const dispatch = React.useContext(DispatcherContext);
     return (
       <div className="add-argument-button-container">
         <button

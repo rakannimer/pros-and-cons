@@ -1,6 +1,5 @@
 import * as React from "react";
 import { render } from "react-dom";
-import * as db from "idb-keyval";
 import download from "js-file-download";
 
 import "./styles.css";
@@ -10,14 +9,7 @@ import "animate.css/animate.min.css";
 import { getInitialState } from "./state/initial-state";
 import { reducer } from "./state/reducer";
 import { LeftSidebar, Header, RightSidebar } from "./components";
-import { State } from "./types";
-import {
-  listenToRemoteState,
-  mapHistoryToState,
-  getFirebase,
-  NO_OP,
-  initializeFirebaseState
-} from "./utils";
+import * as effects from "./effects";
 import { DispatcherContext } from "./state/DispatcherContext";
 import { ProsAndCons } from "./components/ProsAndCons";
 import { withFirebaseUpdate } from "./higher-order-reducers/firebase";
@@ -28,88 +20,44 @@ let App = () => {
     withFirebaseUpdate(withLocalStorageUpdate(reducer)),
     getInitialState()
   );
-  const [firebase, setFirebase] = React.useState<
-    null | typeof import("firebase")
-  >(null);
 
-  React.useEffect(() => mapHistoryToState(dispatch), []);
+  React.useEffect(
+    effects.mapHistoryToState.effect(dispatch, state),
+    effects.mapHistoryToState.dependencies(state)
+  );
 
   // Hydrate from cache
-  React.useEffect(() => {
-    let isMounted = true;
-    const listId = state.idInUrl === "" ? "offline-list" : state.idInUrl;
-    db.get<State>(listId).then(v => {
-      if (isMounted === false || v === undefined) return;
-      dispatch({ type: "hydrate", payload: v });
-    });
-    return () => {
-      isMounted = false;
-    };
-  }, [state.idInUrl]);
+  React.useEffect(
+    effects.hydrateFromCache.effect(dispatch, state),
+    effects.hydrateFromCache.dependencies(state)
+  );
 
   // Auth
-  React.useEffect(() => {
-    const sessionId = state.idInUrl;
-    let isMounted = true;
-    if (sessionId === "") {
-      return () => {};
-    }
-    async function getAuth() {
-      const firebase = await getFirebase();
-      setFirebase(firebase);
-      const isAuthed = firebase.auth().currentUser !== null;
-      if (!isAuthed) {
-        await firebase.auth().signInAnonymously();
-      }
-    }
-    getAuth().then(() => {
-      if (!isMounted) return;
-      dispatch({ type: "set-is-authed", payload: true });
-    });
-    return () => {
-      isMounted = false;
-    };
-  }, [state.idInUrl]);
+  React.useEffect(
+    effects.authWithFirebase.effect(dispatch, state),
+    effects.authWithFirebase.dependencies(state)
+  );
 
-  React.useEffect(() => {
-    const sessionId = state.idInUrl;
-    if (state.isAuthed === false || firebase === null || sessionId === "") {
-      return NO_OP;
-    }
-    const stopListening = listenToRemoteState(firebase, sessionId, dispatch);
-    return stopListening;
-  }, [state.isAuthed, firebase, state.idInUrl]);
+  React.useEffect(
+    effects.listenToRemoteState.effect(dispatch, state),
+    effects.listenToRemoteState.dependencies(state)
+  );
 
-  React.useEffect(() => {
-    const sessionId = state.idInUrl;
-    if (sessionId === "") return;
-    initializeFirebaseState(sessionId, state);
-  }, [state.idInUrl]);
+  React.useEffect(
+    effects.setInitialFirebaseState.effect(dispatch, state),
+    effects.setInitialFirebaseState.dependencies(state)
+  );
 
   function downloadAsJson() {
     download(JSON.stringify(state, null, 2), "pros-and-cons-list.json");
   }
-  const pros = state.pros;
-  const cons = state.cons;
+  // const pros = state.pros;
+  // const cons = state.cons;
 
-  React.useEffect(() => {
-    const prosScore = state.pros.reduce((acc, cur) => {
-      acc += cur.weight;
-      return acc;
-    }, 0);
-    const consScore = state.cons.reduce((acc, cur) => {
-      acc += cur.weight;
-      return acc;
-    }, 0);
-    const winnerId =
-      prosScore === consScore ? "" : prosScore > consScore ? "pros" : "cons";
-    dispatch({
-      type: "set-winner-id",
-      payload: {
-        winnerId
-      }
-    });
-  }, [pros, cons]);
+  React.useEffect(
+    effects.computeWinner.effect(dispatch, state),
+    effects.computeWinner.dependencies(state)
+  );
 
   return (
     <DispatcherContext.Provider value={dispatch}>
@@ -139,11 +87,16 @@ const rootElement = document.getElementById("root");
 render(<App />, rootElement);
 
 // <DOING>
-// TODO : Add drag and drop
+//
+// TODO : Move higher-order-reducers functionality to effects - Doesn't work for granular updates like edit-argument, add-argument, delete-argument. We could do update the whole data remotely but seems wrong
 // </DOING>
-
+//
+// TODO : Update colors from psd file
+// TODO : Sync with mobx branch
+//
 // <DONE>
-
+// TODO : Move effects to separate file
+// TODO : Add drag and drop
 // TODO : Add auto-save and persist data through refreshs on browser
 // TODO : Add export to JSON functionality with https://github.com/kennethjiang/js-file-download
 // TODO : CHange initial state

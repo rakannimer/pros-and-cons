@@ -16,6 +16,7 @@ export type State = {
   winner: "pros" | "cons" | "";
   isAuthed: boolean;
   idInUrl: string;
+  firebase: null | typeof import("firebase");
 };
 
 export type Dispatcher = React.Dispatch<Action>;
@@ -77,4 +78,13 @@ export type Action =
   | {
       type: "set-cons";
       payload: State["cons"];
+    }
+  | {
+      type: "set-firebase";
+      payload: typeof import("firebase");
     };
+
+export type Effect<S = State> = {
+  effect: (dispatch: Dispatcher, state: S) => React.EffectCallback;
+  dependencies: (state: S) => unknown[] | undefined;
+};

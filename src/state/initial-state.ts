@@ -28,7 +28,8 @@ export const INITIAL_STATE: State = {
   title: "Should I use a pros and cons list to make a decision ?",
   winner: "",
   idInUrl: "",
-  isAuthed: false
+  isAuthed: false,
+  firebase: null
 };
 
 // export const INITIAL_STATE: State = {
