@@ -1,14 +1,16 @@
 import * as db from "idb-keyval";
 
-import { State, Effect } from "../types";
+import { State, Effect, ObservableState } from "../types";
 import { getHistory, getFirebase, NO_OP } from "../utils";
+import { state, getSerializedState } from "../state";
 
 // <Cache>
 export const hydrateFromCache: Effect = {
-  dependencies: state => [state.idInUrl],
-  effect: (dispatch, state) => () => {
+  dependencies: s => [state.idInUrl.get()],
+  effect: (dispatch, s) => () => {
     let isMounted = true;
-    const listId = state.idInUrl === "" ? "offline-list" : state.idInUrl;
+    const listId =
+      state.idInUrl.get() === "" ? "offline-list" : state.idInUrl.get();
     db.get<State>(listId).then(v => {
       if (isMounted === false || v === undefined) return;
       dispatch({ type: "hydrate", payload: v });
@@ -52,7 +54,7 @@ export const mapHistoryToState: Effect = {
 // <Auth>
 export const authWithFirebase: Effect = {
   effect: (dispatch, state) => () => {
-    const sessionId = state.idInUrl;
+    const sessionId = state.idInUrl.get();
     let isMounted = true;
     if (sessionId === "") {
       return () => {};
@@ -73,13 +75,13 @@ export const authWithFirebase: Effect = {
       isMounted = false;
     };
   },
-  dependencies: state => [state.idInUrl]
+  dependencies: state => [state.idInUrl.get()]
 };
 // </Auth>
 
 export const setInitialFirebaseState: Effect = {
   effect: (dispatch, state) => () => {
-    const sessionId = state.idInUrl;
+    const sessionId = state.idInUrl.get();
     if (sessionId === "") return;
     async function getTitle() {
       const firebase = await getFirebase();
@@ -93,10 +95,7 @@ export const setInitialFirebaseState: Effect = {
       await firebase
         .database()
         .ref(`sessions/${sessionId}/`)
-        .update({
-          ...state,
-          firebase: null
-        });
+        .update(getSerializedState());
     }
     getTitle().then(title => {
       // List does not exist in Firebase so we create it.
@@ -105,20 +104,30 @@ export const setInitialFirebaseState: Effect = {
       }
     });
   },
-  dependencies: state => [state.idInUrl]
+  dependencies: state => [state.idInUrl.get()]
 };
 
-export const listenToRemoteState: Effect = {
-  effect: (dispatch, state) => () => {
-    const sessionId = state.idInUrl;
+export const listenToRemoteState: Effect<
+  ObservableState,
+  typeof import("firebase")
+> = {
+  effect: (dispatch, state, firebase) => () => {
+    const sessionId = state.idInUrl.get();
+    // const firebase = state.firebase;
     if (
-      state.isAuthed === false ||
-      state.firebase === null ||
+      state.isAuthed.get() === false ||
+      firebase === undefined ||
       sessionId === ""
     ) {
+      console.warn(
+        "HEERE NOT LISTENING ",
+        firebase === undefined,
+        state.isAuthed.get() === false,
+        sessionId === ""
+      );
       return NO_OP;
     }
-    const { firebase } = state;
+    console.warn("here listening", firebase);
     const unsubFromTitle = firebase
       .database()
       .ref(`sessions/${sessionId}/title`)
@@ -152,17 +161,21 @@ export const listenToRemoteState: Effect = {
       unsubFromTitle(null);
     };
   },
-  dependencies: state => [state.isAuthed, state.firebase, state.idInUrl]
+  dependencies: (state, firebase) => [
+    state.isAuthed.get(),
+    firebase,
+    state.idInUrl.get()
+  ]
 };
 
 export const computeWinner: Effect = {
   effect: (dispatch, state) => () => {
     const prosScore = state.pros.reduce((acc, cur) => {
-      acc += cur.weight;
+      acc += cur.weight.get();
       return acc;
     }, 0);
     const consScore = state.cons.reduce((acc, cur) => {
-      acc += cur.weight;
+      acc += cur.weight.get();
       return acc;
     }, 0);
     const winnerId =

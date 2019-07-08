@@ -1,10 +1,11 @@
 import * as React from "react";
+import { observer } from "mobx-react-lite";
 
 import { TextArea } from "./TextArea";
 import { DispatcherContext } from "../state/DispatcherContext";
 import { getHistory, uid } from "../utils";
 
-export const Header = React.memo(
+export const Header = observer(
   ({
     title,
     downloadAsJson,

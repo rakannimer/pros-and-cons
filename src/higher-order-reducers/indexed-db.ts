@@ -1,10 +1,11 @@
 import * as db from "idb-keyval";
 
 import { State, Action, Reducer } from "../types";
+import { state, getSerializedState } from "../state";
 
 export const withLocalStorageUpdate = (reducer: Reducer) => {
-  const newReducer = (state: State, action: Action) => {
-    const newState = reducer(state, action);
+  const newReducer = (s: State, action: Action) => {
+    const newState = reducer(s, action);
     const actionsOfInterest: Action["type"][] = [
       "edit-argument",
       "add-argument",
@@ -15,8 +16,8 @@ export const withLocalStorageUpdate = (reducer: Reducer) => {
     ];
     if (actionsOfInterest.indexOf(action.type) !== -1) {
       const storageId =
-        newState.idInUrl === "" ? "offline-list" : newState.idInUrl;
-      db.set(storageId, newState);
+        state.idInUrl.get() === "" ? "offline-list" : state.idInUrl.get();
+      db.set(storageId, getSerializedState());
     }
 
     return newState;

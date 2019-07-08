@@ -21,6 +21,14 @@ const argumentToObservableArgument = (arg: Argument) => {
   };
   return argument;
 };
+const observableArgumentToArgument = (arg: ObservableArgument) => {
+  return {
+    weight: arg.weight.get(),
+    id: arg.id.get(),
+    text: arg.text.get(),
+    type: arg.type.get()
+  };
+};
 
 const observablePros = initialState.pros.map(pro => {
   return argumentToObservableArgument(pro);
@@ -36,11 +44,21 @@ export const state: ObservableState = {
   winner: observable.box<State["winner"]>(""),
   idInUrl: observable.box(""),
   isAuthed: observable.box(false),
-  title: observable.box("")
+  title: observable.box(""),
+  firebase: null
 };
-import produce from "immer";
+
+export const getSerializedState = () => ({
+  pros: state.pros.map(observableArgumentToArgument),
+  cons: state.cons.map(observableArgumentToArgument),
+  winner: state.winner.get(),
+  idInUrl: state.idInUrl.get(),
+  isAuthed: state.isAuthed.get(),
+  title: state.title.get()
+});
 
 export const reducer = (currentState: State, action: Action) => {
+  console.error(action.type)
   switch (action.type) {
     case "set-pros": {
       state.pros.replace(action.payload.map(argumentToObservableArgument));
@@ -141,8 +159,12 @@ export const reducer = (currentState: State, action: Action) => {
       ) as ArgumentType;
       removed.type.set(endListArgType);
       state[endListType].splice(endIndex, 0, removed);
-
       return currentState;
+    }
+    case "set-firebase": {
+      console.error({firebase:action.payload})
+      // state.firebase.set({firebase: action.payload})
+      return {...currentState, firebase: action.payload};
     }
     default: {
       throw new Error(`Unspported action : ${JSON.stringify(action)}`);

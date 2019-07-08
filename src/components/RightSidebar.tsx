@@ -1,7 +1,8 @@
 import * as React from "react";
 import { DispatcherContext } from "../state/DispatcherContext";
+import { observer } from "mobx-react-lite";
 
-export const RightSidebar = ({}) => {
+export const RightSidebar = observer(({}) => {
   const dispatch = React.useContext(DispatcherContext);
   return (
     <div className="right-sidebar">
@@ -28,4 +29,4 @@ export const RightSidebar = ({}) => {
       </div>
     </div>
   );
-};
+});

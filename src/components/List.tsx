@@ -1,44 +1,39 @@
 import * as React from "react";
 import { Droppable, Draggable } from "react-beautiful-dnd";
-
+import { observer } from "mobx-react-lite";
+import SimpleBar from "simplebar-react";
 import "simplebar"; // or "import SimpleBar from 'simplebar';" if you want to use it manually.
 import "simplebar/dist/simplebar.css";
-//@ts-ignore
-import SimpleBar from "simplebar-react";
+
 import { AddArgumentButton } from "./AddArgumentButton";
-import { ObservableState } from "../types";
 import { ListItem } from "./ListItem";
-import { DispatcherContext } from "../state/DispatcherContext";
 import { state } from "../state/index";
 
 const ListItems = observer(
   ({
-    args, // dispatch,
     withDraggable = true,
     type
   }: {
-    args: ObservableState["pros" | "cons"]; // dispatch: React.Dispatch<Action>;
     withDraggable: boolean;
     type: "pros" | "cons";
   }) => {
-    const dispatch = React.useContext(DispatcherContext);
+    const args = state[type];
     return (
       <React.Fragment>
         <SimpleBar style={{ height: "60vh" }}>
           {args.map((arg, index) => {
-            const id = arg.id.get();
-            // const arg = args[argId];
+            const argId = arg.id.get();
             return !withDraggable ? (
-              <ListItem argument={arg} key={arg.id.get()} />
+              <ListItem key={argId} argument={arg} />
             ) : (
-              <Draggable key={id} draggableId={id} index={index}>
+              <Draggable key={argId} draggableId={argId} index={index}>
                 {(provided, snapshot) => (
                   <ListItem
                     {...provided.draggableProps}
                     {...provided.dragHandleProps}
                     ref={provided.innerRef}
                     argument={arg}
-                    key={id}
+                    key={argId}
                   />
                 )}
               </Draggable>
@@ -49,19 +44,10 @@ const ListItems = observer(
     );
   }
 );
-import { observer } from "mobx-react-lite";
+
 export const List = observer(
-  ({
-    // arguments: args,
-    type,
-    title
-  }: {
-    title: string;
-    type: "pros" | "cons";
-  }) => {
+  ({ type, title }: { title: string; type: "pros" | "cons" }) => {
     const winner = state.winner.get();
-    const args = state[type];
-    // const title = state..get();
     return (
       <div className="list">
         <div className={`list-title ${winner === type ? "text-glow" : ""}`}>
@@ -79,7 +65,7 @@ export const List = observer(
                   overflow: "hidden"
                 }}
               >
-                <ListItems args={args} withDraggable={true} type={type} />
+                <ListItems withDraggable={true} type={type} />
                 {provided.placeholder}
               </div>
             )}
@@ -94,6 +80,4 @@ export const List = observer(
       </div>
     );
   }
-  // ,(prevProps, props) =>
-  //   prevProps.arguments === props.arguments && prevProps.winner === props.winner
 );

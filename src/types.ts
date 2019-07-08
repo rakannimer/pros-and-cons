@@ -34,6 +34,7 @@ export type ObservableState = {
   winner: IObservableValue<"pros" | "cons" | "">;
   isAuthed: IObservableValue<boolean>;
   idInUrl: IObservableValue<string>;
+  firebase: typeof import("firebase") | null;
 };
 
 export type Dispatcher = React.Dispatch<Action>;
@@ -101,7 +102,14 @@ export type Action =
       payload: typeof import("firebase");
     };
 
-export type Effect<S = State> = {
-  effect: (dispatch: Dispatcher, state: S) => React.EffectCallback;
-  dependencies: (state: S) => unknown[] | undefined;
+export type Effect<S = ObservableState, AdditionalArgs = undefined> = {
+  effect: (
+    dispatch: Dispatcher,
+    state: S,
+    additionalArgs?: AdditionalArgs
+  ) => React.EffectCallback;
+  dependencies: (
+    state: S,
+    additionalArgs?: AdditionalArgs
+  ) => unknown[] | undefined;
 };

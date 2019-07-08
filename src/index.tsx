@@ -1,25 +1,31 @@
 import * as React from "react";
 import { render } from "react-dom";
 import download from "js-file-download";
+import { observer } from "mobx-react-lite";
 
 import "./styles.css";
 import "./icons.css";
 import "animate.css/animate.min.css";
 
 import { getInitialState } from "./state/initial-state";
-import { reducer } from "./state/index";
+import { reducer, getSerializedState, state } from "./state/index";
 import { LeftSidebar, Header, RightSidebar } from "./components";
 import * as effects from "./effects";
 import { DispatcherContext } from "./state/DispatcherContext";
 import { ProsAndCons } from "./components/ProsAndCons";
 import { withFirebaseUpdate } from "./higher-order-reducers/firebase";
 import { withLocalStorageUpdate } from "./higher-order-reducers/indexed-db";
+import { getFirebase } from "./utils";
 
-let App = () => {
-  const [state, dispatch] = React.useReducer(
+let App = observer(() => {
+  const [s, dispatch] = React.useReducer(
     withFirebaseUpdate(withLocalStorageUpdate(reducer)),
     getInitialState()
   );
+
+  const [firebase, setFirebase] = React.useState<
+    undefined | typeof import("firebase")
+  >(undefined);
 
   React.useEffect(
     effects.mapHistoryToState.effect(dispatch, state),
@@ -39,8 +45,8 @@ let App = () => {
   );
 
   React.useEffect(
-    effects.listenToRemoteState.effect(dispatch, state),
-    effects.listenToRemoteState.dependencies(state)
+    effects.listenToRemoteState.effect(dispatch, state, firebase),
+    effects.listenToRemoteState.dependencies(state, firebase)
   );
 
   React.useEffect(
@@ -48,8 +54,19 @@ let App = () => {
     effects.setInitialFirebaseState.dependencies(state)
   );
 
+  React.useEffect(() => {
+    getFirebase().then(f => {
+      setFirebase(f);
+    });
+  }, []);
+  React.useEffect(() => {
+    console.warn("Firebase : ", firebase);
+  }, [firebase]);
   function downloadAsJson() {
-    download(JSON.stringify(state, null, 2), "pros-and-cons-list.json");
+    download(
+      JSON.stringify(getSerializedState(), null, 2),
+      "pros-and-cons-list.json"
+    );
   }
   // const pros = state.pros;
   // const cons = state.cons;
@@ -65,36 +82,30 @@ let App = () => {
         <LeftSidebar />
         <div className="app-without-left-sidebar">
           <Header
-            idInUrl={state.idInUrl}
-            title={state.title}
+            idInUrl={state.idInUrl.get()}
+            title={state.title.get()}
             downloadAsJson={downloadAsJson}
           />
           <div className="pros-and-cons-and-right-sidebar">
-            <ProsAndCons
-              winner={state.winner}
-              pros={state.pros}
-              cons={state.cons}
-            />
+            <ProsAndCons />
             <RightSidebar />
           </div>
         </div>
       </div>
     </DispatcherContext.Provider>
   );
-};
+});
 
 const rootElement = document.getElementById("root");
 render(<App />, rootElement);
 
 // <DOING>
-// TODO : Update colors from psd file
 
 // </DOING>
 //
-
-// TODO : Sync with mobx branch
-//
 // <DONE>
+// TODO : Update colors from psd file
+// TODO : Sync with mobx branch
 // TODO : Move higher-order-reducers functionality to effects - Doesn't work for granular updates like edit-argument, add-argument, delete-argument. We could do update the whole data remotely but seems wrong
 // TODO : Move effects to separate file
 // TODO : Add drag and drop
