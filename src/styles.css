@@ -1,11 +1,11 @@
 :root {
-  --dark-black: #19222a;
-  --black: #1d272e;
-  --gray: #202a32;
-  --light-gray: #7d8591;
+  --dark-black: rgba(23, 24, 32, 0.3);
+  --black: #252b33;
+  --gray: #282f36;
+  --light-gray: rgba(255, 255, 255, 0.3); /*#7d8591;*/
   --light-blue: #1176c7;
-  --blue: #0d4d6d;
-  --dark-blue: #074b6c;
+  --blue: #224c6d;
+  --dark-blue: #214b6b;
   --white: #f5f5f7;
   --dark-white: #d1d1d1;
 }
@@ -89,7 +89,7 @@ body {
   justify-content: center;
   border: solid var(--white) 1px;
   border-radius: 19px;
-  font-family: "Roboto", sans-serif;
+  font-family: "Montserrat", sans-serif;
   font-size: 0.65em;
   letter-spacing: 0.2px;
   padding-top: 3px;
@@ -167,7 +167,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  color: white;
+  color: var(--white);
   font-family: "Roboto", sans-serif;
   font-weight: bold;
 }
@@ -221,15 +221,21 @@ body {
 .right-sidebar .app-name {
   font-family: "Montserrat", sans-serif;
   font-weight: bold;
+  font-size: 21px;
 }
 .right-sidebar .app-description {
   margin-top: 10vh;
   margin-bottom: 10vh;
-  font-family: "Roboto", sans-serif;
+  font-family: "Montserrat", sans-serif;
   color: var(--light-gray);
   padding-left: 10px;
   padding-right: 10px;
+
   /* font-weight: bold; */
+}
+
+.right-sidebar button {
+  font-family: "MontSerrat", sans-serif;
 }
 
 button {

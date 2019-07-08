@@ -59,8 +59,8 @@ export const Header = React.memo(
               }}
             >
               <div>{idInUrl !== "" ? "Sharing" : "Go live"}</div>
-              <div className="share-separator" />
-              <div className="icon-plus" />
+              {/* <div className="share-separator" />
+              <div className="icon-plus" /> */}
             </button>
           </div>
         </div>

@@ -93,7 +93,10 @@ export const setInitialFirebaseState: Effect = {
       await firebase
         .database()
         .ref(`sessions/${sessionId}/`)
-        .update(state);
+        .update({
+          ...state,
+          firebase: null
+        });
     }
     getTitle().then(title => {
       // List does not exist in Firebase so we create it.

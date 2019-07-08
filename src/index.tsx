@@ -87,14 +87,15 @@ const rootElement = document.getElementById("root");
 render(<App />, rootElement);
 
 // <DOING>
-//
-// TODO : Move higher-order-reducers functionality to effects - Doesn't work for granular updates like edit-argument, add-argument, delete-argument. We could do update the whole data remotely but seems wrong
+// TODO : Update colors from psd file
+
 // </DOING>
 //
-// TODO : Update colors from psd file
+
 // TODO : Sync with mobx branch
 //
 // <DONE>
+// TODO : Move higher-order-reducers functionality to effects - Doesn't work for granular updates like edit-argument, add-argument, delete-argument. We could do update the whole data remotely but seems wrong
 // TODO : Move effects to separate file
 // TODO : Add drag and drop
 // TODO : Add auto-save and persist data through refreshs on browser
