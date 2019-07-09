@@ -4,7 +4,6 @@ import { State, Action, ArgumentType } from "../types";
 import { findIndex } from "../utils";
 
 export function reducer(state: State, action: Action) {
-  console.warn(action.type);
   switch (action.type) {
     case "set-pros": {
       const nextState = produce(state, s => {

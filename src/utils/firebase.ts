@@ -1,5 +1,7 @@
-import memoize from "memoize-one";
 import { debounce } from "debounce";
+import memoize from "memoize-one";
+
+import { config } from "../config";
 
 export const firebaseSet = (path: string, value: unknown) => {
   return getFirebase().then(firebase => {
@@ -33,15 +35,7 @@ export const getFirebase = memoize(
       import("firebase/database"),
       import("firebase/auth")
     ]);
-    const firebaseConfig = {
-      apiKey: "AIzaSyDFlpM-x7xMq_0GHfgoBCeYKfXdtfTZYG0",
-      authDomain: "pros-and-cons-c21f9.firebaseapp.com",
-      databaseURL: "https://pros-and-cons-c21f9.firebaseio.com",
-      projectId: "pros-and-cons-c21f9",
-      storageBucket: "",
-      messagingSenderId: "319805998868",
-      appId: "1:319805998868:web:7767e7938b9224f9"
-    };
+    const firebaseConfig = config.firebase;
     const [firebase] = firebasePromise;
     firebase.initializeApp(firebaseConfig);
     return firebase;

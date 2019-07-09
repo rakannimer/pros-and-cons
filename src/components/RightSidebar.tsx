@@ -7,8 +7,8 @@ export const RightSidebar = ({}) => {
     <div className="right-sidebar">
       <div className="app-name">Pros & Cons</div>
       <div className="app-description">
-        Struggling with a decision ? <br />
-        <br /> Weigh the tradeoffs here.
+        <div>Struggling with a decision ? </div>
+        <div> Weigh the tradeoffs here.</div>
       </div>
       <div style={{ marginTop: "20px", borderRadius: "10px" }}>
         <button

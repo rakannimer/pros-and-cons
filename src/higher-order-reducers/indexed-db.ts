@@ -16,7 +16,11 @@ export const withLocalStorageUpdate = (reducer: Reducer) => {
     if (actionsOfInterest.indexOf(action.type) !== -1) {
       const storageId =
         newState.idInUrl === "" ? "offline-list" : newState.idInUrl;
-      db.set(storageId, newState);
+      db.set(storageId, {
+        pros: newState.pros,
+        cons: newState.cons,
+        title: newState.title
+      });
     }
 
     return newState;

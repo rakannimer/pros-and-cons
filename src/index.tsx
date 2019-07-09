@@ -14,10 +14,12 @@ import { DispatcherContext } from "./state/DispatcherContext";
 import { ProsAndCons } from "./components/ProsAndCons";
 import { withFirebaseUpdate } from "./higher-order-reducers/firebase";
 import { withLocalStorageUpdate } from "./higher-order-reducers/indexed-db";
+import { withLogger } from "./higher-order-reducers/logger";
+import * as serviceWorker from "./serviceWorker";
 
 let App = () => {
   const [state, dispatch] = React.useReducer(
-    withFirebaseUpdate(withLocalStorageUpdate(reducer)),
+    withLogger(withFirebaseUpdate(withLocalStorageUpdate(reducer))),
     getInitialState()
   );
 
@@ -51,8 +53,6 @@ let App = () => {
   function downloadAsJson() {
     download(JSON.stringify(state, null, 2), "pros-and-cons-list.json");
   }
-  // const pros = state.pros;
-  // const cons = state.cons;
 
   React.useEffect(
     effects.computeWinner.effect(dispatch, state),
@@ -86,15 +86,27 @@ let App = () => {
 const rootElement = document.getElementById("root");
 render(<App />, rootElement);
 
-// <DOING>
-// TODO : Update colors from psd file
+// If you want your app to work offline and load faster, you can change
+// unregister() to register() below. Note this comes with some pitfalls.
+// Learn more about service workers: https://bit.ly/CRA-PWA
 
+serviceWorker.register({
+  onUpdate: registration => {
+    console.warn("onUpdate");
+  },
+  onSuccess: registration => {
+    console.warn("onSuccess");
+  }
+});
+
+// <DOING>
+// TODO : Add service worker and make it a PWA
 // </DOING>
 //
-
-// TODO : Sync with mobx branch
 //
 // <DONE>
+// TODO : Update colors from psd file
+// TODO : Sync with mobx branch
 // TODO : Move higher-order-reducers functionality to effects - Doesn't work for granular updates like edit-argument, add-argument, delete-argument. We could do update the whole data remotely but seems wrong
 // TODO : Move effects to separate file
 // TODO : Add drag and drop

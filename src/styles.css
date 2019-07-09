@@ -48,6 +48,7 @@
 body {
   margin: 0;
   padding: 0;
+  background: var(--black);
 }
 
 .list-footer {
@@ -373,7 +374,7 @@ button {
 
   padding-left: 2px;
   position: absolute;
-  margin-top: 25px;
+  margin-top: 4.5vh;
 
   /* position: absolute; */
   /* margin-top: 19px;
