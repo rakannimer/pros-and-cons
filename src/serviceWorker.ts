@@ -27,7 +27,7 @@ type Config = {
 
 export function register(config?: Config) {
   if (
-    //process.env.NODE_ENV !== "production"  ||
+    process.env.NODE_ENV !== "production" ||
     !("serviceWorker" in navigator)
   ) {
     return;
