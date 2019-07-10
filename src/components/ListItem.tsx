@@ -36,11 +36,10 @@ export const ListItem = React.memo<Props>(
           <div
             key={argument.id}
             className={`list-item-container ${
-              shouldAnimateOut ? "shrink-height" : ""
-            }`}
+              argument.text === "" ? "animated fadeIn fast" : ""
+            } ${shouldAnimateOut ? "shrink-height" : ""}`}
             {...rest}
             style={{
-              animationDuration: "1s",
               ...rest.style
             }}
             ref={ref}

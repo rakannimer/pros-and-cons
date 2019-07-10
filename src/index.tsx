@@ -101,11 +101,13 @@ serviceWorker.register();
 
 // <DOING>
 // TODO : Get better lighthouse score (90 perf)
+// TODO : Write a NextJS version
 // </DOING>
 //
 //
 // <DONE>
 // TODO : Add service worker and make it installable
+// TODO : Add animation when item is added instead of on mounted
 
 // TODO : Update colors from psd file
 // TODO : Sync with mobx branch
