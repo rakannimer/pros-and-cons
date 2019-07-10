@@ -79,6 +79,7 @@ export function reducer(state: State, action: Action) {
     }
     case "reorder-list": {
       const { listType, startIndex, endIndex } = action.payload;
+      if (startIndex === endIndex) return state;
       const nextState = produce(state, s => {
         const [removed] = s[listType].splice(startIndex, 1);
         s[listType].splice(endIndex, 0, removed);

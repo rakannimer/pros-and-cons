@@ -184,6 +184,7 @@ body {
   width: 100%;
   background: var(--blue);
   color: var(--white);
+  min-height: 40px;
 }
 
 .pros-and-cons-and-right-sidebar {
