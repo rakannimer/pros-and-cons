@@ -62,8 +62,16 @@ export const List = React.memo(
   }) => {
     return (
       <div className="list">
-        <div className={`list-title ${winner === type ? "text-glow" : ""}`}>
-          {title}
+        <div className={`list-title`}>
+          <span
+            className={`${
+              winner === type
+                ? "animated infinite pulse slow delay-2s bold"
+                : ""
+            }`}
+          >
+            {title}
+          </span>
         </div>
         <div className="list-items-and-footer">
           <Droppable droppableId={type}>

@@ -100,11 +100,13 @@ serviceWorker.unregister();
 // });
 
 // <DOING>
-// TODO : Add service worker and make it a PWA
+// TODO : Get better lighthouse score (90 perf)
 // </DOING>
 //
 //
 // <DONE>
+// TODO : Add service worker and make it installable
+
 // TODO : Update colors from psd file
 // TODO : Sync with mobx branch
 // TODO : Move higher-order-reducers functionality to effects - Doesn't work for granular updates like edit-argument, add-argument, delete-argument. We could do update the whole data remotely but seems wrong

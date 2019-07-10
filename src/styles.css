@@ -95,6 +95,8 @@ body {
   letter-spacing: 0.2px;
   padding-top: 3px;
   padding-bottom: 3px;
+  width: 7vw;
+  min-width: 60px;
 }
 .button-selected {
   background: var(--white);
@@ -144,6 +146,7 @@ body {
   width: 100vw;
   display: flex;
   font-family: "Roboto", sans-serif;
+  min-width: 350px;
   /* font-family: "Montserrat", sans-serif; */
 }
 .left-sidebar {
@@ -259,6 +262,10 @@ button {
   font-size: 1.3em;
   color: var(--white);
   font-family: "Montserrat", sans-serif;
+}
+
+.bold {
+  font-weight: bold;
 }
 
 .text-glow {
