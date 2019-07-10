@@ -39,6 +39,7 @@ export const ListItem = React.memo<Props>(
               argument.text === "" ? "animated fadeIn fast" : ""
             } ${shouldAnimateOut ? "shrink-height" : ""}`}
             {...rest}
+            aria-roledescription={undefined}
             style={{
               ...rest.style
             }}
@@ -66,6 +67,7 @@ export const ListItem = React.memo<Props>(
             <div className="weight-and-hint">
               <div className="argument-weight-container">
                 <select
+                  aria-label="Set importance"
                   value={`${argument.weight}`}
                   onChange={ev => {
                     dispatch({

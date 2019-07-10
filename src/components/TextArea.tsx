@@ -43,6 +43,7 @@ const TextAreaComponent: React.ComponentType<{
 
   return (
     <textarea
+      aria-label={`Argument text`}
       ref={textAreaRef}
       onChange={ev => {
         onChange(ev.target.value);

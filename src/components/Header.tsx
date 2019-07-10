@@ -21,7 +21,7 @@ export const Header = React.memo(
     }, []);
 
     return (
-      <>
+      <header>
         <div className="app-header">PROS & CONS</div>
         <div className="title-and-share-container">
           <div className="title-container">
@@ -66,7 +66,7 @@ export const Header = React.memo(
             </button>
           </div>
         </div>
-      </>
+      </header>
     );
   }
 );

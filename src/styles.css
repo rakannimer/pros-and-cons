@@ -235,7 +235,6 @@ body {
   margin-top: 10vh;
   margin-bottom: 10vh;
   font-family: "Montserrat", sans-serif;
-  color: var(--light-gray);
   padding-left: 10px;
   padding-right: 10px;
 
@@ -380,7 +379,7 @@ button {
 
 .weight-and-hint .hint {
   font-size: 0.6em;
-  color: var(--light-gray);
+  color: var(--white);
   flex: 0.3 1;
   font-weight: bold;
   min-width: 70px;

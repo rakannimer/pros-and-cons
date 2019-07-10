@@ -20,9 +20,8 @@ const ListItems = React.memo(
     withDraggable: boolean;
     type: "pros" | "cons";
   }) => {
-    const dispatch = React.useContext(DispatcherContext);
     return (
-      <React.Fragment>
+      <main>
         <SimpleBar style={{ height: "60vh" }}>
           {args.map((arg, index) => {
             // const arg = args[argId];
@@ -43,7 +42,7 @@ const ListItems = React.memo(
             );
           })}
         </SimpleBar>
-      </React.Fragment>
+      </main>
     );
   }
 );
