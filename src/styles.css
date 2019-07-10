@@ -489,6 +489,7 @@ textarea {
   font-weight: inherit;
   border: none;
   overflow: hidden;
+  font-size: 1em;
 }
 
 .simplebar-scrollbar:before {
