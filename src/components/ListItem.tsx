@@ -91,6 +91,7 @@ export const ListItem = React.memo<Props>(
             </div>
             <div className="argument-delete-container">
               <button
+                aria-label={"Delete argument"}
                 onClick={() => {
                   if (shouldAnimateOut === true) return;
                   setShouldAnimateOut(true);

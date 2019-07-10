@@ -37,6 +37,7 @@ export const Header = React.memo(
           </div>
           <div className="share-button-container">
             <button
+              aria-label="Export list as JSON"
               className="share-button"
               onClick={() => {
                 downloadAsJson();
@@ -47,6 +48,7 @@ export const Header = React.memo(
               <div className="icon-plus" />
             </button>
             <button
+              aria-label={idInUrl !== "" ? "Back to sandbox" : "Go live"}
               className={`share-button ${
                 idInUrl !== "" ? "button-selected" : ""
               }`}

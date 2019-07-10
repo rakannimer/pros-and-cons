@@ -12,6 +12,7 @@ export const RightSidebar = ({}) => {
       </div>
       <div style={{ marginTop: "20px", borderRadius: "10px" }}>
         <button
+          aria-label={"Clear all data"}
           style={{
             borderRadius: "10px",
             padding: 10,

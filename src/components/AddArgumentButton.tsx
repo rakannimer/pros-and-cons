@@ -10,6 +10,7 @@ export const AddArgumentButton = React.memo(
     return (
       <div className="add-argument-button-container">
         <button
+          aria-label="add-argument"
           className="add-argument-button"
           onClick={() => {
             dispatch({
