@@ -195,7 +195,7 @@ body {
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
-  overflow: auto;
+  /* overflow: auto; */
   /* max-height: 30vh; */
 }
 
@@ -262,8 +262,7 @@ button {
 }
 
 .text-glow {
-  /* transform: translate3d(0, 0, 0); */
-  animation: glow 5s ease-in-out infinite alternate;
+  /* animation: glow 5s ease-in-out infinite alternate; */
 }
 
 @keyframes glow {
