@@ -1,0 +1,30 @@
+diff --git a/node_modules/simplebar/dist/simplebar.esm.js b/node_modules/simplebar/dist/simplebar.esm.js
+index a339e6d..c9eba9b 100644
+--- a/node_modules/simplebar/dist/simplebar.esm.js
++++ b/node_modules/simplebar/dist/simplebar.esm.js
+@@ -7,16 +7,6 @@
+  * Under MIT License
+  */
+ 
+-import 'core-js/modules/es.array.filter';
+-import 'core-js/modules/es.array.for-each';
+-import 'core-js/modules/es.array.reduce';
+-import 'core-js/modules/es.function.name';
+-import 'core-js/modules/es.object.assign';
+-import 'core-js/modules/es.parse-int';
+-import 'core-js/modules/es.regexp.exec';
+-import 'core-js/modules/es.string.match';
+-import 'core-js/modules/es.string.replace';
+-import 'core-js/modules/web.dom-collections.for-each';
+ import throttle from 'lodash.throttle';
+ import debounce from 'lodash.debounce';
+ import memoize from 'lodash.memoize';
+@@ -509,7 +499,7 @@ function () {
+     }
+ 
+     ['mousedown', 'click', 'dblclick', 'touchstart', 'touchend', 'touchmove'].forEach(function (e) {
+-      _this3.el.addEventListener(e, _this3.onPointerEvent, true);
++      _this3.el.addEventListener(e, _this3.onPointerEvent, { passive:true, capture:true });
+     });
+     this.el.addEventListener('mousemove', this.onMouseMove);
+     this.el.addEventListener('mouseleave', this.onMouseLeave);
