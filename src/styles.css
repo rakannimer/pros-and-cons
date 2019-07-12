@@ -405,7 +405,7 @@ button {
 
 .argument-delete-container .icon-cancel-circled-outline {
   color: var(--white);
-  font-size: 1.6em;
+  font-size: 1.4em;
 }
 .argument-delete-container button:hover {
   cursor: pointer;
