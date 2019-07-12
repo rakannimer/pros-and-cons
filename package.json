@@ -29,15 +29,14 @@
     "@types/history": "^4.7.2",
     "@types/memoize-one": "^4.1.1",
     "@types/nanoid": "^2.0.0",
+    "@types/simplebar": "^2.4.2",
     "@types/react": "16.8.8",
     "@types/react-beautiful-dnd": "^11.0.2",
     "@types/react-dom": "16.8.2",
-    "@types/simplebar": "^2.4.2",
     "@types/styled-components": "^4.1.16",
     "husky": "^3.0.0",
     "patch-package": "^6.1.2",
-    "typescript": "3.3.3",
-    "workbox-build": "^4.3.1"
+    "typescript": "3.3.3"
   },
   "scripts": {
     "postinstall": "yarn patch-package",

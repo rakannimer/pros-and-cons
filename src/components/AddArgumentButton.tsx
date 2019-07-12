@@ -1,7 +1,6 @@
 import * as React from "react";
 
 import { uid } from "../utils";
-import { Action } from "../types";
 import { DispatcherContext } from "../state/DispatcherContext";
 
 export const AddArgumentButton = React.memo(
