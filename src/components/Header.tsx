@@ -26,7 +26,6 @@ export const Header = React.memo(
         <div className="title-and-share-container">
           <div className="title-container">
             <TextArea
-              ref={textAreaRef}
               isFocused={focus}
               isSelected={false}
               onChange={title => {
