@@ -310,17 +310,17 @@ button {
   border-bottom: solid 1px var(--light-gray);
   color: var(--white);
   padding: 10;
-  /* max-height: 500px;
-  
-  height: auto; */
-
-  max-height: 35vh;
-  transition: max-height 1s;
+  /* max-height: 52vh; */
+  height: 12vh;
+  /* max-height: 35vh;
+  transition: max-height 1s; */
+  transition: height 1s;
+  min-height: 5vh;
 }
 .shrink-height {
   /* transform: scaleX(0);
   height: 0; */
-  max-height: 0;
+  height: 0 !important;
   /* padding-top: 0;
   padding-bottom: 0; */
 }

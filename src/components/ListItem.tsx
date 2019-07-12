@@ -17,13 +17,26 @@ export const ListItem = React.memo<Props>(
     ({ argument, ...rest }: Props, ref: React.Ref<HTMLDivElement>) => {
       const dispatch = React.useContext(DispatcherContext);
       const [focus, setFocus] = React.useState<false | number>(false);
+      const [height, setHeight] = React.useState<React.CSSProperties["height"]>(
+        "12vh"
+      );
       React.useEffect(() => {
         if (argument.text === "") {
           setFocus(Date.now());
         }
       }, []);
-
+      React.useLayoutEffect(() => {
+        if (textAreaRef === null || textAreaRef.current === null) return;
+        textAreaRef.current.addEventListener("autosize:resized", () => {
+          if (textAreaRef === null || textAreaRef.current === null) return;
+          requestAnimationFrame(() => {
+            if (textAreaRef === null || textAreaRef.current === null) return;
+            setHeight(textAreaRef.current.clientHeight);
+          });
+        });
+      }, []);
       const [shouldAnimateOut, setShouldAnimateOut] = React.useState(false);
+      const textAreaRef = React.useRef<HTMLTextAreaElement | null>(null);
       return (
         <Animated
           key={argument.id}
@@ -41,7 +54,8 @@ export const ListItem = React.memo<Props>(
             {...rest}
             aria-roledescription={undefined}
             style={{
-              ...rest.style
+              ...rest.style,
+              height
             }}
             ref={ref}
           >
@@ -49,6 +63,7 @@ export const ListItem = React.memo<Props>(
               <div className="description">
                 <TextArea
                   isFocused={focus}
+                  ref={textAreaRef}
                   onChange={v => {
                     dispatch({
                       type: "edit-argument",
@@ -59,6 +74,11 @@ export const ListItem = React.memo<Props>(
                         }
                       }
                     });
+                    // if (textAreaRef.current === null) return;
+                    // console.error(
+                    //   "My height is "
+                    //   // textAreaRef.current.
+                    // );
                   }}
                   value={argument.text}
                 />

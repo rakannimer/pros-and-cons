@@ -1,13 +1,21 @@
 import * as React from "react";
 import autosize from "autosize";
 
-const TextAreaComponent: React.ComponentType<{
+type Props = {
   onChange?: (v: string) => void;
   value: string;
   isFocused?: false | number;
   isSelected?: false | number;
   style?: React.CSSProperties;
-}> = (
+};
+
+const isRefReady = (
+  ref: React.MutableRefObject<unknown>
+): ref is React.MutableRefObject<HTMLTextAreaElement> => {
+  return ref !== null && ref.current !== null;
+};
+
+const TextAreaComponent: React.ComponentType<Props> = (
   {
     value,
     onChange = () => {},
@@ -15,36 +23,36 @@ const TextAreaComponent: React.ComponentType<{
     isSelected = false,
     style = {}
   },
-  ref
+  realRef: React.MutableRefObject<HTMLTextAreaElement | null>
 ) => {
-  const textAreaRef = React.useRef<HTMLTextAreaElement | null>(null);
+  const ref = realRef; //React.useRef<HTMLTextAreaElement | null>(null);
   React.useEffect(() => {
-    if (textAreaRef.current === null) return;
-    autosize(textAreaRef.current);
+    if (!isRefReady(ref)) return;
+    autosize(ref.current);
   }, []);
   React.useEffect(() => {
-    if (textAreaRef.current === null) return;
-    autosize.update(textAreaRef.current);
+    if (!isRefReady(ref)) return;
+    autosize.update(ref.current);
   }, [value]);
   React.useEffect(() => {
-    if (textAreaRef.current === null) return;
+    if (!isRefReady(ref)) return;
     if (isFocused === false) {
-      textAreaRef.current.blur();
+      ref.current.blur();
     } else {
-      textAreaRef.current.focus();
+      ref.current.focus();
     }
   }, [isFocused]);
   React.useEffect(() => {
-    if (textAreaRef.current === null) return;
+    if (!isRefReady(ref)) return;
     if (isSelected !== false) {
-      textAreaRef.current.setSelectionRange(0, value.length);
+      ref.current.setSelectionRange(0, value.length);
     }
   }, [isSelected]);
 
   return (
     <textarea
       aria-label={`Argument text`}
-      ref={textAreaRef}
+      ref={ref}
       onChange={ev => {
         onChange(ev.target.value);
       }}
@@ -55,4 +63,6 @@ const TextAreaComponent: React.ComponentType<{
   );
 };
 
-export const TextArea = React.forwardRef(TextAreaComponent);
+export const TextArea = React.forwardRef<HTMLTextAreaElement, Props>(
+  TextAreaComponent
+);
