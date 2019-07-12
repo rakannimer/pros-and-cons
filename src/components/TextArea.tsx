@@ -30,10 +30,9 @@ const TextAreaComponent: React.ComponentType<Props> = (
     if (!isRefReady(ref)) return;
     autosize(ref.current);
   }, []);
+  // For resizing after hydration
   React.useEffect(() => {
     if (!isRefReady(ref)) return;
-    if (value === "asd") {
-    }
     autosize.update(ref.current);
   }, [value]);
   React.useEffect(() => {
