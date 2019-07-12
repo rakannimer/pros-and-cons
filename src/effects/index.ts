@@ -20,23 +20,31 @@ export const hydrateFromCache: Effect = {
 };
 // </Cache>
 
+const getIdFromUrl = (str: string) => {
+  const strChunks = str.split("/").filter(v => v !== "");
+  if (strChunks.length === 2 && strChunks[0] === "list") {
+    return strChunks[1];
+  } else {
+    return "";
+  }
+};
+
 // <History>
 export const mapHistoryToState: Effect = {
   dependencies: state => [],
   effect: (dispatch, state) => () => {
     const history = getHistory();
-    const idInUrl = history.location.pathname.substr(
-      1,
-      history.location.pathname.length
-    );
+
+    const idInUrl = getIdFromUrl(history.location.pathname);
     dispatch({
       type: "update-url",
       payload: {
         idInUrl
       }
     });
+
     const unlisten = history.listen((location, action) => {
-      const idInUrl = location.pathname.substr(1, location.pathname.length);
+      const idInUrl = getIdFromUrl(history.location.pathname);
       dispatch({
         type: "update-url",
         payload: {
