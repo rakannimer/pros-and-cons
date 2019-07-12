@@ -19,13 +19,14 @@ export const Header = React.memo(
     React.useEffect(() => {
       setFocus(Date.now());
     }, []);
-
+    const textAreaRef = React.useRef<HTMLTextAreaElement | null>(null);
     return (
       <header>
         <div className="app-header">PROS & CONS</div>
         <div className="title-and-share-container">
           <div className="title-container">
             <TextArea
+              ref={textAreaRef}
               isFocused={focus}
               isSelected={false}
               onChange={title => {

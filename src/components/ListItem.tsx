@@ -20,6 +20,8 @@ export const ListItem = React.memo<Props>(
       const [height, setHeight] = React.useState<React.CSSProperties["height"]>(
         "12vh"
       );
+      const [shouldAnimateOut, setShouldAnimateOut] = React.useState(false);
+      const textAreaRef = React.useRef<HTMLTextAreaElement | null>(null);
       React.useEffect(() => {
         if (argument.text === "") {
           setFocus(Date.now());
@@ -35,8 +37,7 @@ export const ListItem = React.memo<Props>(
           });
         });
       }, []);
-      const [shouldAnimateOut, setShouldAnimateOut] = React.useState(false);
-      const textAreaRef = React.useRef<HTMLTextAreaElement | null>(null);
+
       return (
         <Animated
           key={argument.id}

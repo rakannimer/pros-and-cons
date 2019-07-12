@@ -179,7 +179,7 @@ body {
 }
 
 .title-and-share-container {
-  height: 10vh;
+  /* height: 10vh; */
   position: relative;
   display: flex;
   align-items: center;
@@ -188,6 +188,7 @@ body {
   background: var(--blue);
   color: var(--white);
   min-height: 40px;
+  max-height: 15vh;
 }
 
 .pros-and-cons-and-right-sidebar {
@@ -315,14 +316,14 @@ button {
   /* max-height: 35vh;
   transition: max-height 1s; */
   transition: height 1s;
-  min-height: 5vh;
+  /* min-height: 5vh; */
 }
 .shrink-height {
   /* transform: scaleX(0);
   height: 0; */
   height: 0 !important;
-  /* padding-top: 0;
-  padding-bottom: 0; */
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 .argument-description-container {

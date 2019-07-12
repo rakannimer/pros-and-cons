@@ -25,13 +25,15 @@ const TextAreaComponent: React.ComponentType<Props> = (
   },
   realRef: React.MutableRefObject<HTMLTextAreaElement | null>
 ) => {
-  const ref = realRef; //React.useRef<HTMLTextAreaElement | null>(null);
+  const ref = realRef;
   React.useEffect(() => {
     if (!isRefReady(ref)) return;
     autosize(ref.current);
   }, []);
   React.useEffect(() => {
     if (!isRefReady(ref)) return;
+    if (value === "asd") {
+    }
     autosize.update(ref.current);
   }, [value]);
   React.useEffect(() => {
