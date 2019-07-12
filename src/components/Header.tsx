@@ -1,4 +1,6 @@
 import * as React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 import { TextArea } from "./TextArea";
 import { DispatcherContext } from "../state/DispatcherContext";
@@ -19,7 +21,7 @@ export const Header = React.memo(
     React.useEffect(() => {
       setFocus(Date.now());
     }, []);
-    const textAreaRef = React.useRef<HTMLTextAreaElement | null>(null);
+
     return (
       <header>
         <div className="app-header">PROS & CONS</div>
@@ -45,7 +47,7 @@ export const Header = React.memo(
             >
               <div>Export</div>
               <div className="share-separator" />
-              <div className="icon-plus" />
+              <FontAwesomeIcon icon={faPlus} />
             </button>
             <button
               aria-label={idInUrl !== "" ? "Back to sandbox" : "Go live"}

@@ -1,4 +1,6 @@
 import * as React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 import { uid } from "../utils";
 import { DispatcherContext } from "../state/DispatcherContext";
@@ -26,6 +28,7 @@ export const AddArgumentButton = React.memo(
           }}
         >
           <div className="icon-plus" />
+          <FontAwesomeIcon icon={faPlus} />
           <div className="space" />
           <div className="text">Add</div>
         </button>

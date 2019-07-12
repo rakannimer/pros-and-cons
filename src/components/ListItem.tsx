@@ -1,5 +1,10 @@
 import * as React from "react";
 import { Animated } from "react-animated-css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faChevronDown,
+  faTimesCircle
+} from "@fortawesome/free-solid-svg-icons";
 
 import { TextArea } from "./TextArea";
 import { range } from "../utils";
@@ -75,11 +80,6 @@ export const ListItem = React.memo<Props>(
                         }
                       }
                     });
-                    // if (textAreaRef.current === null) return;
-                    // console.error(
-                    //   "My height is "
-                    //   // textAreaRef.current.
-                    // );
                   }}
                   value={argument.text}
                 />
@@ -107,7 +107,7 @@ export const ListItem = React.memo<Props>(
                   ))}
                 </select>
                 <div className="select-open-icon-container">
-                  <div className="icon-down-open" />
+                  <FontAwesomeIcon icon={faChevronDown} size="xs" />
                 </div>
               </div>
               <div className="hint">Importance</div>
@@ -131,7 +131,9 @@ export const ListItem = React.memo<Props>(
                   }, 1000);
                 }}
               >
-                <div className="icon-cancel-circled-outline" />
+                <div className="icon-cancel-circled-outline">
+                  <FontAwesomeIcon icon={faTimesCircle} size="sm" />
+                </div>
               </button>
             </div>
           </div>

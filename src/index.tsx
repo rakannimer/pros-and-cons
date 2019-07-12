@@ -81,3 +81,7 @@ const App = ({ initialState = getInitialState() }) => {
   );
 };
 export { App };
+
+import { render } from "react-dom";
+
+render(<App />, document.getElementById("root"));
