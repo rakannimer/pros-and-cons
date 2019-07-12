@@ -49,6 +49,7 @@ body {
   margin: 0;
   padding: 0;
   background: var(--black);
+  overflow-x: hidden;
 }
 
 .list-footer {
@@ -240,6 +241,9 @@ body {
   padding-right: 10px;
 
   /* font-weight: bold; */
+}
+.right-sidebar .app-description div {
+  margin-bottom: 5vh;
 }
 
 .right-sidebar button {
