@@ -11,7 +11,7 @@ export const INITIAL_STATE: State = {
       weight: 1
     },
     {
-      text: "It breaks the problem down to 2 dimensions",
+      text: "Sometimes, it works",
       type: "pro",
       id: "2",
       weight: 1
