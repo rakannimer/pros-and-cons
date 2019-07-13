@@ -43,6 +43,7 @@
   },
   "scripts": {
     "add-app": "hub clone rakannimer/pros-and-cons-app ./src/app",
+    "update-app": "cd ./src/app && git pull origin master",
     "postinstall": "yarn patch-package",
     "start": "react-scripts start",
     "build": "react-scripts build",
