@@ -42,6 +42,7 @@
     "typescript": "3.3.3"
   },
   "scripts": {
+    "add-app": "hub clone rakannimer/pros-and-cons-app ./src/app",
     "postinstall": "yarn patch-package",
     "start": "react-scripts start",
     "build": "react-scripts build",
